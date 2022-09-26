@@ -204,6 +204,26 @@ test_exit_err_additionalMessageUtilScriptCmd() {
 }
 
 
+############################
+# Function: file_find_line #
+############################
+
+test_file_find_line() {
+    local FN_LINE="$((LINENO - 1))"
+    local FN_NAME="${FUNCNAME[0]}"
+    local FILE="${BASH_SOURCE[0]}"
+
+    TEST_OUTPUT="$(file_find_line "${FILE}" "^${FN_NAME}() {$")"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'file_find_line not returning the correct line number' \
+        "${FN_LINE}" \
+        "${TEST_OUTPUT}"
+}
+
+
 #############################
 # Function: function_exists #
 #############################

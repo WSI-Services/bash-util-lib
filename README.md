@@ -248,6 +248,43 @@ If provided, additional message **ADD_MSG** using the **EXIT_ERR_MSG_ADDITIONAL*
 ---
 
 
+### **`file_find_line`**
+
+Output last line number in provided file which matches provided pattern
+
+#### Arguments
+
+| Name         | Type     | Description              |
+| ------------ | :------: | ------------------------ |
+| `FILE_NAME`  | _string_ | File to scan for pattern |
+| `PATTERN`    | _string_ | Pattern to scan file for |
+
+#### Exit Codes
+
+| Code | Description     |
+| ---- | --------------- |
+| `0`  | Lines found     |
+| `1`  | Lines not found |
+
+#### Standard Out
+
+Line number of last matching line pattern
+
+> Example:
+>
+> ```bash
+> file_find_line "/path/to/file.ext" "^#{2}\wSTART:\w${TAG}$"
+> ```
+>
+> Output:
+>
+> ```bash
+> 24
+> ```
+
+---
+
+
 ### **`function_exists`**
 
 Returns status of function existing

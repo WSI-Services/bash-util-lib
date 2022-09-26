@@ -91,6 +91,30 @@ exit_err() {
 }
 
 
+# @description  Output last line number in provided file which matches provided pattern
+#
+# @arg  $FILE_NAME string - File to scan for pattern
+# @arg  $PATTERN   string - Pattern to scan file for
+#
+# @exitcode  0  Line found
+# @exitcode  1  Line not found
+#
+# @stdout  Line number of last matching line pattern
+file_find_line() {
+    local FILE_NAME="$1"
+    local PATTERN="$2"
+    local LINES
+
+    LINES="$(grep -wn "${PATTERN}" "${FILE_NAME}")"
+    [[ -z "${LINES}" ]] && return 1
+
+    LINES="$(printf '%s' "${LINES}" | cut -d: -f1)"
+    [[ -z "${LINES}" ]] && return 1
+
+    printf '%s' "${LINES}" | tail -n1
+    return $?
+}
+
 # @description  Return if function exists
 #
 # @arg  $FUNCTION_NAME string - Name of function to check for
