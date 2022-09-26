@@ -103,3 +103,53 @@ function_exists() {
     type "${FUNCTION_NAME}" > /dev/null 2>&1
     return $?
 }
+
+
+UTIL_ARRAY_SEPARATOR="$(printf '\n\t\v')"
+UTIL_PARAM_POSITIONAL=""
+
+# @description  Process call parameters
+#
+# @arg  $PROCESS_ARG_FN string - Name of argument process function
+# @arg  $PROCESS_OPT_FN string - Name of option process function
+#
+# @exitcode  0  Processing successful
+# @exitcode  1  Provided arguments processing function does not exist
+# @exitcode  2  Provided options processing function does not exist
+# @exitcode  ?  Processing options function return code
+process_parameters() {
+    local PROCESS_ARG_FN="$1"
+    local PROCESS_OPT_FN="$2"
+    local SHIFT_COUNT=0
+
+    [[ "$#" -gt 0 ]] && shift
+    [[ "$#" -gt 0 ]] && shift
+
+    if ! function_exists "${PROCESS_ARG_FN}"; then
+        return 1
+    elif ! function_exists "${PROCESS_OPT_FN}"; then
+        return 2
+    fi
+
+    while [[ "$#" -gt 0 ]]; do
+        ${PROCESS_ARG_FN} "${@}"
+        SHIFT_COUNT=$?
+
+        if [[ "${SHIFT_COUNT}" -gt 0 ]]; then
+            shift "${SHIFT_COUNT}"
+        fi
+    done
+
+    export OLD_IFS="${IFS}"
+    export IFS="${UTIL_ARRAY_SEPARATOR}"
+
+    # Double quoting converts multiple arguments into a single one
+    # shellcheck disable=SC2086
+    set -- ${UTIL_PARAM_POSITIONAL} # restore positional parameters
+
+    export UTIL_PARAM_POSITIONAL=""
+    export IFS="${OLD_IFS}"
+
+    ${PROCESS_OPT_FN} "${@}"
+    return $?
+}

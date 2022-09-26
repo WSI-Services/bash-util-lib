@@ -224,5 +224,122 @@ test_function_exists_exists() {
 }
 
 
+################################
+# Function: process_parameters #
+################################
+
+PROCESS_ARGS_RETURN=0
+PROCESS_OPTS_RETURN=0
+
+processArgsEmpty() {
+    return "${PROCESS_ARGS_RETURN}"
+}
+
+processOptsEmpty() {
+    return "${PROCESS_OPTS_RETURN}"
+}
+
+test_process_parameters_noArgFn() {
+    TEST_OUTPUT="$(process_parameters 'nonExist')"
+    TEST_RETURN_CODE="$?"
+
+    assertFalse 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+}
+
+test_process_parameters_noOptFn() {
+    TEST_OUTPUT="$(process_parameters 'processArgsEmpty' 'nonExist')"
+    TEST_RETURN_CODE="$?"
+
+    assertEquals 'Exit Code not returned correctly' \
+        2 \
+        "${TEST_RETURN_CODE}"
+}
+
+test_process_parameters_fnReturnValue() {
+    PROCESS_OPTS_RETURN=123
+
+    TEST_OUTPUT="$(process_parameters 'processArgsEmpty' 'processOptsEmpty')"
+    TEST_RETURN_CODE="$?"
+
+    assertEquals 'Exit Code not returned correctly' \
+        "${PROCESS_OPTS_RETURN}" \
+        "${TEST_RETURN_CODE}"
+
+    PROCESS_OPTS_RETURN=0
+}
+
+test_process_parameters_empty() {
+    TEST_OUTPUT="$(process_parameters 'processArgsEmpty' 'processOptsEmpty')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+}
+
+ARGS_DETAILS=""
+
+processArgsTest() {
+    ARG1="$1"
+    POS_ARG=""
+    SHIFT_COUNT=0
+
+    if [[ "${PASS_ARGS}" -gt 0 ]]; then
+        POS_ARG="${ARG1}"
+        SHIFT_COUNT=$((SHIFT_COUNT+1))
+    else
+        case "${ARG1}" in
+            -a=*|--add=*) # display details for equals-separated option value
+                export ARGS_DETAILS="${ARGS_DETAILS}${ARGS_DETAILS:+ }${ARG1#*=}"
+                SHIFT_COUNT=$((SHIFT_COUNT+1))
+                ;;
+            -a|--add)     # display details for space-separated option value
+                export ARGS_DETAILS="${ARGS_DETAILS}${ARGS_DETAILS:+ }$2"
+                SHIFT_COUNT=$((SHIFT_COUNT+2))
+                ;;
+            --)           # pass following arguments
+                export PASS_ARGS=1
+                POS_ARG="${ARG1}"
+                SHIFT_COUNT=$((SHIFT_COUNT+1))
+                ;;
+            *)            # unknown argument
+                POS_ARG="${ARG1}"
+                SHIFT_COUNT=$((SHIFT_COUNT+1))
+                ;;
+        esac
+    fi
+
+    if [[ -n "${POS_ARG}" ]]; then
+        # save argument in an array for later
+        export UTIL_PARAM_POSITIONAL="${UTIL_PARAM_POSITIONAL}${UTIL_PARAM_POSITIONAL:+${UTIL_ARRAY_SEPARATOR}}${POS_ARG}"
+    fi
+
+    return "${SHIFT_COUNT}"
+}
+
+OPTS_DETAILS=""
+
+processOptsTest() {
+    export OPTS_DETAILS="$*"
+    return $#
+}
+
+test_process_parameters_shift() {
+    process_parameters 'processArgsTest' 'processOptsTest' -a=A1 --add=B2 -d -a C3 --add D4 --del -- what
+
+    TEST_RETURN_CODE="$?"
+
+    assertEquals 'Exit Code not returned correctly' \
+        4 \
+        "${TEST_RETURN_CODE}"
+
+    assertEquals 'Arguments not processed correctly' \
+        'A1 B2 C3 D4' \
+        "${ARGS_DETAILS}"
+
+    assertEquals 'Options not collecting correctly' \
+        '-d --del -- what' \
+        "${OPTS_DETAILS}"
+}
+
+
 # Load and run shUnit2
 . shunit2

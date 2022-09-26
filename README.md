@@ -274,3 +274,91 @@ Returns status of function existing
 > ```
 >
 > Exit Code: 1
+
+---
+
+
+### **`process_parameters`**
+
+Process call parameters
+
+#### Arguments
+
+| Name             | Type     | Description                       |
+| ---------------- | :------: | --------------------------------- |
+| `PROCESS_ARG_FN` | _string_ | Name of argument process function |
+| `PROCESS_OPT_FN` | _string_ | Name of option process function   |
+
+#### Exit Codes
+
+| Code | Description                                           |
+| ---- | ----------------------------------------------------- |
+| `0`  | Processing successful                                 |
+| `1`  | Provided arguments processing function does not exist |
+| `2`  | Provided options processing function does not exist   |
+| `?`  | Processing options function return code               |
+
+#### Environment Variables
+
+| Variable                | Default              | Description                                   |
+| ----------------------- | -------------------- | --------------------------------------------- |
+| `UTIL_ARRAY_SEPARATOR`  | `$(printf '\n\t\v')` | Value to use to separate positional arguments |
+| `UTIL_PARAM_POSITIONAL` |                      | Variable to store positional arguments        |
+
+> Example:
+>
+> ```bash
+> processArgs() {
+>     ARG1="$1"
+>     POS_ARG=""
+>     SHIFT_COUNT=0
+>
+>     if [[ "${PASS_ARGS}" -gt 0 ]]; then
+>         POS_ARG="${ARG1}"
+>         SHIFT_COUNT=$((SHIFT_COUNT+1))
+>     else
+>         case "${ARG1}" in
+>             -a=*|--add=*) # display details for equals-separated option value
+>                 export ARGS_DETAILS="${ARGS_DETAILS}${ARGS_DETAILS:+ }${ARG1#*=}"
+>                 SHIFT_COUNT=$((SHIFT_COUNT+1))
+>                 ;;
+>             -a|--add)     # display details for space-separated option value
+>                 export ARGS_DETAILS="${ARGS_DETAILS}${ARGS_DETAILS:+ }$2"
+>                 SHIFT_COUNT=$((SHIFT_COUNT+2))
+>                 ;;
+>             -l|--list)    # list all
+>                 export LISTING=1
+>                 SHIFT_COUNT=$((SHIFT_COUNT+1))
+>                 ;;
+>             --)           # pass following arguments
+>                 export PASS_ARGS=1
+>                 SHIFT_COUNT=$((SHIFT_COUNT+1))
+>                 ;;
+>             *)            # unknown argument
+>                 POS_ARG="${ARG1}"
+>                 SHIFT_COUNT=$((SHIFT_COUNT+1))
+>                 ;;
+>         esac
+>     fi
+>
+>     if [[ -n "$POS_ARG" ]]; then
+>         # save argument in an array for later
+>         export UTIL_PARAM_POSITIONAL="${UTIL_PARAM_POSITIONAL}${UTIL_PARAM_POSITIONAL:+${UTIL_ARRAY_SEPARATOR}}${POS_ARG}"
+>     fi
+>
+>     return "${SHIFT_COUNT}"
+> }
+>
+> dispatchCommand() {
+>     COMMAND="$1"
+>     [[ $# -gt 0 ]] && shift
+> 
+>     case "${COMMAND}" in
+>         commands) command_commands "${@}" ;;
+>         version)  command_version  "${@}" ;;
+>         help|*)   command_help     "${@}" ;;
+>     esac
+> }
+>
+> process_parameters "processArgs" "dispatchCommand" "${@}"
+> ```
