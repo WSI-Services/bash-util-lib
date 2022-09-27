@@ -285,6 +285,46 @@ Line number of last matching line pattern
 ---
 
 
+### **`file_get_lines`**
+
+Output lines of provided file from provided start line till provided stop line
+
+#### Arguments
+
+| Name         | Type      | Description               |
+| ------------ | :-------: | ------------------------- |
+| `FILE_NAME`  | _string_  | File to clip lines from   |
+| `START_LINE` | _integer_ | Line number to begin clip |
+| `STOP_LINE`  | _integer_ | Line number to end clip   |
+
+#### Exit Codes
+
+| Code | Description     |
+| ---- | --------------- |
+| `0`  | Lines found     |
+| `1`  | Lines not found |
+
+#### Standard Out
+
+Specified lines from file
+
+> Example:
+>
+> ```bash
+> file_get_lines "/path/to/file.ext" "24" "26"
+> ```
+>
+> Output:
+>
+> ```bash
+> ## START: Test
+> function test { :; }
+> ## STOP: Test
+> ```
+
+---
+
+
 ### **`function_exists`**
 
 Returns status of function existing

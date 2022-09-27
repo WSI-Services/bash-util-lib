@@ -115,6 +115,29 @@ file_find_line() {
     return $?
 }
 
+# @description  Output lines of provided file from provided start line till provided stop line
+#
+# @arg  $FILE_NAME  string  - File to clip lines from
+# @arg  $START_LINE integer - Line number to begin clip
+# @arg  $STOP_LINE  integer - Line number to end clip
+#
+# @exitcode  0  Lines found
+# @exitcode  1  Lines not found
+#
+# @stdout  Specified lines from file
+file_get_lines() {
+    local FILE_NAME="$1"
+    local START_LINE=$2
+    local STOP_LINE=$3
+    local LINES
+
+    LINES="$(sed -n "${START_LINE},${STOP_LINE}p" "${FILE_NAME}")"
+    [[ -z "${LINES}" ]] && return 1
+
+    printf '%s' "${LINES}"
+    return $?
+}
+
 # @description  Return if function exists
 #
 # @arg  $FUNCTION_NAME string - Name of function to check for

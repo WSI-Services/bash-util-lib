@@ -224,6 +224,34 @@ test_file_find_line() {
 }
 
 
+############################
+# Function: file_get_lines #
+############################
+
+test_file_get_lines() {
+    local START_LINE="${LINENO}"
+    local FILE="${BASH_SOURCE[0]}"
+    local STOP_LINE="${LINENO}"
+
+    TEST_OUTPUT="$(file_get_lines "${FILE}" "${START_LINE}" "${STOP_LINE}")"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertContains 'file_get_lines not returning the start line content' \
+        "${TEST_OUTPUT}" \
+        'local START_LINE="${LINENO}"'
+
+    assertContains 'file_get_lines not returning the inner content' \
+        "${TEST_OUTPUT}" \
+        'local FILE="${BASH_SOURCE[0]}"'
+
+    assertContains 'file_get_lines not returning the stop line content' \
+        "${TEST_OUTPUT}" \
+        'local STOP_LINE="${LINENO}"'
+}
+
+
 #############################
 # Function: function_exists #
 #############################
