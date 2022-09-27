@@ -325,6 +325,42 @@ Specified lines from file
 ---
 
 
+### **`string_expand`**
+
+Output provided input processed to expand variables
+
+#### Arguments
+
+| Name    | Type     | Description                    |
+| ------- | :------: | ------------------------------ |
+| `INPUT` | _string_ | Text to evaluate for expansion |
+
+#### Exit Codes
+
+| Code | Description     |
+| ---- | --------------- |
+| `0`  | String expanded |
+| `1`  | String missing  |
+
+#### Standard Out
+
+Specified string expanded
+
+> Example:
+>
+> ```bash
+> string_expand "Output: \${STRING}"
+> ```
+>
+> Output:
+>
+> ```bash
+> Output: Test
+> ```
+
+---
+
+
 ### **`function_exists`**
 
 Returns status of function existing

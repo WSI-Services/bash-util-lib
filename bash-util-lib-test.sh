@@ -252,6 +252,39 @@ test_file_get_lines() {
 }
 
 
+###########################
+# Function: string_expand #
+###########################
+
+test_string_expand() {
+    local STRING='${TEMPLATE_TEXT} : $(printf "Hello %s, how are you" $NAME) : %%%'
+    local TEMPLATE_TEXT='Text Template'
+    local NAME="Ralph"
+
+    TEST_OUTPUT="$(string_expand "${STRING}")"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertContains 'string_expand not returning the correct content' \
+        "${TEST_OUTPUT}" \
+        "${TEMPLATE_TEXT}"
+
+    assertContains 'string_expand not returning the correct content' \
+        "${TEST_OUTPUT}" \
+        "${NAME}"
+}
+
+test_string_expand_emptyString() {
+    TEST_OUTPUT="$(string_expand '')"
+    TEST_RETURN_CODE="$?"
+
+    assertFalse 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertNull 'string_expand not returning the correct content' "${TEST_OUTPUT}"
+}
+
+
 #############################
 # Function: function_exists #
 #############################

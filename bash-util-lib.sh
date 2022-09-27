@@ -138,6 +138,25 @@ file_get_lines() {
     return $?
 }
 
+# @description  Output provided input processed to expand variables
+#
+# @arg  $INPUT string - Text to evaluate for expansion
+#
+# @exitcode  0  String expanded
+# @exitcode  1  String missing
+#
+# @stdout  Specified string expanded 
+string_expand() {
+    local INPUT="$1"
+    local LINES
+
+    LINES="$(eval "printf '%b' \"${INPUT}\"")"
+    [[ -z "${LINES}" ]] && return 1
+
+    printf '%s' "${LINES}"
+    return $?
+}
+
 # @description  Return if function exists
 #
 # @arg  $FUNCTION_NAME string - Name of function to check for
