@@ -285,6 +285,36 @@ test_string_expand_emptyString() {
 }
 
 
+###############################
+# Function: file_expand_lines #
+###############################
+
+test_file_expand_lines() {
+    local FILE="${BASH_SOURCE[0]}"
+    local START_PATTERN="### Start Pattern Text ###"
+    local TEST='$NAME'
+    local STOP_PATTERN="### Stop Pattern Text ###"
+    local NAME='Test Name'
+
+    TEST_OUTPUT="$(file_expand_lines "${FILE}" "${START_PATTERN}" "${STOP_PATTERN}")"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertNotContains 'file_expand_lines returning the start pattern content' \
+        "${TEST_OUTPUT}" \
+        "local START_PATTERN=\"${START_PATTERN}\""
+
+    assertContains 'file_expand_lines not returning the middle content' \
+        "${TEST_OUTPUT}" \
+        "local TEST='${NAME}'"
+
+    assertNotContains 'file_expand_lines returning the stop patter content' \
+        "${TEST_OUTPUT}" \
+        "local STOP_PATTERN=\"${STOP_PATTERN}\""
+}
+
+
 #############################
 # Function: function_exists #
 #############################

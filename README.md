@@ -361,6 +361,44 @@ Specified string expanded
 ---
 
 
+### **`file_expand_lines`**
+
+Output text from section in file specified by provided patterns
+
+#### Arguments
+
+| Name            | Type     | Description                         |
+| --------------- | :------: | ----------------------------------- |
+| `FILE_NAME`     | _string_ | File to clip lines from             |
+| `START_PATTERN` | _string_ | Pattern of the start line to output |
+| `STOP_PATTERN`  | _string_ | Pattern of the stop line to output  |
+
+#### Exit Codes
+
+| Code | Description              |
+| ---- | ------------------------ |
+| `0`  | Lines found and expanded |
+| `1`  | Lines not found          |
+
+#### Standard Out
+
+Specified lines from file expanded
+
+> Example:
+>
+> ```bash
+> file_expand_lines "/path/to/file.ext" "^#{2}\wSTART:\w${TAG}$" "^#{2}\wSTOP:\w${TAG}$"
+> ```
+>
+> Output:
+>
+> ```bash
+> function test { :; }
+> ```
+
+---
+
+
 ### **`function_exists`**
 
 Returns status of function existing

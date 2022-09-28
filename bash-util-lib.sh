@@ -157,6 +157,42 @@ string_expand() {
     return $?
 }
 
+# @description  Output text from section in file specified by provided patterns
+#
+# @arg  $START_PATTERN string - Pattern of the start line to output
+# @arg  $STOP_PATTERN  string - Pattern of the stop line to output
+# @arg  $FILE_NAME     string - File to clip lines from
+#
+# @exitcode  0  Lines found and expanded
+# @exitcode  1  Lines not found
+#
+# @stdout  Specified lines from file expanded 
+file_expand_lines() {
+    local FILE_NAME="$1"
+    local START_PATTERN="$2"
+    local STOP_PATTERN="$3"
+    local START_LINE
+    local STOP_LINE
+    local LINES
+
+    START_LINE=$(file_find_line "${FILE_NAME}" "${START_PATTERN}")
+    STOP_LINE=$(file_find_line "${FILE_NAME}" "${STOP_PATTERN}")
+
+    START_LINE=$((START_LINE+1))
+    STOP_LINE=$((STOP_LINE-1))
+
+    if [[ "${START_LINE}" -gt 0 ]] && [[ "${STOP_LINE}" -ge "${START_LINE}" ]]; then
+        LINES="$(file_get_lines "${FILE_NAME}" "${START_LINE}" "${STOP_LINE}")"
+        [[ -z "${LINES}" ]] && return 1
+
+        LINES="$(string_expand "${LINES}")"
+        [[ -z "${LINES}" ]] && return 1
+
+        printf '%s' "${LINES}"
+        return $?
+    fi
+}
+
 # @description  Return if function exists
 #
 # @arg  $FUNCTION_NAME string - Name of function to check for
