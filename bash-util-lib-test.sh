@@ -204,6 +204,140 @@ test_exit_err_additionalMessageUtilScriptCmd() {
 }
 
 
+############################
+# Function: file_find_line #
+############################
+
+test_file_find_line() {
+    local FN_LINE="$((LINENO - 1))"
+    local FN_NAME="${FUNCNAME[0]}"
+    local FILE="${BASH_SOURCE[0]}"
+
+    TEST_OUTPUT="$(file_find_line "${FILE}" "^${FN_NAME}() {$")"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'file_find_line not returning the correct line number' \
+        "${FN_LINE}" \
+        "${TEST_OUTPUT}"
+}
+
+
+############################
+# Function: file_get_lines #
+############################
+
+test_file_get_lines() {
+    local START_LINE="${LINENO}"
+    local FILE="${BASH_SOURCE[0]}"
+    local STOP_LINE="${LINENO}"
+
+    TEST_OUTPUT="$(file_get_lines "${FILE}" "${START_LINE}" "${STOP_LINE}")"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertContains 'file_get_lines not returning the start line content' \
+        "${TEST_OUTPUT}" \
+        'local START_LINE="${LINENO}"'
+
+    assertContains 'file_get_lines not returning the inner content' \
+        "${TEST_OUTPUT}" \
+        'local FILE="${BASH_SOURCE[0]}"'
+
+    assertContains 'file_get_lines not returning the stop line content' \
+        "${TEST_OUTPUT}" \
+        'local STOP_LINE="${LINENO}"'
+}
+
+
+###########################
+# Function: string_expand #
+###########################
+
+test_string_expand() {
+    local STRING='${TEMPLATE_TEXT} : $(printf "Hello %s, how are you" $NAME) : %%%'
+    local TEMPLATE_TEXT='Text Template'
+    local NAME="Ralph"
+
+    TEST_OUTPUT="$(string_expand "${STRING}")"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertContains 'string_expand not returning the correct content' \
+        "${TEST_OUTPUT}" \
+        "${TEMPLATE_TEXT}"
+
+    assertContains 'string_expand not returning the correct content' \
+        "${TEST_OUTPUT}" \
+        "${NAME}"
+}
+
+test_string_expand_emptyString() {
+    TEST_OUTPUT="$(string_expand '')"
+    TEST_RETURN_CODE="$?"
+
+    assertFalse 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertNull 'string_expand not returning the correct content' "${TEST_OUTPUT}"
+}
+
+
+###############################
+# Function: file_expand_lines #
+###############################
+
+test_file_expand_lines() {
+    local FILE="${BASH_SOURCE[0]}"
+    local START_PATTERN="### Start Pattern Text ###"
+    local TEST='$NAME'
+    local STOP_PATTERN="### Stop Pattern Text ###"
+    local NAME='Test Name'
+
+    TEST_OUTPUT="$(file_expand_lines "${FILE}" "${START_PATTERN}" "${STOP_PATTERN}")"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertNotContains 'file_expand_lines returning the start pattern content' \
+        "${TEST_OUTPUT}" \
+        "local START_PATTERN=\"${START_PATTERN}\""
+
+    assertContains 'file_expand_lines not returning the middle content' \
+        "${TEST_OUTPUT}" \
+        "local TEST='${NAME}'"
+
+    assertNotContains 'file_expand_lines returning the stop patter content' \
+        "${TEST_OUTPUT}" \
+        "local STOP_PATTERN=\"${STOP_PATTERN}\""
+}
+
+
+############################
+# Function: grab_text_blob #
+############################
+
+read -r TEXT_BLOB <<TEST_BLOB_NAME_1
+Test $(printf 'Data'): ${EXPAND}
+TEST_BLOB_NAME_1
+
+test_grab_text_blob() {
+    local FILE="${BASH_SOURCE[0]}"
+    local EXPAND='abc123'
+
+    TEST_OUTPUT="$(grab_text_blob "${FILE}" "TEST_BLOB_NAME_1")"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertContains 'grab_text_blob not returning the correct content' \
+        "${TEST_OUTPUT}" \
+        "Test Data: ${EXPAND}"
+}
+
+
 #############################
 # Function: function_exists #
 #############################
