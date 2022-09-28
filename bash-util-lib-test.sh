@@ -315,6 +315,29 @@ test_file_expand_lines() {
 }
 
 
+############################
+# Function: grab_text_blob #
+############################
+
+read -r TEXT_BLOB <<TEST_BLOB_NAME_1
+Test $(printf 'Data'): ${EXPAND}
+TEST_BLOB_NAME_1
+
+test_grab_text_blob() {
+    local FILE="${BASH_SOURCE[0]}"
+    local EXPAND='abc123'
+
+    TEST_OUTPUT="$(grab_text_blob "${FILE}" "TEST_BLOB_NAME_1")"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertContains 'grab_text_blob not returning the correct content' \
+        "${TEST_OUTPUT}" \
+        "Test Data: ${EXPAND}"
+}
+
+
 #############################
 # Function: function_exists #
 #############################

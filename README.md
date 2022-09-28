@@ -399,6 +399,43 @@ Specified lines from file expanded
 ---
 
 
+### **`grab_text_blob`**
+
+Output text from text blob in file specified by provided blob name
+
+#### Arguments
+
+| Name        | Type     | Description                        |
+| ----------- | :------: | ---------------------------------- |
+| `BLOB_NAME` | _string_ | Name of the blob of text to output |
+| `FILE_NAME` | _string_ | File to clip lines from            |
+
+#### Exit Codes
+
+| Code | Description         |
+| ---- | ------------------- |
+| `0`  | Text blob found     |
+| `1`  | Text blob not found |
+
+#### Standard Out
+
+Specified text blob from file expanded
+
+> Example:
+>
+> ```bash
+> grab_text_blob "BLOB_TEST" "/path/to/file.ext"
+> ```
+>
+> Output:
+>
+> ```bash
+> Test text blob
+> ```
+
+---
+
+
 ### **`function_exists`**
 
 Returns status of function existing

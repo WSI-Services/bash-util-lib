@@ -193,6 +193,27 @@ file_expand_lines() {
     fi
 }
 
+# @description  Output text from text blob in file specified by provided blob name
+#
+# @arg  $BLOB_NAME string - Name of the blob of text to output
+# @arg  $FILE_NAME string - File to clip lines from
+#
+# @exitcode  0  Text blob found
+# @exitcode  1  Text blob not found
+#
+# @stdout  Specified text blob from file expanded 
+grab_text_blob() {
+    local FILE_NAME="$1"
+    local BLOB_NAME="$2"
+    local LINES
+
+    LINES="$(file_expand_lines "${FILE_NAME}" "^read -r TEXT_BLOB <<${BLOB_NAME}$" "^${BLOB_NAME}$")"
+    [[ -z "${LINES}" ]] && return 1
+
+    printf '%s' "${LINES}"
+    return $?
+}
+
 # @description  Return if function exists
 #
 # @arg  $FUNCTION_NAME string - Name of function to check for
