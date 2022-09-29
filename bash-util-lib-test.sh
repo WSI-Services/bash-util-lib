@@ -86,6 +86,102 @@ test_es_envVarTurnedOff() {
 }
 
 
+######################
+# Function: es_color #
+######################
+
+test_es_color_defaultFgBg() {
+    TEST_OUTPUT="$(es_color '1')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_color function not returning correct control sequence' \
+        "$(printf "\033[38;5;1m")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_color_foreground() {
+    TEST_OUTPUT="$(es_color '1' '')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_color function not returning correct control sequence' \
+        "$(printf "\033[38;5;1m")" \
+        "${TEST_OUTPUT}"
+
+    OUTPUT="$(es_color '1' 'f')"
+    CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_color function not returning correct control sequence' \
+        "$(printf "\033[38;5;1m")" \
+        "${TEST_OUTPUT}"
+
+    OUTPUT="$(es_color '1' 'F')"
+    CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_color function not returning correct control sequence' \
+        "$(printf "\033[38;5;1m")" \
+        "${TEST_OUTPUT}"
+
+    OUTPUT="$(es_color '1' 'Foreground')"
+    CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_color function not returning correct control sequence' \
+        "$(printf "\033[38;5;1m")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_color_background() {
+    TEST_OUTPUT="$(es_color '1' 'b')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_color function not returning correct control sequence' \
+        "$(printf "\033[48;5;1m")" \
+        "${TEST_OUTPUT}"
+
+    OUTPUT="$(es_color '1' 'B')"
+    CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_color function not returning correct control sequence' \
+        "$(printf "\033[48;5;1m")" \
+        "${TEST_OUTPUT}"
+
+    OUTPUT="$(es_color '1' 'Background')"
+    CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_color function not returning correct control sequence' \
+        "$(printf "\033[48;5;1m")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_color_envVarTurnedOff() {
+    setES_USE false
+
+    TEST_OUTPUT="$(es_color '1')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertNull 'es_color function should not return output' "${TEST_OUTPUT}"
+
+    setES_USE true
+}
+
+
 ################
 # Function: nc #
 ################

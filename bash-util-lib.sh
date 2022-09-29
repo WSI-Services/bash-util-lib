@@ -31,6 +31,29 @@ es() {
 }
 
 
+# @description  Output escape sequence with provided color code for foreground or background
+#
+# @arg  $COLOR string - escape sequence color integer
+# @arg  $FG_BG string - Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else
+#
+# @exitcode  0  Command control code turned off or failed
+# @exitcode  1  Command control code turned on and output sequence
+#
+# @stdout  Specified escape sequence color code output
+es_color() {
+    local COLOR="$1"
+    local FG_BG="$2"
+    local CONTROL_CODE
+
+    case "$(echo "${FG_BG}" | tr '[:upper:]' '[:lower:]')" in
+        b*)   CONTROL_CODE="48" ;;
+        f*|*) CONTROL_CODE="38" ;;
+    esac
+
+    es "${CONTROL_CODE};5;${COLOR}m"
+    return $?
+}
+
 CMD_TPUT="$(which tput)"
 NC_USE=true
 
