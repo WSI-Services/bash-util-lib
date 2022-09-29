@@ -190,6 +190,45 @@ Specified escape sequence color code output
 
 ---
 
+### **`es_color_rgb`**
+
+Output escape sequence with provided red, green, blue color code for foreground or background
+
+#### Arguments
+
+| Name    | Type      | Description                                                                                           |
+| ------- | :-------: | ----------------------------------------------------------------------------------------------------- |
+| `R`     | _integer_ | Red color integer                                                                                     |
+| `G`     | _integer_ | Green color integer                                                                                   |
+| `B`     | _integer_ | Blue color integer                                                                                    |
+| `FG_BG` | _string_  | Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else |
+
+#### Exit Codes
+
+| Code | Description                                        |
+| ---- | -------------------------------------------------- |
+| `0`  | Command control code turned off or failed          |
+| `1`  | Command control code turned on and output sequence |
+
+#### Standard Out
+
+Specified escape sequence color code output
+
+> Example:
+>
+> ```bash
+> printf "Message: $(es_color_rgb 255 0 0)%s$(es 0m)\n" "Output Message"
+> ```
+>
+> Output:
+>
+> ```bash
+> Message: Output Message
+> ```
+
+---
+
+
 ### **`nc`**
 
 Call ncurses `tput` command with provided arguments if command exists (**`CMD_TPUT`**) and **`NC_USE`** environment variable is true

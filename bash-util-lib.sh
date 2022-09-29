@@ -54,6 +54,33 @@ es_color() {
     return $?
 }
 
+# @description  Output escape sequence with provided red, green, blue color code for foreground or background
+#
+# @arg  $R     integer - Red color integer
+# @arg  $G     integer - Green color integer
+# @arg  $B     integer - Blue color integer
+# @arg  $FG_BG string  - Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else
+#
+# @exitcode  0  Command control code turned off or failed
+# @exitcode  1  Command control code turned on and output sequence
+#
+# @stdout  Specified escape sequence color code output
+es_color_rgb() {
+    local R="$1"
+    local G="$2"
+    local B="$3"
+    local FG_BG="$4"
+    local CONTROL_CODE
+
+    case "$(echo "${FG_BG}" | tr '[:upper:]' '[:lower:]')" in
+        b*)   CONTROL_CODE="48" ;;
+        f*|*) CONTROL_CODE="38" ;;
+    esac
+
+    es "${CONTROL_CODE};2;${R};${G};${B}m"
+    return $?
+}
+
 CMD_TPUT="$(which tput)"
 NC_USE=true
 

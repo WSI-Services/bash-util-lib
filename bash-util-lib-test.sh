@@ -182,6 +182,102 @@ test_es_color_envVarTurnedOff() {
 }
 
 
+##########################
+# Function: es_color_rgb #
+##########################
+
+test_es_color_rgb_defaultFgBg() {
+    TEST_OUTPUT="$(es_color_rgb '255' '127' '127')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_color_rgb function not returning correct control sequence' \
+        "$(printf "\033[38;2;255;127;127m")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_color_rgb_foreground() {
+    TEST_OUTPUT="$(es_color_rgb '255' '127' '127' '')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_color_rgb function not returning correct control sequence' \
+        "$(printf "\033[38;2;255;127;127m")" \
+        "${TEST_OUTPUT}"
+
+    OUTPUT="$(es_color_rgb '255' '127' '127' 'f')"
+    CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_color_rgb function not returning correct control sequence' \
+        "$(printf "\033[38;2;255;127;127m")" \
+        "${TEST_OUTPUT}"
+
+    OUTPUT="$(es_color_rgb '255' '127' '127' 'F')"
+    CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_color_rgb function not returning correct control sequence' \
+        "$(printf "\033[38;2;255;127;127m")" \
+        "${TEST_OUTPUT}"
+
+    OUTPUT="$(es_color_rgb '255' '127' '127' 'Foreground')"
+    CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_color_rgb function not returning correct control sequence' \
+        "$(printf "\033[38;2;255;127;127m")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_color_rgb_background() {
+    TEST_OUTPUT="$(es_color_rgb '255' '127' '127' 'b')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_color_rgb function not returning correct control sequence' \
+        "$(printf "\033[48;2;255;127;127m")" \
+        "${TEST_OUTPUT}"
+
+    OUTPUT="$(es_color_rgb '255' '127' '127' 'B')"
+    CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_color_rgb function not returning correct control sequence' \
+        "$(printf "\033[48;2;255;127;127m")" \
+        "${TEST_OUTPUT}"
+
+    OUTPUT="$(es_color_rgb '255' '127' '127' 'Background')"
+    CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_color_rgb function not returning correct control sequence' \
+        "$(printf "\033[48;2;255;127;127m")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_color_rgb_envVarTurnedOff() {
+    setES_USE false
+
+    TEST_OUTPUT="$(es_color_rgb '255' '127' '127')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertNull 'es_color_rgb function should not return output' "${TEST_OUTPUT}"
+
+    setES_USE true
+}
+
+
 ################
 # Function: nc #
 ################
