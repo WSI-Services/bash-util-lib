@@ -81,6 +81,28 @@ es_color_rgb() {
     return $?
 }
 
+# @description  Output escape sequence with provided HEX color code for foreground or background
+#
+# @arg  $HEX   string - escape sequence color in HEX
+# @arg  $FG_BG string - Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else
+#
+# @exitcode  0  Command control code turned off or failed
+# @exitcode  1  Command control code turned on and output sequence
+#
+# @stdout  Specified escape sequence color code output
+es_color_hex() {
+    local HEX=${1#"#"}
+    local FG_BG="$2"
+    local CONTROL_CODE R G B
+
+    R=$(printf "%d\n" "$(printf '0x%0.2s' "${HEX}")")
+    G=$(printf "%d\n" "$(printf '0x%0.2s' "${HEX#??}")")
+    B=$(printf "%d\n" "$(printf '0x%0.2s' "${HEX#????}")")
+
+    es_color_rgb "${R}" "${G}" "${B}" "${FG_BG}"
+    return $?
+}
+
 CMD_TPUT="$(which tput)"
 NC_USE=true
 

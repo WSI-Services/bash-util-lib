@@ -229,6 +229,43 @@ Specified escape sequence color code output
 ---
 
 
+### **`es_color_hex`**
+
+Output escape sequence with provided HEX color code for foreground or background
+
+#### Arguments
+
+| Name    | Type     | Description                                                                                           |
+| ------- | :------: | ----------------------------------------------------------------------------------------------------- |
+| `HEX`   | _string_ | escape sequence color in HEX                                                                          |
+| `FG_BG` | _string_ | Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else |
+
+#### Exit Codes
+
+| Code | Description                                        |
+| ---- | -------------------------------------------------- |
+| `0`  | Command control code turned off or failed          |
+| `1`  | Command control code turned on and output sequence |
+
+#### Standard Out
+
+Specified escape sequence color code output
+
+> Example:
+>
+> ```bash
+> printf "Message: $(es_color_hex ff0000)%s$(es 0m)\n" "Output Message"
+> ```
+>
+> Output:
+>
+> ```bash
+> Message: Output Message
+> ```
+
+---
+
+
 ### **`nc`**
 
 Call ncurses `tput` command with provided arguments if command exists (**`CMD_TPUT`**) and **`NC_USE`** environment variable is true
