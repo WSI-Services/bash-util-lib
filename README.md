@@ -266,6 +266,54 @@ Specified escape sequence color code output
 ---
 
 
+### **`es_attrib`**
+
+Output escape sequence with provided text attribute control code
+
+#### Arguments
+
+| Name           | Type     | Description                                 |
+| -------------- | :------: | ------------------------------------------- |
+| `CONTROL_CODE` | _string_ | escape sequence text attribute control code |
+
+| Code      | Description                           |
+| --------- | ------------------------------------- |
+| strike    | Strike-through text                   |
+| hidden    | Hidden text                           |
+| swap      | Swap foreground and background colors |
+| blink     | Slow blink                            |
+| underline | Underline text                        |
+| italic    | Italic text                           |
+| fait      | Faint text                            |
+| bold      | Bold text                             |
+| reset     | Reset text formatting and colors      |
+
+#### Exit Codes
+
+| Code | Description                                        |
+| ---- | -------------------------------------------------- |
+| `0`  | Command control code turned off or failed          |
+| `1`  | Command control code turned on and output sequence |
+
+#### Standard Out
+
+Specified escape sequence text attribute control code output
+
+> Example:
+>
+> ```bash
+> printf "Message: $(es_attrib bold)%s$(es_attrib reset)\n" "Output Message"
+> ```
+>
+> Output:
+>
+> ```bash
+> Message: Output Message
+> ```
+
+---
+
+
 ### **`nc`**
 
 Call ncurses `tput` command with provided arguments if command exists (**`CMD_TPUT`**) and **`NC_USE`** environment variable is true

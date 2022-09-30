@@ -103,6 +103,42 @@ es_color_hex() {
     return $?
 }
 
+# @description  Output escape sequence with provided text attribute control code
+#
+# @arg  $CONTROL_CODE string - escape sequence text attribute control code
+#           strike    Strike-through text
+#           hidden    Hidden text
+#           swap      Swap foreground and background colors
+#           blink     Slow blink
+#           underline Underline text
+#           italic    Italic text
+#           fait      Faint text
+#           bold      Bold text
+#           reset     Reset text formatting and colors
+#
+# @exitcode  0  Command control code turned off or failed
+# @exitcode  1  Command control code turned on and output sequence
+#
+# @stdout  Specified escape sequence text attribute control code output
+es_attrib() {
+    local CONTROL_CODE="$1"
+
+    case "$(echo "${CONTROL_CODE}" | tr '[:upper:]' '[:lower:]')" in
+           strike|9)   CONTROL_CODE="9m" ;; # Strike-through text
+           hidden|8)   CONTROL_CODE="8m" ;; # Hidden text
+             swap|7)   CONTROL_CODE="7m" ;; # Swap foreground and background colors
+          blink|5|6)   CONTROL_CODE="5m" ;; # Slow blink
+        underline|4)   CONTROL_CODE="4m" ;; # Underline text
+           italic|3)   CONTROL_CODE="3m" ;; # Italic text
+            faint|2)   CONTROL_CODE="2m" ;; # Faint text
+             bold|1)   CONTROL_CODE="1m" ;; # Bold text
+            reset|0|*) CONTROL_CODE="0m" ;; # Reset text formatting and colors
+    esac
+
+    es "${CONTROL_CODE}"
+    return $?
+}
+
 CMD_TPUT="$(which tput)"
 NC_USE=true
 

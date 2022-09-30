@@ -374,6 +374,233 @@ test_es_color_hex_envVarTurnedOff() {
 }
 
 
+#######################
+# Function: es_attrib #
+#######################
+
+test_es_attrib_defaultCode() {
+    TEST_OUTPUT="$(es_attrib)"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[0m")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_attrib_reset() {
+    TEST_OUTPUT="$(es_attrib 'reset')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[0m")" \
+        "${TEST_OUTPUT}"
+
+    OUTPUT="$(es_attrib 0)"
+    CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[0m")" \
+        "${TEST_OUTPUT}"
+
+    OUTPUT="$(es_attrib 'anything')"
+    CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[0m")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_attrib_bold() {
+    TEST_OUTPUT="$(es_attrib 'bold')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[1m")" \
+        "${TEST_OUTPUT}"
+
+    OUTPUT="$(es_attrib 1)"
+    CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[1m")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_attrib_faint() {
+    TEST_OUTPUT="$(es_attrib 'faint')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[2m")" \
+        "${TEST_OUTPUT}"
+
+    OUTPUT="$(es_attrib 2)"
+    CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[2m")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_attrib_italic() {
+    TEST_OUTPUT="$(es_attrib 'italic')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[3m")" \
+        "${TEST_OUTPUT}"
+
+    OUTPUT="$(es_attrib 3)"
+    CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[3m")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_attrib_underline() {
+    TEST_OUTPUT="$(es_attrib 'underline')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[4m")" \
+        "${TEST_OUTPUT}"
+
+    OUTPUT="$(es_attrib 4)"
+    CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[4m")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_attrib_blink() {
+    TEST_OUTPUT="$(es_attrib 'blink')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[5m")" \
+        "${TEST_OUTPUT}"
+
+    OUTPUT="$(es_attrib 5)"
+    CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[5m")" \
+        "${TEST_OUTPUT}"
+
+    OUTPUT="$(es_attrib 6)"
+    CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[5m")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_attrib_swap() {
+    TEST_OUTPUT="$(es_attrib 'swap')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[7m")" \
+        "${TEST_OUTPUT}"
+
+    OUTPUT="$(es_attrib 7)"
+    CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[7m")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_attrib_hidden() {
+    TEST_OUTPUT="$(es_attrib 'hidden')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[8m")" \
+        "${TEST_OUTPUT}"
+
+    OUTPUT="$(es_attrib 8)"
+    CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[8m")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_attrib_strike() {
+    TEST_OUTPUT="$(es_attrib 'strike')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[9m")" \
+        "${TEST_OUTPUT}"
+
+    OUTPUT="$(es_attrib 9)"
+    CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[9m")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_attrib_envVarTurnedOff() {
+    setES_USE false
+
+    TEST_OUTPUT="$(es_attrib 'clear')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertNull 'es_attrib function should not return output' "${TEST_OUTPUT}"
+
+    setES_USE true
+}
+
+
 ################
 # Function: nc #
 ################
