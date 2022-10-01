@@ -601,6 +601,110 @@ test_es_attrib_envVarTurnedOff() {
 }
 
 
+######################
+# Function: es_erase #
+######################
+
+test_es_erase_defaultCode() {
+    TEST_OUTPUT="$(es_erase)"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_erase function not returning correct control sequence' \
+        "$(printf "\033[2J")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_erase_clear() {
+    TEST_OUTPUT="$(es_erase 'clear')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_erase function not returning correct control sequence' \
+        "$(printf "\033[2J")" \
+        "${TEST_OUTPUT}"
+
+    OUTPUT="$(es_erase 'anything')"
+    CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_erase function not returning correct control sequence' \
+        "$(printf "\033[2J")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_erase_top() {
+    TEST_OUTPUT="$(es_erase 'top')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_erase function not returning correct control sequence' \
+        "$(printf "\033[1J")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_erase_bottom() {
+    TEST_OUTPUT="$(es_erase 'bottom')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_erase function not returning correct control sequence' \
+        "$(printf "\033[0J")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_erase_cur() {
+    TEST_OUTPUT="$(es_erase 'cur')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_erase function not returning correct control sequence' \
+        "$(printf "\033[2K")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_erase_sol() {
+    TEST_OUTPUT="$(es_erase 'sol')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_erase function not returning correct control sequence' \
+        "$(printf "\033[1K")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_erase_eol() {
+    TEST_OUTPUT="$(es_erase 'eol')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_erase function not returning correct control sequence' \
+        "$(printf "\033[0K")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_erase_envVarTurnedOff() {
+    setES_USE false
+
+    TEST_OUTPUT="$(es_erase 'clear')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertNull 'es_erase function should not return output' "${TEST_OUTPUT}"
+
+    setES_USE true
+}
+
+
 ################
 # Function: nc #
 ################

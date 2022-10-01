@@ -139,6 +139,36 @@ es_attrib() {
     return $?
 }
 
+# @description  Output escape sequence with provided erase control code
+#
+# @arg  $CONTROL_CODE string - escape sequence erase control code
+#           eol    Erase from cursor position to end of line
+#           sol    Erase from cursor position to start of line
+#           cur    Erase the entire current line
+#           bottom Erase from the current line to the bottom of the screen
+#           top    Erase from the current line to the top of the screen
+#           clear  Clear the screen
+#
+# @exitcode  0  Command control code turned off or failed
+# @exitcode  1  Command control code turned on and output sequence
+#
+# @stdout  Specified escape sequence erase control code output
+es_erase() {
+    local CONTROL_CODE="$1"
+
+    case "$(echo "${CONTROL_CODE}" | tr '[:upper:]' '[:lower:]')" in
+           eol)   CONTROL_CODE="0K" ;; # Erase from cursor position to end of line
+           sol)   CONTROL_CODE="1K" ;; # Erase from cursor position to start of line
+           cur)   CONTROL_CODE="2K" ;; # Erase the entire current line
+        bottom)   CONTROL_CODE="0J" ;; # Erase from the current line to the bottom of the screen
+           top)   CONTROL_CODE="1J" ;; # Erase from the current line to the top of the screen
+         clear|*) CONTROL_CODE="2J" ;; # Clear the screen
+    esac
+
+    es "${CONTROL_CODE}"
+    return $?
+}
+
 CMD_TPUT="$(which tput)"
 NC_USE=true
 

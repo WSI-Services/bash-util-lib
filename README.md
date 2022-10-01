@@ -314,6 +314,51 @@ Specified escape sequence text attribute control code output
 ---
 
 
+### **`es_erase`**
+
+Output escape sequence with provided erase control code
+
+#### Arguments
+
+| Name           | Type     | Description                        |
+| -------------- | :------: | ---------------------------------- |
+| `CONTROL_CODE` | _string_ | escape sequence erase control code |
+
+| Code   | Description                                             |
+| ------ | ------------------------------------------------------- |
+| eol    | Erase from cursor position to end of line               |
+| sol    | Erase from cursor position to start of line             |
+| cur    | Erase the entire current line                           |
+| bottom | Erase from the current line to the bottom of the screen |
+| top    | Erase from the current line to the top of the screen    |
+| clear  | Clear the screen                                        |
+
+#### Exit Codes
+
+| Code | Description                                        |
+| ---- | -------------------------------------------------- |
+| `0`  | Command control code turned off or failed          |
+| `1`  | Command control code turned on and output sequence |
+
+#### Standard Out
+
+Specified escape sequence text attribute control code output
+
+> Example:
+>
+> ```bash
+> printf "Message: %b\n" "Output$(es_erase sol) Message"
+> ```
+>
+> Output:
+>
+> ```bash
+>                 Message
+> ```
+
+---
+
+
 ### **`nc`**
 
 Call ncurses `tput` command with provided arguments if command exists (**`CMD_TPUT`**) and **`NC_USE`** environment variable is true
