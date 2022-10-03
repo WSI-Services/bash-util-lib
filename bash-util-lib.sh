@@ -31,6 +31,183 @@ es() {
 }
 
 
+# @description  Output escape sequence with provided color code for foreground or background
+#
+# @arg  $COLOR string - escape sequence color integer
+# @arg  $FG_BG string - Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else
+#
+# @exitcode  0  Command control code turned off or failed
+# @exitcode  1  Command control code turned on and output sequence
+#
+# @stdout  Specified escape sequence color code output
+es_color() {
+    local COLOR="$1"
+    local FG_BG="$2"
+    local CONTROL_CODE
+
+    case "$(echo "${FG_BG}" | tr '[:upper:]' '[:lower:]')" in
+        b*)   CONTROL_CODE="48" ;;
+        f*|*) CONTROL_CODE="38" ;;
+    esac
+
+    es "${CONTROL_CODE};5;${COLOR}m"
+    return $?
+}
+
+# @description  Output escape sequence with provided red, green, blue color code for foreground or background
+#
+# @arg  $R     integer - Red color integer
+# @arg  $G     integer - Green color integer
+# @arg  $B     integer - Blue color integer
+# @arg  $FG_BG string  - Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else
+#
+# @exitcode  0  Command control code turned off or failed
+# @exitcode  1  Command control code turned on and output sequence
+#
+# @stdout  Specified escape sequence color code output
+es_color_rgb() {
+    local R="$1"
+    local G="$2"
+    local B="$3"
+    local FG_BG="$4"
+    local CONTROL_CODE
+
+    case "$(echo "${FG_BG}" | tr '[:upper:]' '[:lower:]')" in
+        b*)   CONTROL_CODE="48" ;;
+        f*|*) CONTROL_CODE="38" ;;
+    esac
+
+    es "${CONTROL_CODE};2;${R};${G};${B}m"
+    return $?
+}
+
+# @description  Output escape sequence with provided HEX color code for foreground or background
+#
+# @arg  $HEX   string - escape sequence color in HEX
+# @arg  $FG_BG string - Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else
+#
+# @exitcode  0  Command control code turned off or failed
+# @exitcode  1  Command control code turned on and output sequence
+#
+# @stdout  Specified escape sequence color code output
+es_color_hex() {
+    local HEX=${1#"#"}
+    local FG_BG="$2"
+    local CONTROL_CODE R G B
+
+    R=$(printf "%d\n" "$(printf '0x%0.2s' "${HEX}")")
+    G=$(printf "%d\n" "$(printf '0x%0.2s' "${HEX#??}")")
+    B=$(printf "%d\n" "$(printf '0x%0.2s' "${HEX#????}")")
+
+    es_color_rgb "${R}" "${G}" "${B}" "${FG_BG}"
+    return $?
+}
+
+# @description  Output escape sequence with provided text attribute control code
+#
+# @arg  $CONTROL_CODE string - escape sequence text attribute control code
+#           strike    Strike-through text
+#           hidden    Hidden text
+#           swap      Swap foreground and background colors
+#           blink     Slow blink
+#           underline Underline text
+#           italic    Italic text
+#           fait      Faint text
+#           bold      Bold text
+#           reset     Reset text formatting and colors
+#
+# @exitcode  0  Command control code turned off or failed
+# @exitcode  1  Command control code turned on and output sequence
+#
+# @stdout  Specified escape sequence text attribute control code output
+es_attrib() {
+    local CONTROL_CODE="$1"
+
+    case "$(echo "${CONTROL_CODE}" | tr '[:upper:]' '[:lower:]')" in
+           strike|9)   CONTROL_CODE="9m" ;; # Strike-through text
+           hidden|8)   CONTROL_CODE="8m" ;; # Hidden text
+             swap|7)   CONTROL_CODE="7m" ;; # Swap foreground and background colors
+          blink|5|6)   CONTROL_CODE="5m" ;; # Slow blink
+        underline|4)   CONTROL_CODE="4m" ;; # Underline text
+           italic|3)   CONTROL_CODE="3m" ;; # Italic text
+            faint|2)   CONTROL_CODE="2m" ;; # Faint text
+             bold|1)   CONTROL_CODE="1m" ;; # Bold text
+            reset|0|*) CONTROL_CODE="0m" ;; # Reset text formatting and colors
+    esac
+
+    es "${CONTROL_CODE}"
+    return $?
+}
+
+# @description  Output escape sequence with provided erase control code
+#
+# @arg  $CONTROL_CODE string - escape sequence erase control code
+#           eol    Erase from cursor position to end of line
+#           sol    Erase from cursor position to start of line
+#           cur    Erase the entire current line
+#           bottom Erase from the current line to the bottom of the screen
+#           top    Erase from the current line to the top of the screen
+#           clear  Clear the screen
+#
+# @exitcode  0  Command control code turned off or failed
+# @exitcode  1  Command control code turned on and output sequence
+#
+# @stdout  Specified escape sequence erase control code output
+es_erase() {
+    local CONTROL_CODE="$1"
+
+    case "$(echo "${CONTROL_CODE}" | tr '[:upper:]' '[:lower:]')" in
+           eol)   CONTROL_CODE="0K" ;; # Erase from cursor position to end of line
+           sol)   CONTROL_CODE="1K" ;; # Erase from cursor position to start of line
+           cur)   CONTROL_CODE="2K" ;; # Erase the entire current line
+        bottom)   CONTROL_CODE="0J" ;; # Erase from the current line to the bottom of the screen
+           top)   CONTROL_CODE="1J" ;; # Erase from the current line to the top of the screen
+         clear|*) CONTROL_CODE="2J" ;; # Clear the screen
+    esac
+
+    es "${CONTROL_CODE}"
+    return $?
+}
+
+# @description  Output escape sequence with provided cursor control code
+#
+# @arg  $CONTROL_CODE string - Escape sequence cursor control code
+#           abs     Move cursor to absolute position (LINE;COLUMN)
+#           up      Move cursor up N lines (NUM)
+#           down    Move cursor down N lines (NUM)
+#           right   Move cursor right N columns (NUM)
+#           left    Move cursor left N columns (NUM)
+#           save    Save cursor position
+#           restore Restore cursor position
+#           home    Move cursor to home position (0,0)
+# @arg  $VAL1         integer - Optional value for CONTROL_CODE
+# @arg  $VAL2         integer - Optional value for CONTROL_CODE
+#
+# @exitcode  0  Command control code turned off or failed
+# @exitcode  1  Command control code turned on and output sequence
+#
+# @stdout  Specified escape sequence cursor control code output
+es_cursor() {
+    local CONTROL_CODE="$1"
+    local VAL1="${2:-0}"
+    local VAL2="${3:-0}"
+
+    case "$(echo "${CONTROL_CODE}" | tr '[:upper:]' '[:lower:]')" in
+            abs)   CONTROL_CODE="${VAL1};${VAL2}" ;; # Move cursor to absolute position
+             up)   CONTROL_CODE="${VAL1}A" ;;        # Move cursor up N lines
+           down)   CONTROL_CODE="${VAL1}B" ;;        # Move cursor down N lines
+          right)   CONTROL_CODE="${VAL1}C" ;;        # Move cursor right N columns
+           left)   CONTROL_CODE="${VAL1}D" ;;        # Move cursor left N columns
+           save)   CONTROL_CODE="s" ;;               # Save cursor position
+        restore)   CONTROL_CODE="u" ;;               # Restore cursor position
+           home|*) CONTROL_CODE="H" ;;               # Move cursor to home position (0,0)
+    esac
+
+    es "${CONTROL_CODE}"
+    return $?
+}
+
+
 CMD_TPUT="$(which tput)"
 NC_USE=true
 

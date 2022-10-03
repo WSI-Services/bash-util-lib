@@ -154,6 +154,260 @@ Specified escape sequence control code
 ---
 
 
+### **`es_color`**
+
+Output escape sequence with provided color code for foreground or background
+
+#### Arguments
+
+| Name    | Type     | Description                                                                                           |
+| ------- | :------: | ----------------------------------------------------------------------------------------------------- |
+| `COLOR` | _string_ | escape sequence color integer                                                                         |
+| `FG_BG` | _string_ | Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else |
+
+#### Exit Codes
+
+| Code | Description                                        |
+| ---- | -------------------------------------------------- |
+| `0`  | Command control code turned off or failed          |
+| `1`  | Command control code turned on and output sequence |
+
+#### Standard Out
+
+Specified escape sequence color code output
+
+> Example:
+>
+> ```bash
+> printf "Message: $(es_color 31)%s$(es 0m)\n" "Output Message"
+> ```
+>
+> Output:
+>
+> ```bash
+> Message: Output Message
+> ```
+
+---
+
+### **`es_color_rgb`**
+
+Output escape sequence with provided red, green, blue color code for foreground or background
+
+#### Arguments
+
+| Name    | Type      | Description                                                                                           |
+| ------- | :-------: | ----------------------------------------------------------------------------------------------------- |
+| `R`     | _integer_ | Red color integer                                                                                     |
+| `G`     | _integer_ | Green color integer                                                                                   |
+| `B`     | _integer_ | Blue color integer                                                                                    |
+| `FG_BG` | _string_  | Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else |
+
+#### Exit Codes
+
+| Code | Description                                        |
+| ---- | -------------------------------------------------- |
+| `0`  | Command control code turned off or failed          |
+| `1`  | Command control code turned on and output sequence |
+
+#### Standard Out
+
+Specified escape sequence color code output
+
+> Example:
+>
+> ```bash
+> printf "Message: $(es_color_rgb 255 0 0)%s$(es 0m)\n" "Output Message"
+> ```
+>
+> Output:
+>
+> ```bash
+> Message: Output Message
+> ```
+
+---
+
+
+### **`es_color_hex`**
+
+Output escape sequence with provided HEX color code for foreground or background
+
+#### Arguments
+
+| Name    | Type     | Description                                                                                           |
+| ------- | :------: | ----------------------------------------------------------------------------------------------------- |
+| `HEX`   | _string_ | escape sequence color in HEX                                                                          |
+| `FG_BG` | _string_ | Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else |
+
+#### Exit Codes
+
+| Code | Description                                        |
+| ---- | -------------------------------------------------- |
+| `0`  | Command control code turned off or failed          |
+| `1`  | Command control code turned on and output sequence |
+
+#### Standard Out
+
+Specified escape sequence color code output
+
+> Example:
+>
+> ```bash
+> printf "Message: $(es_color_hex ff0000)%s$(es 0m)\n" "Output Message"
+> ```
+>
+> Output:
+>
+> ```bash
+> Message: Output Message
+> ```
+
+---
+
+
+### **`es_attrib`**
+
+Output escape sequence with provided text attribute control code
+
+#### Arguments
+
+| Name           | Type     | Description                                 |
+| -------------- | :------: | ------------------------------------------- |
+| `CONTROL_CODE` | _string_ | escape sequence text attribute control code |
+
+| Code      | Description                           |
+| --------- | ------------------------------------- |
+| strike    | Strike-through text                   |
+| hidden    | Hidden text                           |
+| swap      | Swap foreground and background colors |
+| blink     | Slow blink                            |
+| underline | Underline text                        |
+| italic    | Italic text                           |
+| fait      | Faint text                            |
+| bold      | Bold text                             |
+| reset     | Reset text formatting and colors      |
+
+#### Exit Codes
+
+| Code | Description                                        |
+| ---- | -------------------------------------------------- |
+| `0`  | Command control code turned off or failed          |
+| `1`  | Command control code turned on and output sequence |
+
+#### Standard Out
+
+Specified escape sequence text attribute control code output
+
+> Example:
+>
+> ```bash
+> printf "Message: $(es_attrib bold)%s$(es_attrib reset)\n" "Output Message"
+> ```
+>
+> Output:
+>
+> ```bash
+> Message: Output Message
+> ```
+
+---
+
+
+### **`es_erase`**
+
+Output escape sequence with provided erase control code
+
+#### Arguments
+
+| Name           | Type     | Description                        |
+| -------------- | :------: | ---------------------------------- |
+| `CONTROL_CODE` | _string_ | escape sequence erase control code |
+
+| Code   | Description                                             |
+| ------ | ------------------------------------------------------- |
+| eol    | Erase from cursor position to end of line               |
+| sol    | Erase from cursor position to start of line             |
+| cur    | Erase the entire current line                           |
+| bottom | Erase from the current line to the bottom of the screen |
+| top    | Erase from the current line to the top of the screen    |
+| clear  | Clear the screen                                        |
+
+#### Exit Codes
+
+| Code | Description                                        |
+| ---- | -------------------------------------------------- |
+| `0`  | Command control code turned off or failed          |
+| `1`  | Command control code turned on and output sequence |
+
+#### Standard Out
+
+Specified escape sequence text attribute control code output
+
+> Example:
+>
+> ```bash
+> printf "Message: %b\n" "Output$(es_erase sol) Message"
+> ```
+>
+> Output:
+>
+> ```bash
+>                 Message
+> ```
+
+---
+
+
+### **`es_cursor`**
+
+Output escape sequence with provided cursor control code
+
+#### Arguments
+
+| Name           | Type      | Description                         |
+| -------------- | :-------: | ----------------------------------- |
+| `CONTROL_CODE` | _string_  | Escape sequence cursor control code |
+| `VAL1`         | _integer_ | Optional value for CONTROL_CODE     |
+| `VAL2`         | _integer_ | Optional value for CONTROL_CODE     |
+
+| Code    | Description                                    |
+| ------- | ---------------------------------------------- |
+| abs     | Move cursor to absolute position (LINE;COLUMN) |
+| up      | Move cursor up N lines (NUM)                   |
+| down    | Move cursor down N lines (NUM)                 |
+| right   | Move cursor right N columns (NUM)              |
+| left    | Move cursor left N columns (NUM)               |
+| save    | Save cursor position                           |
+| restore | Restore cursor position                        |
+| home    | Move cursor to home position (0,0)             |
+
+#### Exit Codes
+
+| Code | Description                                        |
+| ---- | -------------------------------------------------- |
+| `0`  | Command control code turned off or failed          |
+| `1`  | Command control code turned on and output sequence |
+
+#### Standard Out
+
+Specified escape sequence cursor control code output
+
+> Example:
+>
+> ```bash
+> printf "Message: %b\n" "Output$(es_cursor left 6) Message"
+> ```
+>
+> Output:
+>
+> ```bash
+> Message:  Message
+> ```
+
+---
+
+
 ### **`nc`**
 
 Call ncurses `tput` command with provided arguments if command exists (**`CMD_TPUT`**) and **`NC_USE`** environment variable is true
