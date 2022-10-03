@@ -938,6 +938,102 @@ test_nc_cmdTputEmpty() {
 
 
 ######################
+# Function: nc_color #
+######################
+
+test_nc_color_defaultFgBg() {
+    TEST_OUTPUT="$(nc_color '1')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'nc_color function not returning correct control sequence' \
+        "$(tput setaf 1)" \
+        "${TEST_OUTPUT}"
+}
+
+test_nc_color_foreground() {
+    TEST_OUTPUT="$(nc_color '1' '')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'nc_color function not returning correct control sequence' \
+        "$(tput setaf 1)" \
+        "${TEST_OUTPUT}"
+
+    TEST_OUTPUT="$(nc_color '1' 'f')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'nc_color function not returning correct control sequence' \
+        "$(tput setaf 1)" \
+        "${TEST_OUTPUT}"
+
+    TEST_OUTPUT="$(nc_color '1' 'F')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'nc_color function not returning correct control sequence' \
+        "$(tput setaf 1)" \
+        "${TEST_OUTPUT}"
+
+    TEST_OUTPUT="$(nc_color '1' 'Foreground')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'nc_color function not returning correct control sequence' \
+        "$(tput setaf 1)" \
+        "${TEST_OUTPUT}"
+}
+
+test_nc_color_background() {
+    TEST_OUTPUT="$(nc_color '1' 'b')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'nc_color function not returning correct control sequence' \
+        "$(tput setab 1)" \
+        "${TEST_OUTPUT}"
+
+    TEST_OUTPUT="$(nc_color '1' 'B')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'nc_color function not returning correct control sequence' \
+        "$(tput setab 1)" \
+        "${TEST_OUTPUT}"
+
+    TEST_OUTPUT="$(nc_color '1' 'Background')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'nc_color function not returning correct control sequence' \
+        "$(tput setab 1)" \
+        "${TEST_OUTPUT}"
+}
+
+test_nc_color_envVarTurnedOff() {
+    setNC_USE false
+
+    TEST_OUTPUT="$(nc_color '1')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertNull 'nc_color function should not return output' "${TEST_OUTPUT}"
+
+    setNC_USE true
+}
+
+
+######################
 # Function: exit_err #
 ######################
 

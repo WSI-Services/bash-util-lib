@@ -233,6 +233,29 @@ nc() {
     fi
 }
 
+# @description  Output ncurses color code for foreground or background
+#
+# @arg  $COLOR string - ncurses color integer
+# @arg  $FG_BG string - Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else
+#
+# @exitcode  0  Command tput exists
+# @exitcode  1  Command tput missing
+#
+# @stdout  Specified ncurses tput color code output
+nc_color() {
+    local COLOR="$1"
+    local FG_BG="$2"
+    local CAP_NAME
+
+    case "$(echo "${FG_BG}" | tr '[:upper:]' '[:lower:]')" in
+        b*)   CAP_NAME="setab" ;;
+        f*|*) CAP_NAME="setaf" ;;
+    esac
+
+    nc "${CAP_NAME}" "${COLOR}"
+    return $?
+}
+
 
 EXIT_ERR_MSG_ERROR="Error [%i]: %b\n"
 EXIT_ERR_MSG_COMMAND="Command failed: %b\n"
