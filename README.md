@@ -359,6 +359,55 @@ Specified escape sequence text attribute control code output
 ---
 
 
+### **`es_cursor`**
+
+Output escape sequence with provided cursor control code
+
+#### Arguments
+
+| Name           | Type      | Description                         |
+| -------------- | :-------: | ----------------------------------- |
+| `CONTROL_CODE` | _string_  | Escape sequence cursor control code |
+| `VAL1`         | _integer_ | Optional value for CONTROL_CODE     |
+| `VAL2`         | _integer_ | Optional value for CONTROL_CODE     |
+
+| Code    | Description                                    |
+| ------- | ---------------------------------------------- |
+| abs     | Move cursor to absolute position (LINE;COLUMN) |
+| up      | Move cursor up N lines (NUM)                   |
+| down    | Move cursor down N lines (NUM)                 |
+| right   | Move cursor right N columns (NUM)              |
+| left    | Move cursor left N columns (NUM)               |
+| save    | Save cursor position                           |
+| restore | Restore cursor position                        |
+| home    | Move cursor to home position (0,0)             |
+
+#### Exit Codes
+
+| Code | Description                                        |
+| ---- | -------------------------------------------------- |
+| `0`  | Command control code turned off or failed          |
+| `1`  | Command control code turned on and output sequence |
+
+#### Standard Out
+
+Specified escape sequence cursor control code output
+
+> Example:
+>
+> ```bash
+> printf "Message: %b\n" "Output$(es_cursor left 6) Message"
+> ```
+>
+> Output:
+>
+> ```bash
+> Message:  Message
+> ```
+
+---
+
+
 ### **`nc`**
 
 Call ncurses `tput` command with provided arguments if command exists (**`CMD_TPUT`**) and **`NC_USE`** environment variable is true

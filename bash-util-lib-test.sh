@@ -705,6 +705,187 @@ test_es_erase_envVarTurnedOff() {
 }
 
 
+#######################
+# Function: es_cursor #
+#######################
+
+test_es_cursor_defaultCode() {
+    TEST_OUTPUT="$(es_cursor)"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_cursor function not returning correct control sequence' \
+        "$(printf "\033[H")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_cursor_home() {
+    TEST_OUTPUT="$(es_cursor 'home')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_cursor function not returning correct control sequence' \
+        "$(printf "\033[H")" \
+        "${TEST_OUTPUT}"
+
+    OUTPUT="$(es_cursor 'anything')"
+    CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_cursor function not returning correct control sequence' \
+        "$(printf "\033[H")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_cursor_restore() {
+    TEST_OUTPUT="$(es_cursor 'restore')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_cursor function not returning correct control sequence' \
+        "$(printf "\033[u")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_cursor_save() {
+    TEST_OUTPUT="$(es_cursor 'save')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_cursor function not returning correct control sequence' \
+        "$(printf "\033[s")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_cursor_leftDefaultValue() {
+    TEST_OUTPUT="$(es_cursor 'left')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_cursor function not returning correct control sequence' \
+        "$(printf "\033[0D")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_cursor_left() {
+    TEST_OUTPUT="$(es_cursor 'left' 4)"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_cursor function not returning correct control sequence' \
+        "$(printf "\033[4D")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_cursor_rightDefaultValue() {
+    TEST_OUTPUT="$(es_cursor 'right')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_cursor function not returning correct control sequence' \
+        "$(printf "\033[0C")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_cursor_right() {
+    TEST_OUTPUT="$(es_cursor 'right' 4)"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_cursor function not returning correct control sequence' \
+        "$(printf "\033[4C")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_cursor_downDefaultValue() {
+    TEST_OUTPUT="$(es_cursor 'down')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_cursor function not returning correct control sequence' \
+        "$(printf "\033[0B")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_cursor_down() {
+    TEST_OUTPUT="$(es_cursor 'down' 4)"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_cursor function not returning correct control sequence' \
+        "$(printf "\033[4B")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_cursor_upDefaultValue() {
+    TEST_OUTPUT="$(es_cursor 'up')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_cursor function not returning correct control sequence' \
+        "$(printf "\033[0A")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_cursor_up() {
+    TEST_OUTPUT="$(es_cursor 'up' 4)"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_cursor function not returning correct control sequence' \
+        "$(printf "\033[4A")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_cursor_absDefaultValue() {
+    TEST_OUTPUT="$(es_cursor 'abs')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_cursor function not returning correct control sequence' \
+        "$(printf "\033[0;0")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_cursor_abs() {
+    TEST_OUTPUT="$(es_cursor 'abs' 3 4)"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'es_cursor function not returning correct control sequence' \
+        "$(printf "\033[3;4")" \
+        "${TEST_OUTPUT}"
+}
+
+test_es_cursor_envVarTurnedOff() {
+    setES_USE false
+
+    TEST_OUTPUT="$(es_cursor 'home')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertNull 'es_cursor function should not return output' "${TEST_OUTPUT}"
+
+    setES_USE true
+}
+
+
 ################
 # Function: nc #
 ################

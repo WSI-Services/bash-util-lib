@@ -169,6 +169,45 @@ es_erase() {
     return $?
 }
 
+# @description  Output escape sequence with provided cursor control code
+#
+# @arg  $CONTROL_CODE string - Escape sequence cursor control code
+#           abs     Move cursor to absolute position (LINE;COLUMN)
+#           up      Move cursor up N lines (NUM)
+#           down    Move cursor down N lines (NUM)
+#           right   Move cursor right N columns (NUM)
+#           left    Move cursor left N columns (NUM)
+#           save    Save cursor position
+#           restore Restore cursor position
+#           home    Move cursor to home position (0,0)
+# @arg  $VAL1         integer - Optional value for CONTROL_CODE
+# @arg  $VAL2         integer - Optional value for CONTROL_CODE
+#
+# @exitcode  0  Command control code turned off or failed
+# @exitcode  1  Command control code turned on and output sequence
+#
+# @stdout  Specified escape sequence cursor control code output
+es_cursor() {
+    local CONTROL_CODE="$1"
+    local VAL1="${2:-0}"
+    local VAL2="${3:-0}"
+
+    case "$(echo "${CONTROL_CODE}" | tr '[:upper:]' '[:lower:]')" in
+            abs)   CONTROL_CODE="${VAL1};${VAL2}" ;; # Move cursor to absolute position
+             up)   CONTROL_CODE="${VAL1}A" ;;        # Move cursor up N lines
+           down)   CONTROL_CODE="${VAL1}B" ;;        # Move cursor down N lines
+          right)   CONTROL_CODE="${VAL1}C" ;;        # Move cursor right N columns
+           left)   CONTROL_CODE="${VAL1}D" ;;        # Move cursor left N columns
+           save)   CONTROL_CODE="s" ;;               # Save cursor position
+        restore)   CONTROL_CODE="u" ;;               # Restore cursor position
+           home|*) CONTROL_CODE="H" ;;               # Move cursor to home position (0,0)
+    esac
+
+    es "${CONTROL_CODE}"
+    return $?
+}
+
+
 CMD_TPUT="$(which tput)"
 NC_USE=true
 
