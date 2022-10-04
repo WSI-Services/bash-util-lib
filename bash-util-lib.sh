@@ -233,6 +233,78 @@ nc() {
     fi
 }
 
+# @description  Output ncurses color code for foreground or background
+#
+# @arg  $COLOR string - ncurses color integer
+# @arg  $FG_BG string - Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else
+#
+# @exitcode  0  Command tput exists
+# @exitcode  1  Command tput missing
+#
+# @stdout  Specified ncurses tput color code output
+nc_color() {
+    local COLOR="$1"
+    local FG_BG="$2"
+    local CAP_NAME
+
+    case "$(echo "${FG_BG}" | tr '[:upper:]' '[:lower:]')" in
+        b*)   CAP_NAME="setab" ;;
+        f*|*) CAP_NAME="setaf" ;;
+    esac
+
+    nc "${CAP_NAME}" "${COLOR}"
+    return $?
+}
+
+# @description  Output ncurses color index code from HEX
+#
+# @arg  $HEX string - HEX color code (RRGGBB) without number sign
+#
+# @exitcode  0  HEX value provided
+# @exitcode  1  HEX value not provided
+#
+# @stdout  Specified ncurses color index code
+nc_color_from_hex() {
+    local HEX=${1#"#"}
+    local R G B RGB
+
+    if [[ -z "${HEX}" ]]; then
+        return 1
+    fi
+
+    R=$(printf '0x%0.2s' "${HEX}")
+    G=$(printf '0x%0.2s' "${HEX#??}")
+    B=$(printf '0x%0.2s' "${HEX#????}")
+
+    RGB="(R<75?0:(R-35)/40)*6*6"
+    RGB="${RGB} + (G<75?0:(G-35)/40)*6"
+    RGB="${RGB} + (B<75?0:(B-35)/40) + 16"
+    RGB="$(printf '%03d' "$(( RGB ))")"
+
+    printf '%i' "${RGB}"
+    return $?
+}
+
+# @description  Output ncurses color code in HEX for foreground or background
+#
+# @arg  $HEX   string - ncurses color in HEX
+# @arg  $FG_BG string - Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else
+#
+# @exitcode  0  Command tput exists
+# @exitcode  1  Command tput missing
+#
+# @stdout  Specified ncurses tput color code output
+nc_color_hex() {
+    local HEX="$1"
+    local FG_BG="$2"
+    local COLOR
+
+    COLOR="$(nc_color_from_hex "${HEX}")"
+
+    nc_color "${COLOR}" "${FG_BG}"
+    return $?
+}
+
 
 EXIT_ERR_MSG_ERROR="Error [%i]: %b\n"
 EXIT_ERR_MSG_COMMAND="Command failed: %b\n"

@@ -451,6 +451,115 @@ Specified ncurses `tput` output
 ---
 
 
+### **`nc_color`**
+
+Output ncurses color code for foreground or background
+
+#### Arguments
+
+| Name    | Type     | Description                                                                                           |
+| ------- | :------: | ----------------------------------------------------------------------------------------------------- |
+| `COLOR` | _string_ | ncurses color in HEX                                                                                  |
+| `FG_BG` | _string_ | Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else |
+
+#### Exit Codes
+
+| Code | Description            |
+| ---- | ---------------------- |
+| `0`  | Command `tput` exists  |
+| `1`  | Command `tput` missing |
+
+#### Standard Out
+
+Specified ncurses `tput` color code output
+
+> Example:
+>
+> ```bash
+> printf "Message: $(nc_color 031)%s$(nc sgr0)" "Output Message"
+> ```
+>
+> Output:
+>
+> ```bash
+> Message: Output Message
+> ```
+
+---
+
+
+### **`nc_color_from_hex`**
+
+Output ncurses color index integer from HEX
+
+#### Arguments
+
+| Name  | Type     | Description                                 |
+| ----- | :------: | ------------------------------------------- |
+| `HEX` | _string_ | HEX color code (RRGGBB) without number sign |
+
+#### Exit Codes
+
+| Code | Description            |
+| ---- | ---------------------- |
+| `0`  | HEX value provided     |
+| `1`  | HEX value not provided |
+
+#### Standard Out
+
+Specified ncurses color index integer
+
+> Example:
+>
+> ```bash
+> nc_color_from_hex ff0000
+> ```
+>
+> Output:
+>
+> ```bash
+> 196
+> ```
+
+---
+
+
+### **`nc_color_hex`**
+
+Output ncurses color code in HEX for foreground or background
+
+#### Arguments
+
+| Name    | Type     | Description                                                                                           |
+| ------- | :------: | ----------------------------------------------------------------------------------------------------- |
+| `COLOR` | _string_ | ncurses color in HEX                                                                                  |
+| `FG_BG` | _string_ | Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else |
+
+#### Exit Codes
+
+| Code | Description            |
+| ---- | ---------------------- |
+| `0`  | Command `tput` exists  |
+| `1`  | Command `tput` missing |
+
+#### Standard Out
+
+Specified ncurses `tput` color code output
+
+> Example:
+>
+> ```bash
+> printf "Message: $(nc_color_hex ff0000)%s$(nc sgr0)" "Output Message"
+> ```
+>
+> Output:
+> ```bash
+> Message: Output Message
+> ```
+
+---
+
+
 ### **`exit_err`**
 
 Output provided error message, optionally additional message, and exit with provided code
