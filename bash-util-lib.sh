@@ -285,6 +285,26 @@ nc_color_from_hex() {
     return $?
 }
 
+# @description  Output ncurses color code in HEX for foreground or background
+#
+# @arg  $HEX   string - ncurses color in HEX
+# @arg  $FG_BG string - Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else
+#
+# @exitcode  0  Command tput exists
+# @exitcode  1  Command tput missing
+#
+# @stdout  Specified ncurses tput color code output
+nc_color_hex() {
+    local HEX="$1"
+    local FG_BG="$2"
+    local COLOR
+
+    COLOR="$(nc_color_from_hex "${HEX}")"
+
+    nc_color "${COLOR}" "${FG_BG}"
+    return $?
+}
+
 
 EXIT_ERR_MSG_ERROR="Error [%i]: %b\n"
 EXIT_ERR_MSG_COMMAND="Command failed: %b\n"

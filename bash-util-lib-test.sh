@@ -1074,6 +1074,102 @@ test_nc_color_from_hex_withColor() {
 }
 
 
+##########################
+# Function: nc_color_hex #
+##########################
+
+test_nc_color_hex_defaultFgBg() {
+    TEST_OUTPUT="$(nc_color_hex 'c7ff7c')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'nc_color_hex function not returning correct control sequence' \
+        "$(tput setaf 192)" \
+        "${TEST_OUTPUT}"
+}
+
+test_nc_color_hex_foreground() {
+    TEST_OUTPUT="$(nc_color_hex 'c7ff7c' '')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'nc_color_hex function not returning correct control sequence' \
+        "$(tput setaf 192)" \
+        "${TEST_OUTPUT}"
+
+    TEST_OUTPUT="$(nc_color_hex 'ffffff' 'f')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'nc_color_hex function not returning correct control sequence' \
+        "$(tput setaf 231)" \
+        "${TEST_OUTPUT}"
+
+    TEST_OUTPUT="$(nc_color_hex '000000' 'F')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'nc_color_hex function not returning correct control sequence' \
+        "$(tput setaf 14)" \
+        "${TEST_OUTPUT}"
+
+    TEST_OUTPUT="$(nc_color_hex 'ffffff' 'Foreground')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'nc_color_hex function not returning correct control sequence' \
+        "$(tput setaf 231)" \
+        "${TEST_OUTPUT}"
+}
+
+test_nc_color_hex_background() {
+    TEST_OUTPUT="$(nc_color_hex 'ffffff' 'b')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'nc_color_hex function not returning correct control sequence' \
+        "$(tput setab 231)" \
+        "${TEST_OUTPUT}"
+
+    TEST_OUTPUT="$(nc_color_hex '000000' 'B')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'nc_color_hex function not returning correct control sequence' \
+        "$(tput setab 14)" \
+        "${TEST_OUTPUT}"
+
+    TEST_OUTPUT="$(nc_color_hex 'ffffff' 'Background')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'nc_color_hex function not returning correct control sequence' \
+        "$(tput setab 231)" \
+        "${TEST_OUTPUT}"
+}
+
+test_nc_color_hex_envVarTurnedOff() {
+    setNC_USE false
+
+    TEST_OUTPUT="$(nc_color_hex 'ff7f7f')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertNull 'nc_color_hex function should not return output' "${TEST_OUTPUT}"
+
+    setNC_USE true
+}
+
+
 ######################
 # Function: exit_err #
 ######################
