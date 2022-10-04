@@ -488,6 +488,42 @@ Specified ncurses `tput` color code output
 ---
 
 
+### **`nc_color_from_hex`**
+
+Output ncurses color index integer from HEX
+
+#### Arguments
+
+| Name  | Type     | Description                                 |
+| ----- | :------: | ------------------------------------------- |
+| `HEX` | _string_ | HEX color code (RRGGBB) without number sign |
+
+#### Exit Codes
+
+| Code | Description            |
+| ---- | ---------------------- |
+| `0`  | HEX value provided     |
+| `1`  | HEX value not provided |
+
+#### Standard Out
+
+Specified ncurses color index integer
+
+> Example:
+>
+> ```bash
+> nc_color_from_hex ff0000
+> ```
+>
+> Output:
+>
+> ```bash
+> 196
+> ```
+
+---
+
+
 ### **`exit_err`**
 
 Output provided error message, optionally additional message, and exit with provided code

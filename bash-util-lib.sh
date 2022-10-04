@@ -256,6 +256,35 @@ nc_color() {
     return $?
 }
 
+# @description  Output ncurses color index code from HEX
+#
+# @arg  $HEX string - HEX color code (RRGGBB) without number sign
+#
+# @exitcode  0  HEX value provided
+# @exitcode  1  HEX value not provided
+#
+# @stdout  Specified ncurses color index code
+nc_color_from_hex() {
+    local HEX=${1#"#"}
+    local R G B RGB
+
+    if [[ -z "${HEX}" ]]; then
+        return 1
+    fi
+
+    R=$(printf '0x%0.2s' "${HEX}")
+    G=$(printf '0x%0.2s' "${HEX#??}")
+    B=$(printf '0x%0.2s' "${HEX#????}")
+
+    RGB="(R<75?0:(R-35)/40)*6*6"
+    RGB="${RGB} + (G<75?0:(G-35)/40)*6"
+    RGB="${RGB} + (B<75?0:(B-35)/40) + 16"
+    RGB="$(printf '%03d' "$(( RGB ))")"
+
+    printf '%i' "${RGB}"
+    return $?
+}
+
 
 EXIT_ERR_MSG_ERROR="Error [%i]: %b\n"
 EXIT_ERR_MSG_COMMAND="Command failed: %b\n"

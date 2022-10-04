@@ -1033,6 +1033,47 @@ test_nc_color_envVarTurnedOff() {
 }
 
 
+###############################
+# Function: nc_color_from_hex #
+###############################
+
+test_nc_color_from_hex_noHex() {
+    TEST_OUTPUT="$(nc_color_from_hex '')"
+    TEST_RETURN_CODE="$?"
+
+    assertFalse 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+}
+
+test_nc_color_from_hex_withColor() {
+    TEST_OUTPUT="$(nc_color_from_hex 'c7ff7c')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'nc_color_from_hex should return color index code' \
+        '192' \
+        "${TEST_OUTPUT}"
+
+    TEST_OUTPUT="$(nc_color_from_hex 'ffffff')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'nc_color_from_hex should return color index code' \
+        '231' \
+        "${TEST_OUTPUT}"
+
+    TEST_OUTPUT="$(nc_color_from_hex '000000')"
+    TEST_RETURN_CODE="$?"
+
+    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+
+    assertEquals 'nc_color_from_hex should return color index code' \
+        '14' \
+        "${TEST_OUTPUT}"
+}
+
+
 ######################
 # Function: exit_err #
 ######################
