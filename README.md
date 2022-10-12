@@ -447,6 +447,9 @@ Specified ncurses `tput` output
 | -------------- | --------------- | ------------------------------------------- |
 | `CMD_TPUT`     | `$(which tput)` | Path to `tput` command utility              |
 | `NC_USE`       | `true`          | Value as to whether to use ncurses commands |
+| `NC_BOLD`      | `$(nc bold)`    | ncurses command for text bold               |
+| `NC_UNDERLINE` | `$(nc sgr 0 1)` | ncurses command for text underline          |
+| `NC_RESET`     | `$(nc sgr0)`    | ncurses command for text reset              |
 
 ---
 

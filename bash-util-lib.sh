@@ -233,6 +233,10 @@ nc() {
     fi
 }
 
+NC_BOLD="$(nc bold)"
+NC_UNDERLINE="$(nc sgr 0 1)"
+NC_RESET="$(nc sgr0)"
+
 # @description  Output ncurses color code for foreground or background
 #
 # @arg  $COLOR string - ncurses color integer
