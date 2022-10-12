@@ -625,12 +625,12 @@ If provided, additional message **ADD_MSG** using the **EXIT_ERR_MSG_ADDITIONAL*
 
 #### Environment Variables
 
-| Variable                  | Default                | Description                                                   |
-| ------------------------- | ---------------------- | ------------------------------------------------------------- |
-| `EXIT_ERR_MSG_ERROR`      | `Error [%i]: %b\n`     | Variable to store `printf` style string for error message     |
-| `EXIT_ERR_MSG_COMMAND`    | `Command failed: %b\n` | Variable to store `printf` style string for command string    |
-| `EXIT_ERR_MSG_ADDITIONAL` | `%s\n`                 | Variable to store `printf` style string for additional string |
-| `UTIL_SCRIPT_CMD`         |                        | Variable to hold command string                               |
+| Variable                  | Default                                                                                            | Description                                                   |
+| ------------------------- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| `EXIT_ERR_MSG_ERROR`      | `${NC_RED}Error [${NC_BOLD}%i${NC_RESET}${NC_RED}]${NC_RESET}: ${NC_BOLD}${NC_RED}%b${NC_RESET}\n` | Variable to store `printf` style string for error message     |
+| `EXIT_ERR_MSG_COMMAND`    | `${NC_RED}Command failed${NC_RESET}: ${NC_BOLD}${NC_WHITE}%b${NC_RESET}\n`                         | Variable to store `printf` style string for command string    |
+| `EXIT_ERR_MSG_ADDITIONAL` | `%s\n`                                                                                             | Variable to store `printf` style string for additional string |
+| `UTIL_SCRIPT_CMD`         |                                                                                                    | Variable to hold command string                               |
 
 ---
 

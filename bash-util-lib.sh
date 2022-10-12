@@ -327,8 +327,8 @@ NC_CYAN_BG="$(nc_color_hex 00ffff b)"
 NC_WHITE_BG="$(nc_color_hex ffffff b)"
 
 
-EXIT_ERR_MSG_ERROR="Error [%i]: %b\n"
-EXIT_ERR_MSG_COMMAND="Command failed: %b\n"
+EXIT_ERR_MSG_ERROR="${NC_RED}Error [${NC_BOLD}%i${NC_RESET}${NC_RED}]${NC_RESET}: ${NC_BOLD}${NC_RED}%b${NC_RESET}\n"
+EXIT_ERR_MSG_COMMAND="${NC_RED}Command failed${NC_RESET}: ${NC_BOLD}${NC_WHITE}%b${NC_RESET}\n"
 EXIT_ERR_MSG_ADDITIONAL="%s\n"
 UTIL_SCRIPT_CMD=""
 
