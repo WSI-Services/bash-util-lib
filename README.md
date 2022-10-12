@@ -447,6 +447,9 @@ Specified ncurses `tput` output
 | -------------- | --------------- | ------------------------------------------- |
 | `CMD_TPUT`     | `$(which tput)` | Path to `tput` command utility              |
 | `NC_USE`       | `true`          | Value as to whether to use ncurses commands |
+| `NC_BOLD`      | `$(nc bold)`    | ncurses command for text bold               |
+| `NC_UNDERLINE` | `$(nc sgr 0 1)` | ncurses command for text underline          |
+| `NC_RESET`     | `$(nc sgr0)`    | ncurses command for text reset              |
 
 ---
 
@@ -557,6 +560,27 @@ Specified ncurses `tput` color code output
 > Message: Output Message
 > ```
 
+#### Environment Variables
+
+| Variable        | Default                    | Description                                       |
+| --------------- | -------------------------- | ------------------------------------------------- |
+| `NC_BLACK`      | `$(nc_color_hex 000000)`   | ncurses command for text color black foreground   |
+| `NC_RED`        | `$(nc_color_hex ff0000)`   | ncurses command for text color red foreground     |
+| `NC_GREEN`      | `$(nc_color_hex 00ff00)`   | ncurses command for text color green foreground   |
+| `NC_YELLOW`     | `$(nc_color_hex ffff00)`   | ncurses command for text color yellow foreground  |
+| `NC_BLUE`       | `$(nc_color_hex 0000ff)`   | ncurses command for text color blue foreground    |
+| `NC_MAGENTA`    | `$(nc_color_hex ff00ff)`   | ncurses command for text color magenta foreground |
+| `NC_CYAN`       | `$(nc_color_hex 00ffff)`   | ncurses command for text color cyan foreground    |
+| `NC_WHITE`      | `$(nc_color_hex ffffff)`   | ncurses command for text color white foreground   |
+| `NC_BLACK_BG`   | `$(nc_color_hex 000000 b)` | ncurses command for text color black background   |
+| `NC_RED_BG`     | `$(nc_color_hex ff0000 b)` | ncurses command for text color red background     |
+| `NC_GREEN_BG`   | `$(nc_color_hex 00ff00 b)` | ncurses command for text color green background   |
+| `NC_YELLOW_BG`  | `$(nc_color_hex ffff00 b)` | ncurses command for text color yellow background  |
+| `NC_BLUE_BG`    | `$(nc_color_hex 0000ff b)` | ncurses command for text color blue background    |
+| `NC_MAGENTA_BG` | `$(nc_color_hex ff00ff b)` | ncurses command for text color magenta background |
+| `NC_CYAN_BG`    | `$(nc_color_hex 00ffff b)` | ncurses command for text color cyan background    |
+| `NC_WHITE_BG`   | `$(nc_color_hex ffffff b)` | ncurses command for text color white background   |
+
 ---
 
 
@@ -601,12 +625,12 @@ If provided, additional message **ADD_MSG** using the **EXIT_ERR_MSG_ADDITIONAL*
 
 #### Environment Variables
 
-| Variable                  | Default                | Description                                                   |
-| ------------------------- | ---------------------- | ------------------------------------------------------------- |
-| `EXIT_ERR_MSG_ERROR`      | `Error [%i]: %b\n`     | Variable to store `printf` style string for error message     |
-| `EXIT_ERR_MSG_COMMAND`    | `Command failed: %b\n` | Variable to store `printf` style string for command string    |
-| `EXIT_ERR_MSG_ADDITIONAL` | `%s\n`                 | Variable to store `printf` style string for additional string |
-| `UTIL_SCRIPT_CMD`         |                        | Variable to hold command string                               |
+| Variable                  | Default                                                                                            | Description                                                   |
+| ------------------------- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| `EXIT_ERR_MSG_ERROR`      | `${NC_RED}Error [${NC_BOLD}%i${NC_RESET}${NC_RED}]${NC_RESET}: ${NC_BOLD}${NC_RED}%b${NC_RESET}\n` | Variable to store `printf` style string for error message     |
+| `EXIT_ERR_MSG_COMMAND`    | `${NC_RED}Command failed${NC_RESET}: ${NC_BOLD}${NC_WHITE}%b${NC_RESET}\n`                         | Variable to store `printf` style string for command string    |
+| `EXIT_ERR_MSG_ADDITIONAL` | `%s\n`                                                                                             | Variable to store `printf` style string for additional string |
+| `UTIL_SCRIPT_CMD`         |                                                                                                    | Variable to hold command string                               |
 
 ---
 
