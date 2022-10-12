@@ -560,6 +560,27 @@ Specified ncurses `tput` color code output
 > Message: Output Message
 > ```
 
+#### Environment Variables
+
+| Variable        | Default                    | Description                                       |
+| --------------- | -------------------------- | ------------------------------------------------- |
+| `NC_BLACK`      | `$(nc_color_hex 000000)`   | ncurses command for text color black foreground   |
+| `NC_RED`        | `$(nc_color_hex ff0000)`   | ncurses command for text color red foreground     |
+| `NC_GREEN`      | `$(nc_color_hex 00ff00)`   | ncurses command for text color green foreground   |
+| `NC_YELLOW`     | `$(nc_color_hex ffff00)`   | ncurses command for text color yellow foreground  |
+| `NC_BLUE`       | `$(nc_color_hex 0000ff)`   | ncurses command for text color blue foreground    |
+| `NC_MAGENTA`    | `$(nc_color_hex ff00ff)`   | ncurses command for text color magenta foreground |
+| `NC_CYAN`       | `$(nc_color_hex 00ffff)`   | ncurses command for text color cyan foreground    |
+| `NC_WHITE`      | `$(nc_color_hex ffffff)`   | ncurses command for text color white foreground   |
+| `NC_BLACK_BG`   | `$(nc_color_hex 000000 b)` | ncurses command for text color black background   |
+| `NC_RED_BG`     | `$(nc_color_hex ff0000 b)` | ncurses command for text color red background     |
+| `NC_GREEN_BG`   | `$(nc_color_hex 00ff00 b)` | ncurses command for text color green background   |
+| `NC_YELLOW_BG`  | `$(nc_color_hex ffff00 b)` | ncurses command for text color yellow background  |
+| `NC_BLUE_BG`    | `$(nc_color_hex 0000ff b)` | ncurses command for text color blue background    |
+| `NC_MAGENTA_BG` | `$(nc_color_hex ff00ff b)` | ncurses command for text color magenta background |
+| `NC_CYAN_BG`    | `$(nc_color_hex 00ffff b)` | ncurses command for text color cyan background    |
+| `NC_WHITE_BG`   | `$(nc_color_hex ffffff b)` | ncurses command for text color white background   |
+
 ---
 
 

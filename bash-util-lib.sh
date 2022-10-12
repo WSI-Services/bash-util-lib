@@ -309,6 +309,23 @@ nc_color_hex() {
     return $?
 }
 
+NC_BLACK="$(nc_color_hex 000000)"
+NC_RED="$(nc_color_hex ff0000)"
+NC_GREEN="$(nc_color_hex 00ff00)"
+NC_YELLOW="$(nc_color_hex ffff00)"
+NC_BLUE="$(nc_color_hex 0000ff)"
+NC_MAGENTA="$(nc_color_hex ff00ff)"
+NC_CYAN="$(nc_color_hex 00ffff)"
+NC_WHITE="$(nc_color_hex ffffff)"
+NC_BLACK_BG="$(nc_color_hex 000000 b)"
+NC_RED_BG="$(nc_color_hex ff0000 b)"
+NC_GREEN_BG="$(nc_color_hex 00ff00 b)"
+NC_YELLOW_BG="$(nc_color_hex ffff00 b)"
+NC_BLUE_BG="$(nc_color_hex 0000ff b)"
+NC_MAGENTA_BG="$(nc_color_hex ff00ff b)"
+NC_CYAN_BG="$(nc_color_hex 00ffff b)"
+NC_WHITE_BG="$(nc_color_hex ffffff b)"
+
 
 EXIT_ERR_MSG_ERROR="Error [%i]: %b\n"
 EXIT_ERR_MSG_COMMAND="Command failed: %b\n"
