@@ -111,8 +111,8 @@ test_es_color_foreground() {
         "$(printf "\033[38;5;1m")" \
         "${TEST_OUTPUT}"
 
-    OUTPUT="$(es_color '1' 'f')"
-    CODE="$?"
+    TEST_OUTPUT="$(es_color '1' 'f')"
+    TEST_RETURN_CODE="$?"
 
     assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
 
@@ -120,8 +120,8 @@ test_es_color_foreground() {
         "$(printf "\033[38;5;1m")" \
         "${TEST_OUTPUT}"
 
-    OUTPUT="$(es_color '1' 'F')"
-    CODE="$?"
+    TEST_OUTPUT="$(es_color '1' 'F')"
+    TEST_RETURN_CODE="$?"
 
     assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
 
@@ -129,8 +129,8 @@ test_es_color_foreground() {
         "$(printf "\033[38;5;1m")" \
         "${TEST_OUTPUT}"
 
-    OUTPUT="$(es_color '1' 'Foreground')"
-    CODE="$?"
+    TEST_OUTPUT="$(es_color '1' 'Foreground')"
+    TEST_RETURN_CODE="$?"
 
     assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
 
@@ -149,8 +149,8 @@ test_es_color_background() {
         "$(printf "\033[48;5;1m")" \
         "${TEST_OUTPUT}"
 
-    OUTPUT="$(es_color '1' 'B')"
-    CODE="$?"
+    TEST_OUTPUT="$(es_color '1' 'B')"
+    TEST_RETURN_CODE="$?"
 
     assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
 
@@ -158,8 +158,8 @@ test_es_color_background() {
         "$(printf "\033[48;5;1m")" \
         "${TEST_OUTPUT}"
 
-    OUTPUT="$(es_color '1' 'Background')"
-    CODE="$?"
+    TEST_OUTPUT="$(es_color '1' 'Background')"
+    TEST_RETURN_CODE="$?"
 
     assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
 
@@ -207,8 +207,8 @@ test_es_color_rgb_foreground() {
         "$(printf "\033[38;2;255;127;127m")" \
         "${TEST_OUTPUT}"
 
-    OUTPUT="$(es_color_rgb '255' '127' '127' 'f')"
-    CODE="$?"
+    TEST_OUTPUT="$(es_color_rgb '255' '127' '127' 'f')"
+    TEST_RETURN_CODE="$?"
 
     assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
 
@@ -216,8 +216,8 @@ test_es_color_rgb_foreground() {
         "$(printf "\033[38;2;255;127;127m")" \
         "${TEST_OUTPUT}"
 
-    OUTPUT="$(es_color_rgb '255' '127' '127' 'F')"
-    CODE="$?"
+    TEST_OUTPUT="$(es_color_rgb '255' '127' '127' 'F')"
+    TEST_RETURN_CODE="$?"
 
     assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
 
@@ -225,8 +225,8 @@ test_es_color_rgb_foreground() {
         "$(printf "\033[38;2;255;127;127m")" \
         "${TEST_OUTPUT}"
 
-    OUTPUT="$(es_color_rgb '255' '127' '127' 'Foreground')"
-    CODE="$?"
+    TEST_OUTPUT="$(es_color_rgb '255' '127' '127' 'Foreground')"
+    TEST_RETURN_CODE="$?"
 
     assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
 
@@ -245,8 +245,8 @@ test_es_color_rgb_background() {
         "$(printf "\033[48;2;255;127;127m")" \
         "${TEST_OUTPUT}"
 
-    OUTPUT="$(es_color_rgb '255' '127' '127' 'B')"
-    CODE="$?"
+    TEST_OUTPUT="$(es_color_rgb '255' '127' '127' 'B')"
+    TEST_RETURN_CODE="$?"
 
     assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
 
@@ -254,8 +254,8 @@ test_es_color_rgb_background() {
         "$(printf "\033[48;2;255;127;127m")" \
         "${TEST_OUTPUT}"
 
-    OUTPUT="$(es_color_rgb '255' '127' '127' 'Background')"
-    CODE="$?"
+    TEST_OUTPUT="$(es_color_rgb '255' '127' '127' 'Background')"
+    TEST_RETURN_CODE="$?"
 
     assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
 
@@ -303,8 +303,8 @@ test_es_color_hex_foreground() {
         "$(printf "\033[38;2;255;127;127m")" \
         "${TEST_OUTPUT}"
 
-    OUTPUT="$(es_color_hex 'ff7f7f' 'f')"
-    CODE="$?"
+    TEST_OUTPUT="$(es_color_hex 'ff7f7f' 'f')"
+    TEST_RETURN_CODE="$?"
 
     assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
 
@@ -312,8 +312,8 @@ test_es_color_hex_foreground() {
         "$(printf "\033[38;2;255;127;127m")" \
         "${TEST_OUTPUT}"
 
-    OUTPUT="$(es_color_hex 'ff7f7f' 'F')"
-    CODE="$?"
+    TEST_OUTPUT="$(es_color_hex 'ff7f7f' 'F')"
+    TEST_RETURN_CODE="$?"
 
     assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
 
@@ -321,8 +321,8 @@ test_es_color_hex_foreground() {
         "$(printf "\033[38;2;255;127;127m")" \
         "${TEST_OUTPUT}"
 
-    OUTPUT="$(es_color_hex 'ff7f7f' 'Foreground')"
-    CODE="$?"
+    TEST_OUTPUT="$(es_color_hex 'ff7f7f' 'Foreground')"
+    TEST_RETURN_CODE="$?"
 
     assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
 
@@ -341,8 +341,8 @@ test_es_color_hex_background() {
         "$(printf "\033[48;2;255;127;127m")" \
         "${TEST_OUTPUT}"
 
-    OUTPUT="$(es_color_hex 'ff7f7f' 'B')"
-    CODE="$?"
+    TEST_OUTPUT="$(es_color_hex 'ff7f7f' 'B')"
+    TEST_RETURN_CODE="$?"
 
     assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
 
@@ -350,8 +350,8 @@ test_es_color_hex_background() {
         "$(printf "\033[48;2;255;127;127m")" \
         "${TEST_OUTPUT}"
 
-    OUTPUT="$(es_color_hex 'ff7f7f' 'Background')"
-    CODE="$?"
+    TEST_OUTPUT="$(es_color_hex 'ff7f7f' 'Background')"
+    TEST_RETURN_CODE="$?"
 
     assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
 
@@ -399,8 +399,8 @@ test_es_attrib_reset() {
         "$(printf "\033[0m")" \
         "${TEST_OUTPUT}"
 
-    OUTPUT="$(es_attrib 0)"
-    CODE="$?"
+    TEST_OUTPUT="$(es_attrib 0)"
+    TEST_RETURN_CODE="$?"
 
     assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
 
@@ -408,8 +408,8 @@ test_es_attrib_reset() {
         "$(printf "\033[0m")" \
         "${TEST_OUTPUT}"
 
-    OUTPUT="$(es_attrib 'anything')"
-    CODE="$?"
+    TEST_OUTPUT="$(es_attrib 'anything')"
+    TEST_RETURN_CODE="$?"
 
     assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
 
@@ -428,8 +428,8 @@ test_es_attrib_bold() {
         "$(printf "\033[1m")" \
         "${TEST_OUTPUT}"
 
-    OUTPUT="$(es_attrib 1)"
-    CODE="$?"
+    TEST_OUTPUT="$(es_attrib 1)"
+    TEST_RETURN_CODE="$?"
 
     assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
 
@@ -448,8 +448,8 @@ test_es_attrib_faint() {
         "$(printf "\033[2m")" \
         "${TEST_OUTPUT}"
 
-    OUTPUT="$(es_attrib 2)"
-    CODE="$?"
+    TEST_OUTPUT="$(es_attrib 2)"
+    TEST_RETURN_CODE="$?"
 
     assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
 
@@ -468,8 +468,8 @@ test_es_attrib_italic() {
         "$(printf "\033[3m")" \
         "${TEST_OUTPUT}"
 
-    OUTPUT="$(es_attrib 3)"
-    CODE="$?"
+    TEST_OUTPUT="$(es_attrib 3)"
+    TEST_RETURN_CODE="$?"
 
     assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
 
@@ -488,8 +488,8 @@ test_es_attrib_underline() {
         "$(printf "\033[4m")" \
         "${TEST_OUTPUT}"
 
-    OUTPUT="$(es_attrib 4)"
-    CODE="$?"
+    TEST_OUTPUT="$(es_attrib 4)"
+    TEST_RETURN_CODE="$?"
 
     assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
 
@@ -508,8 +508,8 @@ test_es_attrib_blink() {
         "$(printf "\033[5m")" \
         "${TEST_OUTPUT}"
 
-    OUTPUT="$(es_attrib 5)"
-    CODE="$?"
+    TEST_OUTPUT="$(es_attrib 5)"
+    TEST_RETURN_CODE="$?"
 
     assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
 
@@ -517,8 +517,8 @@ test_es_attrib_blink() {
         "$(printf "\033[5m")" \
         "${TEST_OUTPUT}"
 
-    OUTPUT="$(es_attrib 6)"
-    CODE="$?"
+    TEST_OUTPUT="$(es_attrib 6)"
+    TEST_RETURN_CODE="$?"
 
     assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
 
@@ -537,8 +537,8 @@ test_es_attrib_swap() {
         "$(printf "\033[7m")" \
         "${TEST_OUTPUT}"
 
-    OUTPUT="$(es_attrib 7)"
-    CODE="$?"
+    TEST_OUTPUT="$(es_attrib 7)"
+    TEST_RETURN_CODE="$?"
 
     assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
 
@@ -557,8 +557,8 @@ test_es_attrib_hidden() {
         "$(printf "\033[8m")" \
         "${TEST_OUTPUT}"
 
-    OUTPUT="$(es_attrib 8)"
-    CODE="$?"
+    TEST_OUTPUT="$(es_attrib 8)"
+    TEST_RETURN_CODE="$?"
 
     assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
 
@@ -577,8 +577,8 @@ test_es_attrib_strike() {
         "$(printf "\033[9m")" \
         "${TEST_OUTPUT}"
 
-    OUTPUT="$(es_attrib 9)"
-    CODE="$?"
+    TEST_OUTPUT="$(es_attrib 9)"
+    TEST_RETURN_CODE="$?"
 
     assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
 
@@ -626,8 +626,8 @@ test_es_erase_clear() {
         "$(printf "\033[2J")" \
         "${TEST_OUTPUT}"
 
-    OUTPUT="$(es_erase 'anything')"
-    CODE="$?"
+    TEST_OUTPUT="$(es_erase 'anything')"
+    TEST_RETURN_CODE="$?"
 
     assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
 
@@ -730,8 +730,8 @@ test_es_cursor_home() {
         "$(printf "\033[H")" \
         "${TEST_OUTPUT}"
 
-    OUTPUT="$(es_cursor 'anything')"
-    CODE="$?"
+    TEST_OUTPUT="$(es_cursor 'anything')"
+    TEST_RETURN_CODE="$?"
 
     assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
 
