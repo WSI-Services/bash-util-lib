@@ -1,0 +1,210 @@
+#!/usr/bin/env bash
+# file: shunit2.assert.command.sh
+
+COMMAND_TEST_OUTPUT=''
+COMMAND_TEST_RETURN=''
+
+commandTest() {
+    local COMMAND="$1"
+
+    COMMAND_TEST_OUTPUT="$(eval ${COMMAND})"
+    COMMAND_TEST_RETURN="$?"
+}
+
+assertCommandReturnEquals() {
+    local MESSAGE EXPECTED
+    ${_SHUNIT_LINENO_}
+    if command [ $# -lt 1 -o $# -gt 2 ]; then
+        _shunit_error "assertCommandReturnEquals() requires one or two arguments; $# given"
+        _shunit_assertFail
+        return ${SHUNIT_ERROR}
+    fi
+
+    if command [ $# -eq 2 ];then
+        MESSAGE="$1"
+        shift
+    fi
+    EXPECTED="$1"
+
+    assertEquals \
+        "${MESSAGE:-Command Test return code did not capture expected code}" \
+        "${EXPECTED}" \
+        "${COMMAND_TEST_RETURN}"
+}
+
+assertCommandReturnNotEquals() {
+    local MESSAGE EXPECTED
+    ${_SHUNIT_LINENO_}
+    if command [ $# -lt 1 -o $# -gt 2 ]; then
+        _shunit_error "assertCommandReturnNotEquals() requires one or two arguments; $# given"
+        _shunit_assertFail
+        return ${SHUNIT_ERROR}
+    fi
+
+    if command [ $# -eq 2 ];then
+        MESSAGE="$1"
+        shift
+    fi
+    EXPECTED="$1"
+
+    assertNotEquals \
+        "${MESSAGE:-Command Test return code captured unexpected code}" \
+        "${EXPECTED}" \
+        "${COMMAND_TEST_RETURN}"
+}
+
+assertCommandReturnTrue() {
+    local MESSAGE
+    ${_SHUNIT_LINENO_}
+    if command [ $# -gt 1 ]; then
+        _shunit_error "assertCommandReturnTrue() requires zero or one argument; $# given"
+        _shunit_assertFail
+        return ${SHUNIT_ERROR}
+    fi
+
+    if command [ $# -eq 1 ];then
+        MESSAGE="$1"
+    fi
+
+    assertTrue \
+        "${MESSAGE:-Command Test return code did not capture true code}" \
+        "${COMMAND_TEST_RETURN}"
+}
+
+assertCommandReturnFalse() {
+    local MESSAGE
+    ${_SHUNIT_LINENO_}
+    if command [ $# -gt 1 ]; then
+        _shunit_error "assertCommandReturnFalse() requires zero or one argument; $# given"
+        _shunit_assertFail
+        return ${SHUNIT_ERROR}
+    fi
+
+    if command [ $# -eq 1 ];then
+        MESSAGE="$1"
+    fi
+
+    assertFalse \
+        "${MESSAGE:-Command Test return code did not capture false code}" \
+        "${COMMAND_TEST_RETURN}"
+}
+
+assertCommandOutputEquals() {
+    local MESSAGE EXPECTED
+    ${_SHUNIT_LINENO_}
+    if command [ $# -lt 1 -o $# -gt 2 ]; then
+        _shunit_error "assertCommandOutputEquals() requires one or two arguments; $# given"
+        _shunit_assertFail
+        return ${SHUNIT_ERROR}
+    fi
+
+    if command [ $# -eq 2 ];then
+        MESSAGE="$1"
+        shift
+    fi
+    EXPECTED="$1"
+
+    assertEquals \
+        "${MESSAGE:-Command Test did not capture expected output string}" \
+        "${EXPECTED}" \
+        "${COMMAND_TEST_OUTPUT}"
+}
+
+assertCommandOutputNotEquals() {
+    local MESSAGE EXPECTED
+    ${_SHUNIT_LINENO_}
+    if command [ $# -lt 1 -o $# -gt 2 ]; then
+        _shunit_error "assertCommandOutputNotEquals() requires one or two arguments; $# given"
+        _shunit_assertFail
+        return ${SHUNIT_ERROR}
+    fi
+
+    if command [ $# -eq 2 ];then
+        MESSAGE="$1"
+        shift
+    fi
+    EXPECTED="$1"
+
+    assertNotEquals \
+        "${MESSAGE:-Command Test captured unexpected output string}" \
+        "${EXPECTED}" \
+        "${COMMAND_TEST_OUTPUT}"
+}
+
+assertCommandOutputContains() {
+    local MESSAGE CONTAINS
+    ${_SHUNIT_LINENO_}
+    if command [ $# -lt 1 -o $# -gt 2 ]; then
+        _shunit_error "assertCommandOutputContains() requires one or two arguments; $# given"
+        _shunit_assertFail
+        return ${SHUNIT_ERROR}
+    fi
+
+    if command [ $# -eq 2 ];then
+        MESSAGE="$1"
+        shift
+    fi
+    CONTAINS="$1"
+
+    assertContains \
+        "${MESSAGE:-Command Test did not capture expected output string}" \
+        "${COMMAND_TEST_OUTPUT}" \
+        "${CONTAINS}"
+}
+
+assertCommandOutputNotContains() {
+    local MESSAGE CONTAINS
+    ${_SHUNIT_LINENO_}
+    if command [ $# -lt 1 -o $# -gt 2 ]; then
+        _shunit_error "assertCommandOutputNotContains() requires one or two arguments; $# given"
+        _shunit_assertFail
+        return ${SHUNIT_ERROR}
+    fi
+
+    if command [ $# -eq 2 ];then
+        MESSAGE="$1"
+        shift
+    fi
+    CONTAINS="$1"
+
+    assertNotContains \
+        "${MESSAGE:-Command Test captured unexpected output string}" \
+        "${COMMAND_TEST_OUTPUT}" \
+        "${CONTAINS}"
+}
+
+assertCommandOutputNull() {
+    local MESSAGE
+    ${_SHUNIT_LINENO_}
+    if command [ $# -gt 1 ]; then
+        _shunit_error "assertCommandOutputNull() requires zero or one argument; $# given"
+        _shunit_assertFail
+        return ${SHUNIT_ERROR}
+    fi
+
+    if command [ $# -eq 1 ];then
+        MESSAGE="$1"
+    fi
+
+    assertNull \
+        "${MESSAGE:-Command Test did not capture expected empty string}" \
+        "${COMMAND_TEST_OUTPUT}"
+}
+
+assertCommandOutputNotNull() {
+    local MESSAGE
+    ${_SHUNIT_LINENO_}
+    if command [ $# -gt 1 ]; then
+        _shunit_error "assertCommandOutputNotNull() requires zero or one argument; $# given"
+        _shunit_assertFail
+        return ${SHUNIT_ERROR}
+    fi
+
+    if command [ $# -eq 1 ];then
+        MESSAGE="$1"
+    fi
+
+    assertNotNull \
+        "${MESSAGE:-Command Test captured unexpected empty string}" \
+        "${COMMAND_TEST_OUTPUT}"
+}
