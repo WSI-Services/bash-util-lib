@@ -4,6 +4,8 @@
 # shellcheck source=bash-util-lib.sh
 . ./bash-util-lib.sh
 
+. ./shunit2.assert.command-test
+
 ###########
 # Helpers #
 ###########
@@ -62,25 +64,22 @@ test_es_envVarTurnedOnByDefault() {
 }
 
 test_es_controlCode() {
-    TEST_OUTPUT="$(es '38;5;1m')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es '38;5;1m'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es function not returning correct control sequence' \
-        "$(printf "\033[38;5;1m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es function not returning correct control sequence' \
+        "$(printf "\033[38;5;1m")"
 }
 
 test_es_envVarTurnedOff() {
     setES_USE false
 
-    TEST_OUTPUT="$(es '38;5;1m')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es '38;5;1m'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertNull 'es function should not return output' "${TEST_OUTPUT}"
+    assertCommandOutputNull 'es function should not return output'
 
     setES_USE true
 }
@@ -91,92 +90,75 @@ test_es_envVarTurnedOff() {
 ######################
 
 test_es_color_defaultFgBg() {
-    TEST_OUTPUT="$(es_color '1')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_color '1'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_color function not returning correct control sequence' \
-        "$(printf "\033[38;5;1m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_color function not returning correct control sequence' \
+        "$(printf "\033[38;5;1m")"
 }
 
 test_es_color_foreground() {
-    TEST_OUTPUT="$(es_color '1' '')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_color '1' ''"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_color function not returning correct control sequence' \
-        "$(printf "\033[38;5;1m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_color function not returning correct control sequence' \
+        "$(printf "\033[38;5;1m")"
 
-    OUTPUT="$(es_color '1' 'f')"
-    CODE="$?"
+    commandTest "es_color '1' 'f'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_color function not returning correct control sequence' \
-        "$(printf "\033[38;5;1m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_color function not returning correct control sequence' \
+        "$(printf "\033[38;5;1m")"
 
-    OUTPUT="$(es_color '1' 'F')"
-    CODE="$?"
+    commandTest "es_color '1' 'F'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_color function not returning correct control sequence' \
-        "$(printf "\033[38;5;1m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_color function not returning correct control sequence' \
+        "$(printf "\033[38;5;1m")"
 
-    OUTPUT="$(es_color '1' 'Foreground')"
-    CODE="$?"
+    commandTest "es_color '1' 'Foreground'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_color function not returning correct control sequence' \
-        "$(printf "\033[38;5;1m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_color function not returning correct control sequence' \
+        "$(printf "\033[38;5;1m")"
 }
 
 test_es_color_background() {
-    TEST_OUTPUT="$(es_color '1' 'b')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_color '1' 'b'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_color function not returning correct control sequence' \
-        "$(printf "\033[48;5;1m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_color function not returning correct control sequence' \
+        "$(printf "\033[48;5;1m")"
 
-    OUTPUT="$(es_color '1' 'B')"
-    CODE="$?"
+    commandTest "es_color '1' 'B'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_color function not returning correct control sequence' \
-        "$(printf "\033[48;5;1m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_color function not returning correct control sequence' \
+        "$(printf "\033[48;5;1m")"
 
-    OUTPUT="$(es_color '1' 'Background')"
-    CODE="$?"
+    commandTest "es_color '1' 'Background'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_color function not returning correct control sequence' \
-        "$(printf "\033[48;5;1m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_color function not returning correct control sequence' \
+        "$(printf "\033[48;5;1m")"
 }
 
 test_es_color_envVarTurnedOff() {
     setES_USE false
 
-    TEST_OUTPUT="$(es_color '1')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_color '1'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertNull 'es_color function should not return output' "${TEST_OUTPUT}"
+    assertCommandOutputNull 'es_color function should not return output'
 
     setES_USE true
 }
@@ -187,92 +169,75 @@ test_es_color_envVarTurnedOff() {
 ##########################
 
 test_es_color_rgb_defaultFgBg() {
-    TEST_OUTPUT="$(es_color_rgb '255' '127' '127')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_color_rgb '255' '127' '127'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_color_rgb function not returning correct control sequence' \
-        "$(printf "\033[38;2;255;127;127m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
+        "$(printf "\033[38;2;255;127;127m")"
 }
 
 test_es_color_rgb_foreground() {
-    TEST_OUTPUT="$(es_color_rgb '255' '127' '127' '')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_color_rgb '255' '127' '127' ''"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_color_rgb function not returning correct control sequence' \
-        "$(printf "\033[38;2;255;127;127m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
+        "$(printf "\033[38;2;255;127;127m")"
 
-    OUTPUT="$(es_color_rgb '255' '127' '127' 'f')"
-    CODE="$?"
+    commandTest "es_color_rgb '255' '127' '127' 'f'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_color_rgb function not returning correct control sequence' \
-        "$(printf "\033[38;2;255;127;127m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
+        "$(printf "\033[38;2;255;127;127m")"
 
-    OUTPUT="$(es_color_rgb '255' '127' '127' 'F')"
-    CODE="$?"
+    commandTest "es_color_rgb '255' '127' '127' 'F'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_color_rgb function not returning correct control sequence' \
-        "$(printf "\033[38;2;255;127;127m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
+        "$(printf "\033[38;2;255;127;127m")"
 
-    OUTPUT="$(es_color_rgb '255' '127' '127' 'Foreground')"
-    CODE="$?"
+    commandTest "es_color_rgb '255' '127' '127' 'Foreground'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_color_rgb function not returning correct control sequence' \
-        "$(printf "\033[38;2;255;127;127m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
+        "$(printf "\033[38;2;255;127;127m")"
 }
 
 test_es_color_rgb_background() {
-    TEST_OUTPUT="$(es_color_rgb '255' '127' '127' 'b')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_color_rgb '255' '127' '127' 'b'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_color_rgb function not returning correct control sequence' \
-        "$(printf "\033[48;2;255;127;127m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
+        "$(printf "\033[48;2;255;127;127m")"
 
-    OUTPUT="$(es_color_rgb '255' '127' '127' 'B')"
-    CODE="$?"
+    commandTest "es_color_rgb '255' '127' '127' 'B'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_color_rgb function not returning correct control sequence' \
-        "$(printf "\033[48;2;255;127;127m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
+        "$(printf "\033[48;2;255;127;127m")"
 
-    OUTPUT="$(es_color_rgb '255' '127' '127' 'Background')"
-    CODE="$?"
+    commandTest "es_color_rgb '255' '127' '127' 'Background'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_color_rgb function not returning correct control sequence' \
-        "$(printf "\033[48;2;255;127;127m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
+        "$(printf "\033[48;2;255;127;127m")"
 }
 
 test_es_color_rgb_envVarTurnedOff() {
     setES_USE false
 
-    TEST_OUTPUT="$(es_color_rgb '255' '127' '127')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_color_rgb '255' '127' '127'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertNull 'es_color_rgb function should not return output' "${TEST_OUTPUT}"
+    assertCommandOutputNull 'es_color_rgb function should not return output'
 
     setES_USE true
 }
@@ -283,92 +248,75 @@ test_es_color_rgb_envVarTurnedOff() {
 ##########################
 
 test_es_color_hex_defaultFgBg() {
-    TEST_OUTPUT="$(es_color_hex 'ff7f7f')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_color_hex 'ff7f7f'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_color_hex function not returning correct control sequence' \
-        "$(printf "\033[38;2;255;127;127m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
+        "$(printf "\033[38;2;255;127;127m")"
 }
 
 test_es_color_hex_foreground() {
-    TEST_OUTPUT="$(es_color_hex 'ff7f7f' '')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_color_hex 'ff7f7f' ''"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_color_hex function not returning correct control sequence' \
-        "$(printf "\033[38;2;255;127;127m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
+        "$(printf "\033[38;2;255;127;127m")"
 
-    OUTPUT="$(es_color_hex 'ff7f7f' 'f')"
-    CODE="$?"
+    commandTest "es_color_hex 'ff7f7f' 'f'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_color_hex function not returning correct control sequence' \
-        "$(printf "\033[38;2;255;127;127m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
+        "$(printf "\033[38;2;255;127;127m")"
 
-    OUTPUT="$(es_color_hex 'ff7f7f' 'F')"
-    CODE="$?"
+    commandTest "es_color_hex 'ff7f7f' 'F'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_color_hex function not returning correct control sequence' \
-        "$(printf "\033[38;2;255;127;127m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
+        "$(printf "\033[38;2;255;127;127m")"
 
-    OUTPUT="$(es_color_hex 'ff7f7f' 'Foreground')"
-    CODE="$?"
+    commandTest "es_color_hex 'ff7f7f' 'Foreground'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_color_hex function not returning correct control sequence' \
-        "$(printf "\033[38;2;255;127;127m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
+        "$(printf "\033[38;2;255;127;127m")"
 }
 
 test_es_color_hex_background() {
-    TEST_OUTPUT="$(es_color_hex 'ff7f7f' 'b')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_color_hex 'ff7f7f' 'b'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_color_hex function not returning correct control sequence' \
-        "$(printf "\033[48;2;255;127;127m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
+        "$(printf "\033[48;2;255;127;127m")"
 
-    OUTPUT="$(es_color_hex 'ff7f7f' 'B')"
-    CODE="$?"
+    commandTest "es_color_hex 'ff7f7f' 'B'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_color_hex function not returning correct control sequence' \
-        "$(printf "\033[48;2;255;127;127m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
+        "$(printf "\033[48;2;255;127;127m")"
 
-    OUTPUT="$(es_color_hex 'ff7f7f' 'Background')"
-    CODE="$?"
+    commandTest "es_color_hex 'ff7f7f' 'Background'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_color_hex function not returning correct control sequence' \
-        "$(printf "\033[48;2;255;127;127m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
+        "$(printf "\033[48;2;255;127;127m")"
 }
 
 test_es_color_hex_envVarTurnedOff() {
     setES_USE false
 
-    TEST_OUTPUT="$(es_color_hex 'ff7f7f')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_color_hex 'ff7f7f'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertNull 'es_color_hex function should not return output' "${TEST_OUTPUT}"
+    assertCommandOutputNull 'es_color_hex function should not return output'
 
     setES_USE true
 }
@@ -379,223 +327,180 @@ test_es_color_hex_envVarTurnedOff() {
 #######################
 
 test_es_attrib_defaultCode() {
-    TEST_OUTPUT="$(es_attrib)"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_attrib"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[0m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[0m")"
 }
 
 test_es_attrib_reset() {
-    TEST_OUTPUT="$(es_attrib 'reset')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_attrib 'reset'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[0m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[0m")"
 
-    OUTPUT="$(es_attrib 0)"
-    CODE="$?"
+    commandTest "es_attrib 0"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[0m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[0m")"
 
-    OUTPUT="$(es_attrib 'anything')"
-    CODE="$?"
+    commandTest "es_attrib 'anything'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[0m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[0m")"
 }
 
 test_es_attrib_bold() {
-    TEST_OUTPUT="$(es_attrib 'bold')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_attrib 'bold'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[1m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[1m")"
 
-    OUTPUT="$(es_attrib 1)"
-    CODE="$?"
+    commandTest "es_attrib 1"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[1m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[1m")"
 }
 
 test_es_attrib_faint() {
-    TEST_OUTPUT="$(es_attrib 'faint')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_attrib 'faint'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[2m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[2m")"
 
-    OUTPUT="$(es_attrib 2)"
-    CODE="$?"
+    commandTest "es_attrib 2"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[2m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[2m")"
 }
 
 test_es_attrib_italic() {
-    TEST_OUTPUT="$(es_attrib 'italic')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_attrib 'italic'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[3m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[3m")"
 
-    OUTPUT="$(es_attrib 3)"
-    CODE="$?"
+    commandTest "es_attrib 3"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[3m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[3m")"
 }
 
 test_es_attrib_underline() {
-    TEST_OUTPUT="$(es_attrib 'underline')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_attrib 'underline'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[4m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[4m")"
 
-    OUTPUT="$(es_attrib 4)"
-    CODE="$?"
+    commandTest "es_attrib 4"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[4m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[4m")"
 }
 
 test_es_attrib_blink() {
-    TEST_OUTPUT="$(es_attrib 'blink')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_attrib 'blink'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[5m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[5m")"
 
-    OUTPUT="$(es_attrib 5)"
-    CODE="$?"
+    commandTest "es_attrib 5"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[5m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[5m")"
 
-    OUTPUT="$(es_attrib 6)"
-    CODE="$?"
+    commandTest "es_attrib 6"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[5m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[5m")"
 }
 
 test_es_attrib_swap() {
-    TEST_OUTPUT="$(es_attrib 'swap')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_attrib 'swap'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[7m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[7m")"
 
-    OUTPUT="$(es_attrib 7)"
-    CODE="$?"
+    commandTest "es_attrib 7"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[7m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[7m")"
 }
 
 test_es_attrib_hidden() {
-    TEST_OUTPUT="$(es_attrib 'hidden')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_attrib 'hidden'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[8m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[8m")"
 
-    OUTPUT="$(es_attrib 8)"
-    CODE="$?"
+    commandTest "es_attrib 8"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[8m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[8m")"
 }
 
 test_es_attrib_strike() {
-    TEST_OUTPUT="$(es_attrib 'strike')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_attrib 'strike'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[9m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[9m")"
 
-    OUTPUT="$(es_attrib 9)"
-    CODE="$?"
+    commandTest "es_attrib 9"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[9m")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\033[9m")"
 }
 
 test_es_attrib_envVarTurnedOff() {
     setES_USE false
 
-    TEST_OUTPUT="$(es_attrib 'clear')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_attrib 'clear'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertNull 'es_attrib function should not return output' "${TEST_OUTPUT}"
+    assertCommandOutputNull 'es_attrib function should not return output'
 
     setES_USE true
 }
@@ -606,100 +511,83 @@ test_es_attrib_envVarTurnedOff() {
 ######################
 
 test_es_erase_defaultCode() {
-    TEST_OUTPUT="$(es_erase)"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_erase"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_erase function not returning correct control sequence' \
-        "$(printf "\033[2J")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_erase function not returning correct control sequence' \
+        "$(printf "\033[2J")"
 }
 
 test_es_erase_clear() {
-    TEST_OUTPUT="$(es_erase 'clear')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_erase 'clear'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_erase function not returning correct control sequence' \
-        "$(printf "\033[2J")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_erase function not returning correct control sequence' \
+        "$(printf "\033[2J")"
 
-    OUTPUT="$(es_erase 'anything')"
-    CODE="$?"
+    commandTest "es_erase 'anything'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_erase function not returning correct control sequence' \
-        "$(printf "\033[2J")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_erase function not returning correct control sequence' \
+        "$(printf "\033[2J")"
 }
 
 test_es_erase_top() {
-    TEST_OUTPUT="$(es_erase 'top')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_erase 'top'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_erase function not returning correct control sequence' \
-        "$(printf "\033[1J")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_erase function not returning correct control sequence' \
+        "$(printf "\033[1J")"
 }
 
 test_es_erase_bottom() {
-    TEST_OUTPUT="$(es_erase 'bottom')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_erase 'bottom'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_erase function not returning correct control sequence' \
-        "$(printf "\033[0J")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_erase function not returning correct control sequence' \
+        "$(printf "\033[0J")"
 }
 
 test_es_erase_cur() {
-    TEST_OUTPUT="$(es_erase 'cur')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_erase 'cur'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_erase function not returning correct control sequence' \
-        "$(printf "\033[2K")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_erase function not returning correct control sequence' \
+        "$(printf "\033[2K")"
 }
 
 test_es_erase_sol() {
-    TEST_OUTPUT="$(es_erase 'sol')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_erase 'sol'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_erase function not returning correct control sequence' \
-        "$(printf "\033[1K")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_erase function not returning correct control sequence' \
+        "$(printf "\033[1K")"
 }
 
 test_es_erase_eol() {
-    TEST_OUTPUT="$(es_erase 'eol')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_erase 'eol'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_erase function not returning correct control sequence' \
-        "$(printf "\033[0K")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_erase function not returning correct control sequence' \
+        "$(printf "\033[0K")"
 }
 
 test_es_erase_envVarTurnedOff() {
     setES_USE false
 
-    TEST_OUTPUT="$(es_erase 'clear')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_erase 'clear'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertNull 'es_erase function should not return output' "${TEST_OUTPUT}"
+    assertCommandOutputNull 'es_erase function should not return output'
 
     setES_USE true
 }
@@ -710,177 +598,146 @@ test_es_erase_envVarTurnedOff() {
 #######################
 
 test_es_cursor_defaultCode() {
-    TEST_OUTPUT="$(es_cursor)"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_cursor"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\033[H")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+        "$(printf "\033[H")"
 }
 
 test_es_cursor_home() {
-    TEST_OUTPUT="$(es_cursor 'home')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_cursor 'home'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\033[H")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+        "$(printf "\033[H")"
 
-    OUTPUT="$(es_cursor 'anything')"
-    CODE="$?"
+    commandTest "es_cursor 'anything'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\033[H")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+        "$(printf "\033[H")"
 }
 
 test_es_cursor_restore() {
-    TEST_OUTPUT="$(es_cursor 'restore')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_cursor 'restore'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\033[u")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+        "$(printf "\033[u")"
 }
 
 test_es_cursor_save() {
-    TEST_OUTPUT="$(es_cursor 'save')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_cursor 'save'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\033[s")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+        "$(printf "\033[s")"
 }
 
 test_es_cursor_leftDefaultValue() {
-    TEST_OUTPUT="$(es_cursor 'left')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_cursor 'left'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\033[0D")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+        "$(printf "\033[0D")"
 }
 
 test_es_cursor_left() {
-    TEST_OUTPUT="$(es_cursor 'left' 4)"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_cursor 'left' 4"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\033[4D")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+        "$(printf "\033[4D")"
 }
 
 test_es_cursor_rightDefaultValue() {
-    TEST_OUTPUT="$(es_cursor 'right')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_cursor 'right'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\033[0C")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+        "$(printf "\033[0C")"
 }
 
 test_es_cursor_right() {
-    TEST_OUTPUT="$(es_cursor 'right' 4)"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_cursor 'right' 4"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\033[4C")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+        "$(printf "\033[4C")"
 }
 
 test_es_cursor_downDefaultValue() {
-    TEST_OUTPUT="$(es_cursor 'down')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_cursor 'down'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\033[0B")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+        "$(printf "\033[0B")"
 }
 
 test_es_cursor_down() {
-    TEST_OUTPUT="$(es_cursor 'down' 4)"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_cursor 'down' 4"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\033[4B")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+        "$(printf "\033[4B")"
 }
 
 test_es_cursor_upDefaultValue() {
-    TEST_OUTPUT="$(es_cursor 'up')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_cursor 'up'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\033[0A")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+        "$(printf "\033[0A")"
 }
 
 test_es_cursor_up() {
-    TEST_OUTPUT="$(es_cursor 'up' 4)"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_cursor 'up' 4"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\033[4A")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+        "$(printf "\033[4A")"
 }
 
 test_es_cursor_absDefaultValue() {
-    TEST_OUTPUT="$(es_cursor 'abs')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_cursor 'abs'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\033[0;0")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+        "$(printf "\033[0;0")"
 }
 
 test_es_cursor_abs() {
-    TEST_OUTPUT="$(es_cursor 'abs' 3 4)"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_cursor 'abs' 3 4"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\033[3;4")" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+        "$(printf "\033[3;4")"
 }
 
 test_es_cursor_envVarTurnedOff() {
     setES_USE false
 
-    TEST_OUTPUT="$(es_cursor 'home')"
-    TEST_RETURN_CODE="$?"
+    commandTest "es_cursor 'home'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertNull 'es_cursor function should not return output' "${TEST_OUTPUT}"
+    assertCommandOutputNull 'es_cursor function should not return output'
 
     setES_USE true
 }
@@ -891,30 +748,26 @@ test_es_cursor_envVarTurnedOff() {
 ################
 
 test_nc_envVarTurnedOnByDefault() {
-    assertTrue 'NC_USE environment variable not set to true by default' \
-        "${NC_USE}"
+    assertTrue 'NC_USE environment variable not set to true by default' "${NC_USE}"
 }
 
 test_nc_controlCode() {
-    TEST_OUTPUT="$(nc 'setaf' '1')"
-    TEST_RETURN_CODE="$?"
+    commandTest "nc 'setaf' '1'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'nc function not returning correct control sequence' \
-        "$(tput setaf 1)" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'nc function not returning correct control sequence' \
+        "$(tput setaf 1)"
 }
 
 test_nc_envVarTurnedOff() {
     setNC_USE false
 
-    TEST_OUTPUT="$(nc 'setaf' '1')"
-    TEST_RETURN_CODE="$?"
+    commandTest "nc 'setaf' '1'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertNull 'nc function should not return output' "${TEST_OUTPUT}"
+    assertCommandOutputNull 'nc function should not return output'
 
     setNC_USE true
 }
@@ -924,12 +777,11 @@ test_nc_cmdTputEmpty() {
 
     assertNull 'CMD_TPUT environment variable not empty' "${CMD_TPUT}"
 
-    TEST_OUTPUT="$(nc 'setaf' '1')"
-    TEST_RETURN_CODE="$?"
+    commandTest "nc 'setaf' '1'"
 
-    assertFalse 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnFalse
 
-    assertNull 'nc function should not return output' "${TEST_OUTPUT}"
+    assertCommandOutputNull 'nc function should not return output'
 
     CMD_TPUT="$(which tput)"
 
@@ -942,92 +794,75 @@ test_nc_cmdTputEmpty() {
 ######################
 
 test_nc_color_defaultFgBg() {
-    TEST_OUTPUT="$(nc_color '1')"
-    TEST_RETURN_CODE="$?"
+    commandTest "nc_color '1'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'nc_color function not returning correct control sequence' \
-        "$(tput setaf 1)" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
+        "$(tput setaf 1)"
 }
 
 test_nc_color_foreground() {
-    TEST_OUTPUT="$(nc_color '1' '')"
-    TEST_RETURN_CODE="$?"
+    commandTest "nc_color '1' ''"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'nc_color function not returning correct control sequence' \
-        "$(tput setaf 1)" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
+        "$(tput setaf 1)"
 
-    TEST_OUTPUT="$(nc_color '1' 'f')"
-    TEST_RETURN_CODE="$?"
+    commandTest "nc_color '1' 'f'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'nc_color function not returning correct control sequence' \
-        "$(tput setaf 1)" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
+        "$(tput setaf 1)"
 
-    TEST_OUTPUT="$(nc_color '1' 'F')"
-    TEST_RETURN_CODE="$?"
+    commandTest "nc_color '1' 'F'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'nc_color function not returning correct control sequence' \
-        "$(tput setaf 1)" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
+        "$(tput setaf 1)"
 
-    TEST_OUTPUT="$(nc_color '1' 'Foreground')"
-    TEST_RETURN_CODE="$?"
+    commandTest "nc_color '1' 'Foreground'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'nc_color function not returning correct control sequence' \
-        "$(tput setaf 1)" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
+        "$(tput setaf 1)"
 }
 
 test_nc_color_background() {
-    TEST_OUTPUT="$(nc_color '1' 'b')"
-    TEST_RETURN_CODE="$?"
+    commandTest "nc_color '1' 'b'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'nc_color function not returning correct control sequence' \
-        "$(tput setab 1)" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
+        "$(tput setab 1)"
 
-    TEST_OUTPUT="$(nc_color '1' 'B')"
-    TEST_RETURN_CODE="$?"
+    commandTest "nc_color '1' 'B'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'nc_color function not returning correct control sequence' \
-        "$(tput setab 1)" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
+        "$(tput setab 1)"
 
-    TEST_OUTPUT="$(nc_color '1' 'Background')"
-    TEST_RETURN_CODE="$?"
+    commandTest "nc_color '1' 'Background'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'nc_color function not returning correct control sequence' \
-        "$(tput setab 1)" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
+        "$(tput setab 1)"
 }
 
 test_nc_color_envVarTurnedOff() {
     setNC_USE false
 
-    TEST_OUTPUT="$(nc_color '1')"
-    TEST_RETURN_CODE="$?"
+    commandTest "nc_color '1'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertNull 'nc_color function should not return output' "${TEST_OUTPUT}"
+    assertCommandOutputNull 'nc_color function should not return output'
 
     setNC_USE true
 }
@@ -1038,39 +873,32 @@ test_nc_color_envVarTurnedOff() {
 ###############################
 
 test_nc_color_from_hex_noHex() {
-    TEST_OUTPUT="$(nc_color_from_hex '')"
-    TEST_RETURN_CODE="$?"
+    commandTest "nc_color_from_hex ''"
 
-    assertFalse 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnFalse
 }
 
 test_nc_color_from_hex_withColor() {
-    TEST_OUTPUT="$(nc_color_from_hex 'c7ff7c')"
-    TEST_RETURN_CODE="$?"
+    commandTest "nc_color_from_hex 'c7ff7c'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'nc_color_from_hex should return color index code' \
-        '192' \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'nc_color_from_hex should return color index code' \
+        '192'
 
-    TEST_OUTPUT="$(nc_color_from_hex 'ffffff')"
-    TEST_RETURN_CODE="$?"
+    commandTest "nc_color_from_hex 'ffffff'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'nc_color_from_hex should return color index code' \
-        '231' \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'nc_color_from_hex should return color index code' \
+        '231'
 
-    TEST_OUTPUT="$(nc_color_from_hex '000000')"
-    TEST_RETURN_CODE="$?"
+    commandTest "nc_color_from_hex '000000'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'nc_color_from_hex should return color index code' \
-        '14' \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'nc_color_from_hex should return color index code' \
+        '14'
 }
 
 
@@ -1079,92 +907,75 @@ test_nc_color_from_hex_withColor() {
 ##########################
 
 test_nc_color_hex_defaultFgBg() {
-    TEST_OUTPUT="$(nc_color_hex 'c7ff7c')"
-    TEST_RETURN_CODE="$?"
+    commandTest "nc_color_hex 'c7ff7c'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'nc_color_hex function not returning correct control sequence' \
-        "$(tput setaf 192)" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'nc_color_hex function not returning correct control sequence' \
+        "$(tput setaf 192)"
 }
 
 test_nc_color_hex_foreground() {
-    TEST_OUTPUT="$(nc_color_hex 'c7ff7c' '')"
-    TEST_RETURN_CODE="$?"
+    commandTest "nc_color_hex 'c7ff7c' ''"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'nc_color_hex function not returning correct control sequence' \
-        "$(tput setaf 192)" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'nc_color_hex function not returning correct control sequence' \
+        "$(tput setaf 192)"
 
-    TEST_OUTPUT="$(nc_color_hex 'ffffff' 'f')"
-    TEST_RETURN_CODE="$?"
+    commandTest "nc_color_hex 'ffffff' 'f'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'nc_color_hex function not returning correct control sequence' \
-        "$(tput setaf 231)" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'nc_color_hex function not returning correct control sequence' \
+        "$(tput setaf 231)"
 
-    TEST_OUTPUT="$(nc_color_hex '000000' 'F')"
-    TEST_RETURN_CODE="$?"
+    commandTest "nc_color_hex '000000' 'F'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'nc_color_hex function not returning correct control sequence' \
-        "$(tput setaf 14)" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'nc_color_hex function not returning correct control sequence' \
+        "$(tput setaf 14)"
 
-    TEST_OUTPUT="$(nc_color_hex 'ffffff' 'Foreground')"
-    TEST_RETURN_CODE="$?"
+    commandTest "nc_color_hex 'ffffff' 'Foreground'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'nc_color_hex function not returning correct control sequence' \
-        "$(tput setaf 231)" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'nc_color_hex function not returning correct control sequence' \
+        "$(tput setaf 231)"
 }
 
 test_nc_color_hex_background() {
-    TEST_OUTPUT="$(nc_color_hex 'ffffff' 'b')"
-    TEST_RETURN_CODE="$?"
+    commandTest "nc_color_hex 'ffffff' 'b'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'nc_color_hex function not returning correct control sequence' \
-        "$(tput setab 231)" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'nc_color_hex function not returning correct control sequence' \
+        "$(tput setab 231)"
 
-    TEST_OUTPUT="$(nc_color_hex '000000' 'B')"
-    TEST_RETURN_CODE="$?"
+    commandTest "nc_color_hex '000000' 'B'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'nc_color_hex function not returning correct control sequence' \
-        "$(tput setab 14)" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'nc_color_hex function not returning correct control sequence' \
+        "$(tput setab 14)"
 
-    TEST_OUTPUT="$(nc_color_hex 'ffffff' 'Background')"
-    TEST_RETURN_CODE="$?"
+    commandTest "nc_color_hex 'ffffff' 'Background'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'nc_color_hex function not returning correct control sequence' \
-        "$(tput setab 231)" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'nc_color_hex function not returning correct control sequence' \
+        "$(tput setab 231)"
 }
 
 test_nc_color_hex_envVarTurnedOff() {
     setNC_USE false
 
-    TEST_OUTPUT="$(nc_color_hex 'ff7f7f')"
-    TEST_RETURN_CODE="$?"
+    commandTest "nc_color_hex 'ff7f7f'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertNull 'nc_color_hex function should not return output' "${TEST_OUTPUT}"
+    assertCommandOutputNull 'nc_color_hex function should not return output'
 
     setNC_USE true
 }
@@ -1246,14 +1057,12 @@ test_file_find_line() {
     local FN_NAME="${FUNCNAME[0]}"
     local FILE="${BASH_SOURCE[0]}"
 
-    TEST_OUTPUT="$(file_find_line "${FILE}" "^${FN_NAME}() {$")"
-    TEST_RETURN_CODE="$?"
+    commandTest "file_find_line '${FILE}' '^${FN_NAME}() {$'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertEquals 'file_find_line not returning the correct line number' \
-        "${FN_LINE}" \
-        "${TEST_OUTPUT}"
+    assertCommandOutputEquals 'file_find_line not returning the correct line number' \
+        "${FN_LINE}"
 }
 
 
@@ -1266,21 +1075,17 @@ test_file_get_lines() {
     local FILE="${BASH_SOURCE[0]}"
     local STOP_LINE="${LINENO}"
 
-    TEST_OUTPUT="$(file_get_lines "${FILE}" "${START_LINE}" "${STOP_LINE}")"
-    TEST_RETURN_CODE="$?"
+    commandTest "file_get_lines '${FILE}' '${START_LINE}' '${STOP_LINE}'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertContains 'file_get_lines not returning the start line content' \
-        "${TEST_OUTPUT}" \
+    assertCommandOutputContains 'file_get_lines not returning the start line content' \
         'local START_LINE="${LINENO}"'
 
-    assertContains 'file_get_lines not returning the inner content' \
-        "${TEST_OUTPUT}" \
+    assertCommandOutputContains 'file_get_lines not returning the inner content' \
         'local FILE="${BASH_SOURCE[0]}"'
 
-    assertContains 'file_get_lines not returning the stop line content' \
-        "${TEST_OUTPUT}" \
+    assertCommandOutputContains 'file_get_lines not returning the stop line content' \
         'local STOP_LINE="${LINENO}"'
 }
 
@@ -1294,27 +1099,23 @@ test_string_expand() {
     local TEMPLATE_TEXT='Text Template'
     local NAME="Ralph"
 
-    TEST_OUTPUT="$(string_expand "${STRING}")"
-    TEST_RETURN_CODE="$?"
+    commandTest "string_expand '${STRING}'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertContains 'string_expand not returning the correct content' \
-        "${TEST_OUTPUT}" \
+    assertCommandOutputContains 'string_expand not returning the correct content' \
         "${TEMPLATE_TEXT}"
 
-    assertContains 'string_expand not returning the correct content' \
-        "${TEST_OUTPUT}" \
+    assertCommandOutputContains 'string_expand not returning the correct content' \
         "${NAME}"
 }
 
 test_string_expand_emptyString() {
-    TEST_OUTPUT="$(string_expand '')"
-    TEST_RETURN_CODE="$?"
+    commandTest "string_expand ''"
 
-    assertFalse 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnFalse
 
-    assertNull 'string_expand not returning the correct content' "${TEST_OUTPUT}"
+    assertCommandOutputNull 'string_expand not returning the correct content'
 }
 
 
@@ -1329,21 +1130,17 @@ test_file_expand_lines() {
     local STOP_PATTERN="### Stop Pattern Text ###"
     local NAME='Test Name'
 
-    TEST_OUTPUT="$(file_expand_lines "${FILE}" "${START_PATTERN}" "${STOP_PATTERN}")"
-    TEST_RETURN_CODE="$?"
+    commandTest "file_expand_lines '${FILE}' '${START_PATTERN}' '${STOP_PATTERN}'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertNotContains 'file_expand_lines returning the start pattern content' \
-        "${TEST_OUTPUT}" \
+    assertCommandOutputNotContains 'file_expand_lines returning the start pattern content' \
         "local START_PATTERN=\"${START_PATTERN}\""
 
-    assertContains 'file_expand_lines not returning the middle content' \
-        "${TEST_OUTPUT}" \
+    assertCommandOutputContains 'file_expand_lines not returning the middle content' \
         "local TEST='${NAME}'"
 
-    assertNotContains 'file_expand_lines returning the stop patter content' \
-        "${TEST_OUTPUT}" \
+    assertCommandOutputNotContains 'file_expand_lines returning the stop patter content' \
         "local STOP_PATTERN=\"${STOP_PATTERN}\""
 }
 
@@ -1360,13 +1157,11 @@ test_grab_text_blob() {
     local FILE="${BASH_SOURCE[0]}"
     local EXPAND='abc123'
 
-    TEST_OUTPUT="$(grab_text_blob "${FILE}" "TEST_BLOB_NAME_1")"
-    TEST_RETURN_CODE="$?"
+    commandTest "grab_text_blob '${FILE}' 'TEST_BLOB_NAME_1'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 
-    assertContains 'grab_text_blob not returning the correct content' \
-        "${TEST_OUTPUT}" \
+    assertCommandOutputContains 'grab_text_blob not returning the correct content' \
         "Test Data: ${EXPAND}"
 }
 
@@ -1376,18 +1171,17 @@ test_grab_text_blob() {
 #############################
 
 test_function_exists_nonExist() {
-    TEST_OUTPUT="$(function_exists 'nonExist')"
-    TEST_RETURN_CODE="$?"
+    commandTest "function_exists 'nonExist'"
 
-    assertFalse 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnFalse
 }
 
 test_function_exists_exists() {
     local FN_NAME="${FUNCNAME[0]}"
-    TEST_OUTPUT="$(function_exists "${FN_NAME}")"
-    TEST_RETURN_CODE="$?"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    commandTest "function_exists '${FN_NAME}'"
+
+    assertCommandReturnTrue
 }
 
 
@@ -1407,39 +1201,31 @@ processOptsEmpty() {
 }
 
 test_process_parameters_noArgFn() {
-    TEST_OUTPUT="$(process_parameters 'nonExist')"
-    TEST_RETURN_CODE="$?"
+    commandTest "process_parameters 'nonExist'"
 
-    assertFalse 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnFalse
 }
 
 test_process_parameters_noOptFn() {
-    TEST_OUTPUT="$(process_parameters 'processArgsEmpty' 'nonExist')"
-    TEST_RETURN_CODE="$?"
+    commandTest "process_parameters 'processArgsEmpty' 'nonExist'"
 
-    assertEquals 'Exit Code not returned correctly' \
-        2 \
-        "${TEST_RETURN_CODE}"
+    assertCommandReturnEquals 2
 }
 
 test_process_parameters_fnReturnValue() {
     PROCESS_OPTS_RETURN=123
 
-    TEST_OUTPUT="$(process_parameters 'processArgsEmpty' 'processOptsEmpty')"
-    TEST_RETURN_CODE="$?"
+    commandTest "process_parameters 'processArgsEmpty' 'processOptsEmpty'"
 
-    assertEquals 'Exit Code not returned correctly' \
-        "${PROCESS_OPTS_RETURN}" \
-        "${TEST_RETURN_CODE}"
+    assertCommandReturnEquals "${PROCESS_OPTS_RETURN}"
 
     PROCESS_OPTS_RETURN=0
 }
 
 test_process_parameters_empty() {
-    TEST_OUTPUT="$(process_parameters 'processArgsEmpty' 'processOptsEmpty')"
-    TEST_RETURN_CODE="$?"
+    commandTest "process_parameters 'processArgsEmpty' 'processOptsEmpty'"
 
-    assertTrue 'Exit Code not returned correctly' "${TEST_RETURN_CODE}"
+    assertCommandReturnTrue
 }
 
 ARGS_DETAILS=""
@@ -1494,7 +1280,7 @@ test_process_parameters_shift() {
 
     TEST_RETURN_CODE="$?"
 
-    assertEquals 'Exit Code not returned correctly' \
+    assertEquals 'Return Code not returned correctly' \
         4 \
         "${TEST_RETURN_CODE}"
 
