@@ -1,0 +1,10 @@
+# shell=sh
+# shell=bash
+# shell=dash
+# shell=ksh
+
+disable=SC1091,SC2016,SC2034,SC2059,SC2312
+
+enable=add-default-case,avoid-nullary-conditions,check-extra-masked-returns,check-set-e-suppressed,check-unassigned-uppercase,deprecate-which,quote-safe-variables,require-double-brackets,require-variable-braces
+
+source=/dev/null

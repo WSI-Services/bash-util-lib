@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+    shell:
+        build:
+            context: .
+        volumes:
+            - ./:/data
+        stdin_open: true
+        tty: true
+        entrypoint: /bin/bash
+
+    execute:
+        build:
+            context: .
+        volumes:
+            - ./:/data
+        stdin_open: true
+        tty: true
+        entrypoint: ["/bin/bash", "-c"]
+
+    unit-tests:
+        build:
+            context: .
+        volumes:
+            - ./:/data
+        stdin_open: true
+        tty: true
+        entrypoint: bashcov --skip-uncovered -- ./bash-util-lib-test.sh
