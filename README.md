@@ -96,6 +96,15 @@ If GIT isn't installed, you may download an archive of the library.  The followi
     Perform the ***download*** process with the correct branch and the ***extract*** process to replace the previous library.
 
 
+### Bash Package
+
+If you have the Bash Package Manager (ie: *[bpkg](http://www.bpkg.sh/)*) you can download the associated `wsi-services/bash-util-lib` package:
+
+```bash
+bpkg install wsi-services/bash-util-lib
+```
+
+
 ## Usage
 
 Bash utility functions can be used by sourcing the library file in your script.  To access the functions within the library, you should import the main bash library as follows.

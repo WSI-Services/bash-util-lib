@@ -1,0 +1,8 @@
+{
+  "name": "bash-util-lib",
+  "version": "0.1.0",
+  "description": "Bash Utility Library",
+  "global": "1",
+  "install": "install -b bash-util-lib.sh ${PREFIX:-/usr/local}/bin/bash-util-lib",
+  "scripts": [ "bash-util-lib.sh" ]
+}
