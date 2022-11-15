@@ -3,7 +3,7 @@ version: "3"
 services:
     shell:
         build:
-            context: .
+            context: ./dev/
         volumes:
             - ./:/data
         stdin_open: true
@@ -12,7 +12,7 @@ services:
 
     execute:
         build:
-            context: .
+            context: ./dev/
         volumes:
             - ./:/data
         stdin_open: true
@@ -21,9 +21,9 @@ services:
 
     unit-tests:
         build:
-            context: .
+            context: ./dev/
         volumes:
             - ./:/data
         stdin_open: true
         tty: true
-        entrypoint: bashcov --skip-uncovered -- ./bash-util-lib-test.sh
+        entrypoint: bashcov --skip-uncovered -- ./tests/bash-util-lib-test.sh

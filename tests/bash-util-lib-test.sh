@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
 # file: bash-util-lib-test.sh
 
-# shellcheck source=bash-util-lib.sh
-. ./bash-util-lib.sh
+TESTS_DIR="$(dirname "${BASH_SOURCE[0]}")"
+SOURCE_DIR="$(readlink -f "${TESTS_DIR}/../src")"
 
-. ./shunit2.assert.command-test
+# shellcheck source=../src/bash-util-lib.sh
+. "${SOURCE_DIR}/bash-util-lib.sh"
+
+# shellcheck source=./shunit2.assert.command-test
+. "${TESTS_DIR}/shunit2.assert.command-test"
 
 ###########
 # Helpers #
