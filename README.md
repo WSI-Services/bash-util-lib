@@ -107,38 +107,46 @@ bpkg install wsi-services/bash-util-lib
 
 ## Usage
 
-Bash utility functions can be used by sourcing the library file in your script.  To access the functions within the library, you should import the main bash library as follows.
+Bash utility functions can be used by sourcing the library files in your script.  To access the functions within the library, you should import the main bash library as follows.
 
 ```bash
-source "deps/bash-util/bash-util-lib.sh"
+source "deps/bash-util-lib/src/bash-util-lib.ansi.sh"
+source "deps/bash-util-lib/src/bash-util-lib.file.sh"
+source "deps/bash-util-lib/src/bash-util-lib.script.sh"
+source "deps/bash-util-lib/src/bash-util-lib.string.sh"
 ```
 
 
 ## Library Functions
 
-This bash utility library provides functions to simplify writing and running bash scripts.  This section lists the available functions and usage of them.
+This bash utility library provides functions to simplify writing and running bash scripts.  This section lists the available files, the functions provided, and the usage of them.
 
 ---
 
 
-### **`es`**
+### ANSI
+
+---
+
+
+#### **`es`**
 
 Output escape sequence with provided control code if **`ES_USE`** environment variable is true
 
-#### Arguments
+##### Arguments
 
 | Name            | Type     | Description                         |
 | --------------- | :------: | ----------------------------------- |
 | `CONTROL_CODE`  | _string_ | Argument to pass to escape sequence |
 
-#### Exit Codes
+##### Exit Codes
 
 | Code | Description                          |
 | ---- | ------------------------------------ |
 | `0`  | Command control code output sequence |
 | `1`  | Command control code failed          |
 
-#### Standard Out
+##### Standard Out
 
 Specified escape sequence control code
 
@@ -154,7 +162,7 @@ Specified escape sequence control code
 > Message: Output Message
 > ```
 
-#### Environment Variables
+##### Environment Variables
 
 | Variable       | Default         | Description                                         |
 | -------------- | --------------- | --------------------------------------------------- |
@@ -163,25 +171,25 @@ Specified escape sequence control code
 ---
 
 
-### **`es_color`**
+#### **`es_color`**
 
 Output escape sequence with provided color code for foreground or background
 
-#### Arguments
+##### Arguments
 
 | Name    | Type     | Description                                                                                           |
 | ------- | :------: | ----------------------------------------------------------------------------------------------------- |
 | `COLOR` | _string_ | escape sequence color integer                                                                         |
 | `FG_BG` | _string_ | Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else |
 
-#### Exit Codes
+##### Exit Codes
 
 | Code | Description                                        |
 | ---- | -------------------------------------------------- |
 | `0`  | Command control code turned off or failed          |
 | `1`  | Command control code turned on and output sequence |
 
-#### Standard Out
+##### Standard Out
 
 Specified escape sequence color code output
 
@@ -199,11 +207,11 @@ Specified escape sequence color code output
 
 ---
 
-### **`es_color_rgb`**
+#### **`es_color_rgb`**
 
 Output escape sequence with provided red, green, blue color code for foreground or background
 
-#### Arguments
+##### Arguments
 
 | Name    | Type      | Description                                                                                           |
 | ------- | :-------: | ----------------------------------------------------------------------------------------------------- |
@@ -212,14 +220,14 @@ Output escape sequence with provided red, green, blue color code for foreground 
 | `B`     | _integer_ | Blue color integer                                                                                    |
 | `FG_BG` | _string_  | Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else |
 
-#### Exit Codes
+##### Exit Codes
 
 | Code | Description                                        |
 | ---- | -------------------------------------------------- |
 | `0`  | Command control code turned off or failed          |
 | `1`  | Command control code turned on and output sequence |
 
-#### Standard Out
+##### Standard Out
 
 Specified escape sequence color code output
 
@@ -238,25 +246,25 @@ Specified escape sequence color code output
 ---
 
 
-### **`es_color_hex`**
+#### **`es_color_hex`**
 
 Output escape sequence with provided HEX color code for foreground or background
 
-#### Arguments
+##### Arguments
 
 | Name    | Type     | Description                                                                                           |
 | ------- | :------: | ----------------------------------------------------------------------------------------------------- |
 | `HEX`   | _string_ | escape sequence color in HEX                                                                          |
 | `FG_BG` | _string_ | Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else |
 
-#### Exit Codes
+##### Exit Codes
 
 | Code | Description                                        |
 | ---- | -------------------------------------------------- |
 | `0`  | Command control code turned off or failed          |
 | `1`  | Command control code turned on and output sequence |
 
-#### Standard Out
+##### Standard Out
 
 Specified escape sequence color code output
 
@@ -275,11 +283,11 @@ Specified escape sequence color code output
 ---
 
 
-### **`es_attrib`**
+#### **`es_attrib`**
 
 Output escape sequence with provided text attribute control code
 
-#### Arguments
+##### Arguments
 
 | Name           | Type     | Description                                 |
 | -------------- | :------: | ------------------------------------------- |
@@ -297,14 +305,14 @@ Output escape sequence with provided text attribute control code
 | bold      | Bold text                             |
 | reset     | Reset text formatting and colors      |
 
-#### Exit Codes
+##### Exit Codes
 
 | Code | Description                                        |
 | ---- | -------------------------------------------------- |
 | `0`  | Command control code turned off or failed          |
 | `1`  | Command control code turned on and output sequence |
 
-#### Standard Out
+##### Standard Out
 
 Specified escape sequence text attribute control code output
 
@@ -323,11 +331,11 @@ Specified escape sequence text attribute control code output
 ---
 
 
-### **`es_erase`**
+#### **`es_erase`**
 
 Output escape sequence with provided erase control code
 
-#### Arguments
+##### Arguments
 
 | Name           | Type     | Description                        |
 | -------------- | :------: | ---------------------------------- |
@@ -342,14 +350,14 @@ Output escape sequence with provided erase control code
 | top    | Erase from the current line to the top of the screen    |
 | clear  | Clear the screen                                        |
 
-#### Exit Codes
+##### Exit Codes
 
 | Code | Description                                        |
 | ---- | -------------------------------------------------- |
 | `0`  | Command control code turned off or failed          |
 | `1`  | Command control code turned on and output sequence |
 
-#### Standard Out
+##### Standard Out
 
 Specified escape sequence text attribute control code output
 
@@ -368,11 +376,11 @@ Specified escape sequence text attribute control code output
 ---
 
 
-### **`es_cursor`**
+#### **`es_cursor`**
 
 Output escape sequence with provided cursor control code
 
-#### Arguments
+##### Arguments
 
 | Name           | Type      | Description                         |
 | -------------- | :-------: | ----------------------------------- |
@@ -391,14 +399,14 @@ Output escape sequence with provided cursor control code
 | restore | Restore cursor position                        |
 | home    | Move cursor to home position (0,0)             |
 
-#### Exit Codes
+##### Exit Codes
 
 | Code | Description                                        |
 | ---- | -------------------------------------------------- |
 | `0`  | Command control code turned off or failed          |
 | `1`  | Command control code turned on and output sequence |
 
-#### Standard Out
+##### Standard Out
 
 Specified escape sequence cursor control code output
 
@@ -417,24 +425,24 @@ Specified escape sequence cursor control code output
 ---
 
 
-### **`nc`**
+#### **`nc`**
 
 Call ncurses `tput` command with provided arguments if command exists (**`CMD_TPUT`**) and **`NC_USE`** environment variable is true
 
-#### Arguments
+##### Arguments
 
 | Name | Type    | Description                                 |
 | ---- | :-----: | ------------------------------------------- |
 | `@`  | _array_ | Arguments to pass to ncurses command `tput` |
 
-#### Exit Codes
+##### Exit Codes
 
 | Code | Description                         |
 | ---- | ----------------------------------- |
 | `0`  | Command `tput` exists and succeeded |
 | `1`  | Command `tput` missing or failed    |
 
-#### Standard Out
+##### Standard Out
 
 Specified ncurses `tput` output
 
@@ -450,7 +458,7 @@ Specified ncurses `tput` output
 > Message: Output Message
 > ```
 
-#### Environment Variables
+##### Environment Variables
 
 | Variable       | Default         | Description                                 |
 | -------------- | --------------- | ------------------------------------------- |
@@ -463,25 +471,25 @@ Specified ncurses `tput` output
 ---
 
 
-### **`nc_color`**
+#### **`nc_color`**
 
 Output ncurses color code for foreground or background
 
-#### Arguments
+##### Arguments
 
 | Name    | Type     | Description                                                                                           |
 | ------- | :------: | ----------------------------------------------------------------------------------------------------- |
 | `COLOR` | _string_ | ncurses color in HEX                                                                                  |
 | `FG_BG` | _string_ | Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else |
 
-#### Exit Codes
+##### Exit Codes
 
 | Code | Description            |
 | ---- | ---------------------- |
 | `0`  | Command `tput` exists  |
 | `1`  | Command `tput` missing |
 
-#### Standard Out
+##### Standard Out
 
 Specified ncurses `tput` color code output
 
@@ -500,24 +508,24 @@ Specified ncurses `tput` color code output
 ---
 
 
-### **`nc_color_from_hex`**
+#### **`nc_color_from_hex`**
 
 Output ncurses color index integer from HEX
 
-#### Arguments
+##### Arguments
 
 | Name  | Type     | Description                                 |
 | ----- | :------: | ------------------------------------------- |
 | `HEX` | _string_ | HEX color code (RRGGBB) without number sign |
 
-#### Exit Codes
+##### Exit Codes
 
 | Code | Description            |
 | ---- | ---------------------- |
 | `0`  | HEX value provided     |
 | `1`  | HEX value not provided |
 
-#### Standard Out
+##### Standard Out
 
 Specified ncurses color index integer
 
@@ -536,25 +544,25 @@ Specified ncurses color index integer
 ---
 
 
-### **`nc_color_hex`**
+#### **`nc_color_hex`**
 
 Output ncurses color code in HEX for foreground or background
 
-#### Arguments
+##### Arguments
 
 | Name    | Type     | Description                                                                                           |
 | ------- | :------: | ----------------------------------------------------------------------------------------------------- |
 | `COLOR` | _string_ | ncurses color in HEX                                                                                  |
 | `FG_BG` | _string_ | Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else |
 
-#### Exit Codes
+##### Exit Codes
 
 | Code | Description            |
 | ---- | ---------------------- |
 | `0`  | Command `tput` exists  |
 | `1`  | Command `tput` missing |
 
-#### Standard Out
+##### Standard Out
 
 Specified ncurses `tput` color code output
 
@@ -569,7 +577,7 @@ Specified ncurses `tput` color code output
 > Message: Output Message
 > ```
 
-#### Environment Variables
+##### Environment Variables
 
 | Variable        | Default                    | Description                                       |
 | --------------- | -------------------------- | ------------------------------------------------- |
@@ -593,76 +601,30 @@ Specified ncurses `tput` color code output
 ---
 
 
-### **`exit_err`**
-
-Output provided error message, optionally additional message, and exit with provided code
-
-#### Arguments
-
-| Name       | Type      | Description                             |
-| ---------- | :-------: | --------------------------------------- |
-| `ERR_CODE` | _integer_ | Exit code                               |
-| `ERR_MSG`  | _string_  | Message to output                       |
-| `ADD_MSG`  | _string_  | [OPTIONAL] Additional message to output |
-
-#### Exit Codes
-
-| Code | Description                  |
-| ---- | ---------------------------- |
-| `?`  | Provided `ERR_CODE` argument |
-
-#### Standard Error
-
-Provided **ERR_CODE** and **ERR_MSG** using the **EXIT_ERR_MSG_ERROR** format; and optional **UTIL_SCRIPT_CMD** (if set) using the **EXIT_ERR_MSG_COMMAND** format
-
-#### Standard Out
-
-If provided, additional message **ADD_MSG** using the **EXIT_ERR_MSG_ADDITIONAL** format
-
-> Example:
->
-> ```bash
-> exit_err 12 "Missing value" "Extra data here"
-> ```
->
-> Output:
->
-> ```bash
-> Error [12]: Missing value
-> Extra data here
-> ```
-
-#### Environment Variables
-
-| Variable                  | Default                                                                                            | Description                                                   |
-| ------------------------- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
-| `EXIT_ERR_MSG_ERROR`      | `${NC_RED}Error [${NC_BOLD}%i${NC_RESET}${NC_RED}]${NC_RESET}: ${NC_BOLD}${NC_RED}%b${NC_RESET}\n` | Variable to store `printf` style string for error message     |
-| `EXIT_ERR_MSG_COMMAND`    | `${NC_RED}Command failed${NC_RESET}: ${NC_BOLD}${NC_WHITE}%b${NC_RESET}\n`                         | Variable to store `printf` style string for command string    |
-| `EXIT_ERR_MSG_ADDITIONAL` | `%s\n`                                                                                             | Variable to store `printf` style string for additional string |
-| `UTIL_SCRIPT_CMD`         |                                                                                                    | Variable to hold command string                               |
+### FILE
 
 ---
 
 
-### **`file_find_line`**
+#### **`file_find_line`**
 
 Output last line number in provided file which matches provided pattern
 
-#### Arguments
+##### Arguments
 
 | Name         | Type     | Description              |
 | ------------ | :------: | ------------------------ |
 | `FILE_NAME`  | _string_ | File to scan for pattern |
 | `PATTERN`    | _string_ | Pattern to scan file for |
 
-#### Exit Codes
+##### Exit Codes
 
 | Code | Description     |
 | ---- | --------------- |
 | `0`  | Lines found     |
 | `1`  | Lines not found |
 
-#### Standard Out
+##### Standard Out
 
 Line number of last matching line pattern
 
@@ -681,11 +643,11 @@ Line number of last matching line pattern
 ---
 
 
-### **`file_get_lines`**
+#### **`file_get_lines`**
 
 Output lines of provided file from provided start line till provided stop line
 
-#### Arguments
+##### Arguments
 
 | Name         | Type      | Description               |
 | ------------ | :-------: | ------------------------- |
@@ -693,14 +655,14 @@ Output lines of provided file from provided start line till provided stop line
 | `START_LINE` | _integer_ | Line number to begin clip |
 | `STOP_LINE`  | _integer_ | Line number to end clip   |
 
-#### Exit Codes
+##### Exit Codes
 
 | Code | Description     |
 | ---- | --------------- |
 | `0`  | Lines found     |
 | `1`  | Lines not found |
 
-#### Standard Out
+##### Standard Out
 
 Specified lines from file
 
@@ -721,47 +683,11 @@ Specified lines from file
 ---
 
 
-### **`string_expand`**
-
-Output provided input processed to expand variables
-
-#### Arguments
-
-| Name    | Type     | Description                    |
-| ------- | :------: | ------------------------------ |
-| `INPUT` | _string_ | Text to evaluate for expansion |
-
-#### Exit Codes
-
-| Code | Description     |
-| ---- | --------------- |
-| `0`  | String expanded |
-| `1`  | String missing  |
-
-#### Standard Out
-
-Specified string expanded
-
-> Example:
->
-> ```bash
-> string_expand "Output: \${STRING}"
-> ```
->
-> Output:
->
-> ```bash
-> Output: Test
-> ```
-
----
-
-
-### **`file_expand_lines`**
+#### **`file_expand_lines`**
 
 Output text from section in file specified by provided patterns
 
-#### Arguments
+##### Arguments
 
 | Name            | Type     | Description                         |
 | --------------- | :------: | ----------------------------------- |
@@ -769,14 +695,14 @@ Output text from section in file specified by provided patterns
 | `START_PATTERN` | _string_ | Pattern of the start line to output |
 | `STOP_PATTERN`  | _string_ | Pattern of the stop line to output  |
 
-#### Exit Codes
+##### Exit Codes
 
 | Code | Description              |
 | ---- | ------------------------ |
 | `0`  | Lines found and expanded |
 | `1`  | Lines not found          |
 
-#### Standard Out
+##### Standard Out
 
 Specified lines from file expanded
 
@@ -795,25 +721,25 @@ Specified lines from file expanded
 ---
 
 
-### **`grab_text_blob`**
+#### **`grab_text_blob`**
 
 Output text from text blob in file specified by provided blob name
 
-#### Arguments
+##### Arguments
 
 | Name        | Type     | Description                        |
 | ----------- | :------: | ---------------------------------- |
 | `BLOB_NAME` | _string_ | Name of the blob of text to output |
 | `FILE_NAME` | _string_ | File to clip lines from            |
 
-#### Exit Codes
+##### Exit Codes
 
 | Code | Description         |
 | ---- | ------------------- |
 | `0`  | Text blob found     |
 | `1`  | Text blob not found |
 
-#### Standard Out
+##### Standard Out
 
 Specified text blob from file expanded
 
@@ -832,24 +758,80 @@ Specified text blob from file expanded
 ---
 
 
-### **`function_exists`**
+### SCRIPT
+
+---
+
+
+#### **`exit_err`**
+
+Output provided error message, optionally additional message, and exit with provided code
+
+##### Arguments
+
+| Name       | Type      | Description                             |
+| ---------- | :-------: | --------------------------------------- |
+| `ERR_CODE` | _integer_ | Exit code                               |
+| `ERR_MSG`  | _string_  | Message to output                       |
+| `ADD_MSG`  | _string_  | [OPTIONAL] Additional message to output |
+
+##### Exit Codes
+
+| Code | Description                  |
+| ---- | ---------------------------- |
+| `?`  | Provided `ERR_CODE` argument |
+
+##### Standard Error
+
+Provided **ERR_CODE** and **ERR_MSG** using the **EXIT_ERR_MSG_ERROR** format; and optional **UTIL_SCRIPT_CMD** (if set) using the **EXIT_ERR_MSG_COMMAND** format
+
+##### Standard Out
+
+If provided, additional message **ADD_MSG** using the **EXIT_ERR_MSG_ADDITIONAL** format
+
+> Example:
+>
+> ```bash
+> exit_err 12 "Missing value" "Extra data here"
+> ```
+>
+> Output:
+>
+> ```bash
+> Error [12]: Missing value
+> Extra data here
+> ```
+
+##### Environment Variables
+
+| Variable                  | Default                                                                                            | Description                                                   |
+| ------------------------- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| `EXIT_ERR_MSG_ERROR`      | `${NC_RED}Error [${NC_BOLD}%i${NC_RESET}${NC_RED}]${NC_RESET}: ${NC_BOLD}${NC_RED}%b${NC_RESET}\n` | Variable to store `printf` style string for error message     |
+| `EXIT_ERR_MSG_COMMAND`    | `${NC_RED}Command failed${NC_RESET}: ${NC_BOLD}${NC_WHITE}%b${NC_RESET}\n`                         | Variable to store `printf` style string for command string    |
+| `EXIT_ERR_MSG_ADDITIONAL` | `%s\n`                                                                                             | Variable to store `printf` style string for additional string |
+| `UTIL_SCRIPT_CMD`         |                                                                                                    | Variable to hold command string                               |
+
+---
+
+
+#### **`function_exists`**
 
 Returns status of function existing
 
-#### Arguments
+##### Arguments
 
 | Name            | Type     | Description                       |
 | --------------- | :------: | --------------------------------- |
 | `FUNCTION_NAME` | _string_ | Name of function to check for     |
 
-#### Exit Codes
+##### Exit Codes
 
 | Code | Description             |
 | ---- | ----------------------- |
 | `0`  | Function exists         |
 | `1`  | Function does not exist |
 
-#### Standard Out
+##### Standard Out
 
 > Example:
 >
@@ -862,18 +844,18 @@ Returns status of function existing
 ---
 
 
-### **`process_parameters`**
+#### **`process_parameters`**
 
 Process call parameters
 
-#### Arguments
+##### Arguments
 
 | Name             | Type     | Description                       |
 | ---------------- | :------: | --------------------------------- |
 | `PROCESS_ARG_FN` | _string_ | Name of argument process function |
 | `PROCESS_OPT_FN` | _string_ | Name of option process function   |
 
-#### Exit Codes
+##### Exit Codes
 
 | Code | Description                                           |
 | ---- | ----------------------------------------------------- |
@@ -882,7 +864,7 @@ Process call parameters
 | `2`  | Provided options processing function does not exist   |
 | `?`  | Processing options function return code               |
 
-#### Environment Variables
+##### Environment Variables
 
 | Variable                | Default              | Description                                   |
 | ----------------------- | -------------------- | --------------------------------------------- |
@@ -945,4 +927,45 @@ Process call parameters
 > }
 >
 > process_parameters "processArgs" "dispatchCommand" "${@}"
+> ```
+
+---
+
+
+### STRING
+
+---
+
+
+#### **`string_expand`**
+
+Output provided input processed to expand variables
+
+##### Arguments
+
+| Name    | Type     | Description                    |
+| ------- | :------: | ------------------------------ |
+| `INPUT` | _string_ | Text to evaluate for expansion |
+
+##### Exit Codes
+
+| Code | Description     |
+| ---- | --------------- |
+| `0`  | String expanded |
+| `1`  | String missing  |
+
+##### Standard Out
+
+Specified string expanded
+
+> Example:
+>
+> ```bash
+> string_expand "Output: \${STRING}"
+> ```
+>
+> Output:
+>
+> ```bash
+> Output: Test
 > ```
