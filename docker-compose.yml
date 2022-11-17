@@ -26,4 +26,4 @@ services:
             - ./:/data
         stdin_open: true
         tty: true
-        entrypoint: bashcov --skip-uncovered -- ./tests/bash-util-lib-test.sh
+        entrypoint: bashcov --skip-uncovered -- ./tests/bash-util-lib.test.sh
