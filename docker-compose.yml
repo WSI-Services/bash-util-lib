@@ -17,13 +17,4 @@ services:
             - ./:/data
         stdin_open: true
         tty: true
-        entrypoint: ["/bin/bash", "-c"]
-
-    unit-tests:
-        build:
-            context: ./dev/
-        volumes:
-            - ./:/data
-        stdin_open: true
-        tty: true
-        entrypoint: bashcov --skip-uncovered -- ./tests/bash-util-lib.test.sh
+        entrypoint: /data/dev/entrypoint

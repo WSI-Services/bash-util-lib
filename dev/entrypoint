@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+# file: functions.sh
+
+# shellcheck disable=SC2312 # Consider invoking this command separately to avoid masking its return value (or use '|| true' to ignore).
+
+
+__FILE__="$(readlink -f "${BASH_SOURCE[0]}")"
+__DIR__="$(dirname "${__FILE__}")"
+__PWD__="$(pwd)"
+DIR_PROJ="$(readlink -f "${__DIR__}/..")"
+DIR_SRC="${DIR_PROJ}/src"
+DIR_TESTS="${DIR_PROJ}/tests"
+
+function env_vars {
+    echo " -= Environment Variables =-"
+    echo " __FILE__: ${__FILE__}"
+    echo "  __DIR__: ${__DIR__}"
+    echo "  __PWD__: ${__PWD__}"
+    echo " DIR_PROJ: ${DIR_PROJ}"
+    echo "  DIR_SRC: ${DIR_SRC}"
+    echo "DIR_TESTS: ${DIR_TESTS}"
+}
+
+function unit-tests {
+    "${DIR_TESTS}/bash-util-lib.test.sh"
+}
+
+function coverage {
+    # Change to directory with `.simplecov` file 
+    if ! cd "${DIR_PROJ}"; then
+        echo "\033[91mFatal error:\033[31m could not change directory\033[0m" > /dev/stderr
+        exit 1
+    fi
+
+    bashcov --skip-uncovered -- "${DIR_TESTS}/bash-util-lib.test.sh"
+}
+
+function shellchecks {
+    # Change to directory with `.shellcheckrc` file 
+    if ! cd "${DIR_PROJ}"; then
+        echo "\033[91mFatal error:\033[31m could not change directory\033[0m" > /dev/stderr
+        exit 1
+    fi
+
+    shellcheck \
+        "${DIR_SRC}/bash-util-lib.sh" \
+        "${DIR_SRC}/bash-util-lib.ansi.sh" \
+        "${DIR_SRC}/bash-util-lib.file.sh" \
+        "${DIR_SRC}/bash-util-lib.script.sh" \
+        "${DIR_SRC}/bash-util-lib.string.sh" \
+        "${DIR_TESTS}/bash-util-lib.test.sh" \
+        "${DIR_TESTS}/bash-util-lib.ansi.test.sh" \
+        "${DIR_TESTS}/bash-util-lib.file.test.sh" \
+        "${DIR_TESTS}/bash-util-lib.script.test.sh" \
+        "${DIR_TESTS}/bash-util-lib.string.test.sh" \
+        "${DIR_TESTS}/shunit2.assert.command-test"
+}
+
+
+
+if [[ "$#" -eq 0 ]]; then
+    # No arguments provided
+    bash
+elif declare -F | awk '{print $3}' | grep -q "^$1$"; then
+    # First provided argument is name of defined function
+    "$@"
+else
+    # First provided argument is not name of defined function
+    exec "$@"
+fi
