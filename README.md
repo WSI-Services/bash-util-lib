@@ -3,6 +3,11 @@
 A library of bash utility functions (from output colors to parameter processing) for use in small projects.
 
 
+## Development
+
+There is a provided development environment for working on making _changes_, _improvements_, or _updates_ to this project.  [**READ MORE ...**](./DEVELOPMENT.md)
+
+
 ## Install
 
 The library can be installed using the following methods.

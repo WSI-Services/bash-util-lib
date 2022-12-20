@@ -1,10 +1,21 @@
 {
   "name": "bash-util-lib",
-  "version": "0.1.0",
   "description": "Bash Utility Library",
   "global": false,
+  "install": "make install",
   "scripts": [
-    "./src/bash-util-lib.sh"
+    "./src/bash-util-lib.sh",
+    "./src/bash-util-lib.ansi.sh",
+    "./src/bash-util-lib.file.sh",
+    "./src/bash-util-lib.script.sh",
+    "./src/bash-util-lib.string.sh"
   ],
-  "install": "install -b ./src/bash-util-lib.sh ${PREFIX:-/usr/local}/bin/bash-util-lib"
+  "commands": {
+    "docker-build": "docker-compose build",
+    "shell":        "docker-compose run --rm -it shell",
+    "execute":      "docker-compose run --rm -it execute $@",
+    "unit-tests":   "docker-compose run --rm -it execute unit-tests",
+    "coverage":     "docker-compose run --rm -it execute coverage",
+    "shellchecks":  "docker-compose run --rm -it execute shellchecks"
+  }
 }
