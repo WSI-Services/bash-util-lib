@@ -3,6 +3,9 @@
 # @file  Bash-Util-Lib (ANSI)
 # @brief Bash Utility Library (ANSI)
 
+# shellcheck disable=SC2034 # foo appears unused. Verify it or export it.
+
+
 if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
     BASH_UTIL_LIB_VERSION="0.1.0-dev"
     BASH_UTIL_LIB_MODULES="ANSI:${BASH_UTIL_LIB_MODULES}"
@@ -10,12 +13,12 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
 
     ES_USE=true
 
-    # @description  Output escape sequence with provided control code if ES_USE environment variable is true
+    # @description  Output escape sequence with provided control code if **`ES_USE`** environment variable is true
     #
-    # @arg  $CONTROL_CODE string - Argument to pass to escape sequence
+    # @arg  CONTROL_CODE string - Argument to pass to escape sequence
     #
-    # @exitcode  0  Command control code turned off or failed
-    # @exitcode  1  Command control code turned on and output sequence
+    # @exitcode  0  Command control code turned on and output sequence
+    # @exitcode  1  Command control code turned off or failed
     #
     # @stdout  Specified escape sequence control code
     es() {
@@ -36,11 +39,11 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
 
     # @description  Output escape sequence with provided color code for foreground or background
     #
-    # @arg  $COLOR string - escape sequence color integer
-    # @arg  $FG_BG string - Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else
+    # @arg  COLOR string - escape sequence color integer (0 - 255)
+    # @arg  FG_BG string - [OPTIONAL] Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else
     #
-    # @exitcode  0  Command control code turned off or failed
-    # @exitcode  1  Command control code turned on and output sequence
+    # @exitcode  0  Command control code turned on and output sequence
+    # @exitcode  1  Command control code turned off or failed
     #
     # @stdout  Specified escape sequence color code output
     es_color() {
@@ -59,13 +62,13 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
 
     # @description  Output escape sequence with provided red, green, blue color code for foreground or background
     #
-    # @arg  $R     integer - Red color integer
-    # @arg  $G     integer - Green color integer
-    # @arg  $B     integer - Blue color integer
-    # @arg  $FG_BG string  - Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else
+    # @arg  R     integer - Red color integer (0 - 255)
+    # @arg  G     integer - Green color integer (0 - 255)
+    # @arg  B     integer - Blue color integer (0 - 255)
+    # @arg  FG_BG string  - [OPTIONAL] Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else
     #
-    # @exitcode  0  Command control code turned off or failed
-    # @exitcode  1  Command control code turned on and output sequence
+    # @exitcode  0  Command control code turned on and output sequence
+    # @exitcode  1  Command control code turned off or failed
     #
     # @stdout  Specified escape sequence color code output
     es_color_rgb() {
@@ -86,11 +89,11 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
 
     # @description  Output escape sequence with provided HEX color code for foreground or background
     #
-    # @arg  $HEX   string - escape sequence color in HEX
-    # @arg  $FG_BG string - Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else
+    # @arg  HEX   string - Escape sequence color in HEX [RRGGBB] (00 - FF)
+    # @arg  FG_BG string - [OPTIONAL] Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else
     #
-    # @exitcode  0  Command control code turned off or failed
-    # @exitcode  1  Command control code turned on and output sequence
+    # @exitcode  0  Command control code turned on and output sequence
+    # @exitcode  1  Command control code turned off or failed
     #
     # @stdout  Specified escape sequence color code output
     es_color_hex() {
@@ -108,7 +111,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
 
     # @description  Output escape sequence with provided text attribute control code
     #
-    # @arg  $CONTROL_CODE string - escape sequence text attribute control code
+    # @arg  CONTROL_CODE string - [OPTIONAL] Escape sequence text attribute control code
     #           strike    Strike-through text
     #           hidden    Hidden text
     #           swap      Swap foreground and background colors
@@ -117,25 +120,25 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
     #           italic    Italic text
     #           fait      Faint text
     #           bold      Bold text
-    #           reset     Reset text formatting and colors
+    #           reset     Reset text formatting and colors [DEFAULT]
     #
-    # @exitcode  0  Command control code turned off or failed
-    # @exitcode  1  Command control code turned on and output sequence
+    # @exitcode  0  Command control code turned on and output sequence
+    # @exitcode  1  Command control code turned off or failed
     #
     # @stdout  Specified escape sequence text attribute control code output
     es_attrib() {
         local CONTROL_CODE="$1"
 
         case "$(echo "${CONTROL_CODE}" | tr '[:upper:]' '[:lower:]')" in
-            strike|9)   CONTROL_CODE="9m" ;; # Strike-through text
-            hidden|8)   CONTROL_CODE="8m" ;; # Hidden text
-                swap|7)   CONTROL_CODE="7m" ;; # Swap foreground and background colors
-            blink|5|6)   CONTROL_CODE="5m" ;; # Slow blink
-            underline|4)   CONTROL_CODE="4m" ;; # Underline text
-            italic|3)   CONTROL_CODE="3m" ;; # Italic text
-                faint|2)   CONTROL_CODE="2m" ;; # Faint text
-                bold|1)   CONTROL_CODE="1m" ;; # Bold text
-                reset|0|*) CONTROL_CODE="0m" ;; # Reset text formatting and colors
+               strike|9)   CONTROL_CODE="9m" ;;
+               hidden|8)   CONTROL_CODE="8m" ;;
+                 swap|7)   CONTROL_CODE="7m" ;;
+                blink|5|6) CONTROL_CODE="5m" ;;
+            underline|4)   CONTROL_CODE="4m" ;;
+               italic|3)   CONTROL_CODE="3m" ;;
+                faint|2)   CONTROL_CODE="2m" ;;
+                 bold|1)   CONTROL_CODE="1m" ;;
+                reset|0|*) CONTROL_CODE="0m" ;;
         esac
 
         es "${CONTROL_CODE}"
@@ -144,28 +147,28 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
 
     # @description  Output escape sequence with provided erase control code
     #
-    # @arg  $CONTROL_CODE string - escape sequence erase control code
+    # @arg  CONTROL_CODE string - [OPTIONAL] Escape sequence erase control code
     #           eol    Erase from cursor position to end of line
     #           sol    Erase from cursor position to start of line
     #           cur    Erase the entire current line
     #           bottom Erase from the current line to the bottom of the screen
     #           top    Erase from the current line to the top of the screen
-    #           clear  Clear the screen
+    #           clear  Clear the screen [DEFAULT]
     #
-    # @exitcode  0  Command control code turned off or failed
-    # @exitcode  1  Command control code turned on and output sequence
+    # @exitcode  0  Command control code turned on and output sequence
+    # @exitcode  1  Command control code turned off or failed
     #
     # @stdout  Specified escape sequence erase control code output
     es_erase() {
         local CONTROL_CODE="$1"
 
         case "$(echo "${CONTROL_CODE}" | tr '[:upper:]' '[:lower:]')" in
-            eol)   CONTROL_CODE="0K" ;; # Erase from cursor position to end of line
-            sol)   CONTROL_CODE="1K" ;; # Erase from cursor position to start of line
-            cur)   CONTROL_CODE="2K" ;; # Erase the entire current line
-            bottom)   CONTROL_CODE="0J" ;; # Erase from the current line to the bottom of the screen
-            top)   CONTROL_CODE="1J" ;; # Erase from the current line to the top of the screen
-            clear|*) CONTROL_CODE="2J" ;; # Clear the screen
+               eol)   CONTROL_CODE="0K" ;;
+               sol)   CONTROL_CODE="1K" ;;
+               cur)   CONTROL_CODE="2K" ;;
+            bottom)   CONTROL_CODE="0J" ;;
+               top)   CONTROL_CODE="1J" ;;
+             clear|*) CONTROL_CODE="2J" ;;
         esac
 
         es "${CONTROL_CODE}"
@@ -174,20 +177,20 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
 
     # @description  Output escape sequence with provided cursor control code
     #
-    # @arg  $CONTROL_CODE string - Escape sequence cursor control code
-    #           abs     Move cursor to absolute position (LINE;COLUMN)
-    #           up      Move cursor up N lines (NUM)
-    #           down    Move cursor down N lines (NUM)
-    #           right   Move cursor right N columns (NUM)
-    #           left    Move cursor left N columns (NUM)
+    # @arg  CONTROL_CODE string  - [OPTIONAL] Escape sequence cursor control code
+    #           abs     Move cursor to absolute position line _N_ column _N_
+    #           up      Move cursor up _N_ lines
+    #           down    Move cursor down _N_ lines
+    #           right   Move cursor right _N_ columns
+    #           left    Move cursor left _N_ columns
     #           save    Save cursor position
     #           restore Restore cursor position
-    #           home    Move cursor to home position (0,0)
-    # @arg  $VAL1         integer - Optional value for CONTROL_CODE
-    # @arg  $VAL2         integer - Optional value for CONTROL_CODE
+    #           home    Move cursor to home position (0, 0) [DEFAULT]
+    # @arg  VAL1         integer - [OPTIONAL] First value for CONTROL_CODE
+    # @arg  VAL2         integer - [OPTIONAL] Second value for CONTROL_CODE
     #
-    # @exitcode  0  Command control code turned off or failed
-    # @exitcode  1  Command control code turned on and output sequence
+    # @exitcode  0  Command control code turned on and output sequence
+    # @exitcode  1  Command control code turned off or failed
     #
     # @stdout  Specified escape sequence cursor control code output
     es_cursor() {
@@ -196,14 +199,14 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
         local VAL2="${3:-0}"
 
         case "$(echo "${CONTROL_CODE}" | tr '[:upper:]' '[:lower:]')" in
-                abs)   CONTROL_CODE="${VAL1};${VAL2}" ;; # Move cursor to absolute position
-                up)   CONTROL_CODE="${VAL1}A" ;;        # Move cursor up N lines
-            down)   CONTROL_CODE="${VAL1}B" ;;        # Move cursor down N lines
-            right)   CONTROL_CODE="${VAL1}C" ;;        # Move cursor right N columns
-            left)   CONTROL_CODE="${VAL1}D" ;;        # Move cursor left N columns
-            save)   CONTROL_CODE="s" ;;               # Save cursor position
-            restore)   CONTROL_CODE="u" ;;               # Restore cursor position
-            home|*) CONTROL_CODE="H" ;;               # Move cursor to home position (0,0)
+                abs)   CONTROL_CODE="${VAL1};${VAL2}" ;;
+                 up)   CONTROL_CODE="${VAL1}A" ;;
+               down)   CONTROL_CODE="${VAL1}B" ;;
+              right)   CONTROL_CODE="${VAL1}C" ;;
+               left)   CONTROL_CODE="${VAL1}D" ;;
+               save)   CONTROL_CODE="s" ;;
+            restore)   CONTROL_CODE="u" ;;
+               home|*) CONTROL_CODE="H" ;;
         esac
 
         es "${CONTROL_CODE}"
@@ -213,14 +216,14 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
     CMD_TPUT="$(which tput)"
     NC_USE=true
 
-    # @description  Call ncurses tput command with provided arguments if command exists and NC_USE environment variable is true
+    # @description  Call ncurses `tput`` command with provided arguments if command exists (**`CMD_TPUT`**) and **`NC_USE`**` environment variable is true
     #
-    # @arg  $@ array - Arguments to pass to ncurses command tput
+    # @arg  @ array - Arguments to pass to ncurses command `tput`
     #
-    # @exitcode  0  Command tput exists
-    # @exitcode  1  Command tput missing
+    # @exitcode  0  Command `tput` exists
+    # @exitcode  1  Command `tput` turned off, missing, or failed
     #
-    # @stdout  Specified ncurses tput output
+    # @stdout  Specified ncurses `tput` output
     nc() {
         case "${NC_USE}" in
             0|true) NC_USE=true ;;
@@ -241,13 +244,13 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
 
     # @description  Output ncurses color code for foreground or background
     #
-    # @arg  $COLOR string - ncurses color integer
-    # @arg  $FG_BG string - Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else
+    # @arg  COLOR integer - ncurses color integer
+    # @arg  FG_BG string  - [OPTIONAL] Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else
     #
-    # @exitcode  0  Command tput exists
-    # @exitcode  1  Command tput missing
+    # @exitcode  0  Command `tput` exists
+    # @exitcode  1  Command `tput` turned off, missing, or failed
     #
-    # @stdout  Specified ncurses tput color code output
+    # @stdout  Specified ncurses `tput`` color code output
     nc_color() {
         local COLOR="$1"
         local FG_BG="$2"
@@ -264,7 +267,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
 
     # @description  Output ncurses color index code from HEX
     #
-    # @arg  $HEX string - HEX color code (RRGGBB) without number sign
+    # @arg  HEX string - HEX color code [RRGGBB] (00 - FF)
     #
     # @exitcode  0  HEX value provided
     # @exitcode  1  HEX value not provided
@@ -293,13 +296,13 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
 
     # @description  Output ncurses color code in HEX for foreground or background
     #
-    # @arg  $HEX   string - ncurses color in HEX
-    # @arg  $FG_BG string - Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else
+    # @arg  HEX   string - HEX color code [RRGGBB] (00 - FF)
+    # @arg  FG_BG string - [OPTIONAL] Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else
     #
-    # @exitcode  0  Command tput exists
-    # @exitcode  1  Command tput missing
+    # @exitcode  0  Command `tput` exists
+    # @exitcode  1  Command `tput` turned off, missing, or failed
     #
-    # @stdout  Specified ncurses tput color code output
+    # @stdout  Specified ncurses `tput`` color code output
     nc_color_hex() {
         local HEX="$1"
         local FG_BG="$2"

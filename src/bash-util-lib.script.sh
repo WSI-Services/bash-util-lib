@@ -13,16 +13,20 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)SCRIPT(:|$) ]]; then
     EXIT_ERR_MSG_ADDITIONAL="%s\n"
     UTIL_SCRIPT_CMD=""
 
+    UTIL_ARRAY_SEPARATOR="$(printf '\n\t\v')"
+    UTIL_PARAM_POSITIONAL=""
+
+
     # @description  Output provided error message, optionally additional message, and exit with provided code
     #
-    # @arg  $ERR_CODE integer - Exit code
-    # @arg  $ERR_MSG  string  - Message to output
-    # @arg  $ADD_MSG  string  - [OPTIONAL] Additional message to output
+    # @arg  ERR_CODE integer - Exit code
+    # @arg  ERR_MSG  string  - Message to output
+    # @arg  ADD_MSG  string  - [OPTIONAL] Additional message to output
     #
     # @exitcode  ?  Provided ERR_CODE argument
     #
-    # @stderr  Provided ERR_CODE, ERR_MSG, optional UTIL_SCRIPT_CMD
-    # @stdout  [OPTIONAL] Provided additional message
+    # @stderr  Provided **`ERR_CODE`** and **`ERR_MSG`** using the **`EXIT_ERR_MSG_ERROR`** format; and optional **`UTIL_SCRIPT_CMD`** (if set) using the **`EXIT_ERR_MSG_COMMAND`** format
+    # @stdout  If provided, additional message **`ADD_MSG`** using the **`EXIT_ERR_MSG_ADDITIONAL`** format
     exit_err() {
         local ERR_CODE="$1"
         local ERR_MSG="$2"
@@ -41,9 +45,9 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)SCRIPT(:|$) ]]; then
         exit "${ERR_CODE}"
     }
 
-    # @description  Return if function exists
+    # @description  Returns status of function existing
     #
-    # @arg  $FUNCTION_NAME string - Name of function to check for
+    # @arg  FUNCTION_NAME string - Name of function to check for
     #
     # @exitcode  0  Function exists
     # @exitcode  1  Function does not exist
@@ -54,13 +58,10 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)SCRIPT(:|$) ]]; then
         return $?
     }
 
-    UTIL_ARRAY_SEPARATOR="$(printf '\n\t\v')"
-    UTIL_PARAM_POSITIONAL=""
-
     # @description  Process call parameters
     #
-    # @arg  $PROCESS_ARG_FN string - Name of argument process function
-    # @arg  $PROCESS_OPT_FN string - Name of option process function
+    # @arg  PROCESS_ARG_FN string - Name of argument process function
+    # @arg  PROCESS_OPT_FN string - Name of option process function
     #
     # @exitcode  0  Processing successful
     # @exitcode  1  Provided arguments processing function does not exist
