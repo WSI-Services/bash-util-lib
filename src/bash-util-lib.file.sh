@@ -10,8 +10,8 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)FILE(:|$) ]]; then
 
     # @description  Output last line number in provided file which matches provided pattern
     #
-    # @arg  $FILE_NAME string - File to scan for pattern
-    # @arg  $PATTERN   string - Pattern to scan file for
+    # @arg  FILE_NAME string - File to scan for pattern
+    # @arg  PATTERN   string - Pattern to scan file for
     #
     # @exitcode  0  Line found
     # @exitcode  1  Line not found
@@ -34,9 +34,9 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)FILE(:|$) ]]; then
 
     # @description  Output lines of provided file from provided start line till provided stop line
     #
-    # @arg  $FILE_NAME  string  - File to clip lines from
-    # @arg  $START_LINE integer - Line number to begin clip
-    # @arg  $STOP_LINE  integer - Line number to end clip
+    # @arg  FILE_NAME  string  - File to clip lines from
+    # @arg  START_LINE integer - Line number to begin clip
+    # @arg  STOP_LINE  integer - Line number to end clip
     #
     # @exitcode  0  Lines found
     # @exitcode  1  Lines not found
@@ -57,9 +57,9 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)FILE(:|$) ]]; then
 
     # @description  Output text from section in file specified by provided patterns
     #
-    # @arg  $START_PATTERN string - Pattern of the start line to output
-    # @arg  $STOP_PATTERN  string - Pattern of the stop line to output
-    # @arg  $FILE_NAME     string - File to clip lines from
+    # @arg  FILE_NAME     string - File to clip lines from
+    # @arg  START_PATTERN string - Pattern of the start line to output
+    # @arg  STOP_PATTERN  string - Pattern of the stop line to output
     #
     # @exitcode  0  Lines found and expanded
     # @exitcode  1  Lines not found
@@ -93,8 +93,8 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)FILE(:|$) ]]; then
 
     # @description  Output text from text blob in file specified by provided blob name
     #
-    # @arg  $BLOB_NAME string - Name of the blob of text to output
-    # @arg  $FILE_NAME string - File to clip lines from
+    # @arg  BLOB_NAME string - Name of the blob of text to output
+    # @arg  FILE_NAME string - File to clip lines from
     #
     # @exitcode  0  Text blob found
     # @exitcode  1  Text blob not found

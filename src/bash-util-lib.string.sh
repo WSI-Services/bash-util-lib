@@ -10,7 +10,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)STRING(:|$) ]]; then
 
     # @description  Output provided input processed to expand variables
     #
-    # @arg  $INPUT string - Text to evaluate for expansion
+    # @arg  INPUT string - Text to evaluate for expansion
     #
     # @exitcode  0  String expanded
     # @exitcode  1  String missing
