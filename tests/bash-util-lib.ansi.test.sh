@@ -1,8 +1,14 @@
 #!/usr/bin/env bash
 # file: bash-util-lib.ansi.test.sh
 
+# shellcheck disable=SC2119 # Use foo "$@" if function's $1 should mean script's $1.
+# shellcheck disable=SC2317 # Command appears to be unreachable. Check usage (or ignore if invoked indirectly).
+
+
 TESTS_DIR="$(dirname "${BASH_SOURCE[0]}")"
 SOURCE_DIR="$(readlink -f "${TESTS_DIR}/../src")"
+TPUT_SETAF_STRING="$(tput setaf 1)"
+TPUT_SETAB_STRING="$(tput setab 1)"
 
 # shellcheck source=../src/bash-util-lib.ansi.sh
 . "${SOURCE_DIR}/bash-util-lib.ansi.sh"
@@ -750,7 +756,7 @@ test_nc_controlCode() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'nc function not returning correct control sequence' \
-        "$(tput setaf 1)"
+        "${TPUT_SETAF_STRING}"
 }
 
 test_nc_envVarTurnedOff() {
@@ -776,7 +782,7 @@ test_nc_cmdTputEmpty() {
 
     assertCommandOutputNull 'nc function should not return output'
 
-    CMD_TPUT="$(which tput)"
+    CMD_TPUT="$(command -v tput)"
 
     assertNotNull 'CMD_TPUT environment variable empty' "${CMD_TPUT}"
 }
@@ -792,7 +798,7 @@ test_nc_color_defaultFgBg() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
-        "$(tput setaf 1)"
+        "${TPUT_SETAF_STRING}"
 }
 
 test_nc_color_foreground() {
@@ -801,28 +807,28 @@ test_nc_color_foreground() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
-        "$(tput setaf 1)"
+        "${TPUT_SETAF_STRING}"
 
     commandTest "nc_color '1' 'f'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
-        "$(tput setaf 1)"
+        "${TPUT_SETAF_STRING}"
 
     commandTest "nc_color '1' 'F'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
-        "$(tput setaf 1)"
+        "${TPUT_SETAF_STRING}"
 
     commandTest "nc_color '1' 'Foreground'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
-        "$(tput setaf 1)"
+        "${TPUT_SETAF_STRING}"
 }
 
 test_nc_color_background() {
@@ -831,21 +837,21 @@ test_nc_color_background() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
-        "$(tput setab 1)"
+        "${TPUT_SETAB_STRING}"
 
     commandTest "nc_color '1' 'B'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
-        "$(tput setab 1)"
+        "${TPUT_SETAB_STRING}"
 
     commandTest "nc_color '1' 'Background'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
-        "$(tput setab 1)"
+        "${TPUT_SETAB_STRING}"
 }
 
 test_nc_color_envVarTurnedOff() {
@@ -902,63 +908,79 @@ test_nc_color_from_hex_withColor() {
 test_nc_color_hex_defaultFgBg() {
     commandTest "nc_color_hex 'c7ff7c'"
 
+    TPUT_STRING="$(tput setaf 192)"
+
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'nc_color_hex function not returning correct control sequence' \
-        "$(tput setaf 192)"
+        "${TPUT_STRING}"
 }
 
 test_nc_color_hex_foreground() {
     commandTest "nc_color_hex 'c7ff7c' ''"
 
+    TPUT_STRING="$(tput setaf 192)"
+
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'nc_color_hex function not returning correct control sequence' \
-        "$(tput setaf 192)"
+        "${TPUT_STRING}"
 
     commandTest "nc_color_hex 'ffffff' 'f'"
 
+    TPUT_STRING="$(tput setaf 231)"
+
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'nc_color_hex function not returning correct control sequence' \
-        "$(tput setaf 231)"
+        "${TPUT_STRING}"
 
     commandTest "nc_color_hex '000000' 'F'"
 
+    TPUT_STRING="$(tput setaf 14)"
+
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'nc_color_hex function not returning correct control sequence' \
-        "$(tput setaf 14)"
+        "${TPUT_STRING}"
 
     commandTest "nc_color_hex 'ffffff' 'Foreground'"
 
+    TPUT_STRING="$(tput setaf 231)"
+
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'nc_color_hex function not returning correct control sequence' \
-        "$(tput setaf 231)"
+        "${TPUT_STRING}"
 }
 
 test_nc_color_hex_background() {
     commandTest "nc_color_hex 'ffffff' 'b'"
 
+    TPUT_STRING="$(tput setab 231)"
+
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'nc_color_hex function not returning correct control sequence' \
-        "$(tput setab 231)"
+        "${TPUT_STRING}"
 
     commandTest "nc_color_hex '000000' 'B'"
 
+    TPUT_STRING="$(tput setab 14)"
+
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'nc_color_hex function not returning correct control sequence' \
-        "$(tput setab 14)"
+        "${TPUT_STRING}"
 
     commandTest "nc_color_hex 'ffffff' 'Background'"
 
+    TPUT_STRING="$(tput setab 231)"
+
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'nc_color_hex function not returning correct control sequence' \
-        "$(tput setab 231)"
+        "${TPUT_STRING}"
 }
 
 test_nc_color_hex_envVarTurnedOff() {

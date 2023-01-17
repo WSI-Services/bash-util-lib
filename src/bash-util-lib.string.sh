@@ -3,6 +3,9 @@
 # @file  Bash-Util-Lib (String)
 # @brief Bash Utility Library (String)
 
+# shellcheck disable=SC2034 # foo appears unused. Verify it or export it.
+
+
 if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)STRING(:|$) ]]; then
     BASH_UTIL_LIB_VERSION="0.1.0-dev"
     BASH_UTIL_LIB_MODULES="STRING:${BASH_UTIL_LIB_MODULES}"

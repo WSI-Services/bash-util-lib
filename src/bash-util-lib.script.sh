@@ -3,6 +3,11 @@
 # @file  Bash-Util-Lib (Script)
 # @brief Bash Utility Library (Script)
 
+# shellcheck disable=SC2034 # foo appears unused. Verify it or export it.
+# shellcheck disable=SC2059 # Don't use variables in the printf format string. Use printf "..%s.." "$foo".
+# shellcheck disable=SC2154 # var is referenced but not assigned.
+
+
 if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)SCRIPT(:|$) ]]; then
     BASH_UTIL_LIB_VERSION="0.1.0-dev"
     BASH_UTIL_LIB_MODULES="SCRIPT:${BASH_UTIL_LIB_MODULES}"

@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 # file: bash-util-lib.string.test.sh
 
+# shellcheck disable=SC2016 # Expressions don't expand in single quotes, use double quotes for that.
+# shellcheck disable=SC2119 # Use foo "$@" if function's $1 should mean script's $1.
+# shellcheck disable=SC2317 # Command appears to be unreachable. Check usage (or ignore if invoked indirectly).
+
+
 TESTS_DIR="$(dirname "${BASH_SOURCE[0]}")"
 SOURCE_DIR="$(readlink -f "${TESTS_DIR}/../src")"
 

@@ -101,9 +101,9 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
         local FG_BG="$2"
         local CONTROL_CODE R G B
 
-        R=$(printf "%d\n" "$(printf '0x%0.2s' "${HEX}")")
-        G=$(printf "%d\n" "$(printf '0x%0.2s' "${HEX#??}")")
-        B=$(printf "%d\n" "$(printf '0x%0.2s' "${HEX#????}")")
+        R="$(printf "%d\n" "$(printf '0x%0.2s' "${HEX}")")"
+        G="$(printf "%d\n" "$(printf '0x%0.2s' "${HEX#??}")")"
+        B="$(printf "%d\n" "$(printf '0x%0.2s' "${HEX#????}")")"
 
         es_color_rgb "${R}" "${G}" "${B}" "${FG_BG}"
         return $?
@@ -213,7 +213,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
         return $?
     }
 
-    CMD_TPUT="$(which tput)"
+    CMD_TPUT="$(command -v tput)"
     NC_USE=true
 
     # @description  Call ncurses `tput`` command with provided arguments if command exists (**`CMD_TPUT`**) and **`NC_USE`**` environment variable is true
@@ -281,9 +281,9 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
             return 1
         fi
 
-        R=$(printf '0x%0.2s' "${HEX}")
-        G=$(printf '0x%0.2s' "${HEX#??}")
-        B=$(printf '0x%0.2s' "${HEX#????}")
+        R="$(printf '0x%0.2s' "${HEX}")"
+        G="$(printf '0x%0.2s' "${HEX#??}")"
+        B="$(printf '0x%0.2s' "${HEX#????}")"
 
         RGB="(R<75?0:(R-35)/40)*6*6"
         RGB="${RGB} + (G<75?0:(G-35)/40)*6"

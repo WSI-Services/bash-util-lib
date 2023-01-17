@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 # file: bash-util-lib.script.test.sh
 
+# shellcheck disable=SC2059 # Don't use variables in the printf format string.
+# shellcheck disable=SC2119 # Use foo "$@" if function's $1 should mean script's $1.
+# shellcheck disable=SC2317 # Command appears to be unreachable. Check usage (or ignore if invoked indirectly).
+
+
 TESTS_DIR="$(dirname "${BASH_SOURCE[0]}")"
 SOURCE_DIR="$(readlink -f "${TESTS_DIR}/../src")"
 
