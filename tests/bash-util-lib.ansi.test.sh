@@ -68,7 +68,7 @@ test_es_controlCode() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es function not returning correct control sequence' \
-        "$(printf "\033[38;5;1m")"
+        "$(printf "\x1b[38;5;1m")"
 }
 
 test_es_envVarTurnedOff() {
@@ -76,7 +76,7 @@ test_es_envVarTurnedOff() {
 
     commandTest "es '38;5;1m'"
 
-    assertCommandReturnTrue
+    assertCommandReturnFalse
 
     assertCommandOutputNull 'es function should not return output'
 
@@ -94,7 +94,7 @@ test_es_color_defaultFgBg() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color function not returning correct control sequence' \
-        "$(printf "\033[38;5;1m")"
+        "$(printf "\x1b[38;5;1m")"
 }
 
 test_es_color_foreground() {
@@ -103,28 +103,28 @@ test_es_color_foreground() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color function not returning correct control sequence' \
-        "$(printf "\033[38;5;1m")"
+        "$(printf "\x1b[38;5;1m")"
 
     commandTest "es_color '1' 'f'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color function not returning correct control sequence' \
-        "$(printf "\033[38;5;1m")"
+        "$(printf "\x1b[38;5;1m")"
 
     commandTest "es_color '1' 'F'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color function not returning correct control sequence' \
-        "$(printf "\033[38;5;1m")"
+        "$(printf "\x1b[38;5;1m")"
 
     commandTest "es_color '1' 'Foreground'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color function not returning correct control sequence' \
-        "$(printf "\033[38;5;1m")"
+        "$(printf "\x1b[38;5;1m")"
 }
 
 test_es_color_background() {
@@ -133,21 +133,21 @@ test_es_color_background() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color function not returning correct control sequence' \
-        "$(printf "\033[48;5;1m")"
+        "$(printf "\x1b[48;5;1m")"
 
     commandTest "es_color '1' 'B'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color function not returning correct control sequence' \
-        "$(printf "\033[48;5;1m")"
+        "$(printf "\x1b[48;5;1m")"
 
     commandTest "es_color '1' 'Background'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color function not returning correct control sequence' \
-        "$(printf "\033[48;5;1m")"
+        "$(printf "\x1b[48;5;1m")"
 }
 
 test_es_color_envVarTurnedOff() {
@@ -155,7 +155,7 @@ test_es_color_envVarTurnedOff() {
 
     commandTest "es_color '1'"
 
-    assertCommandReturnTrue
+    assertCommandReturnFalse
 
     assertCommandOutputNull 'es_color function should not return output'
 
@@ -173,7 +173,7 @@ test_es_color_rgb_defaultFgBg() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
-        "$(printf "\033[38;2;255;127;127m")"
+        "$(printf "\x1b[38;2;255;127;127m")"
 }
 
 test_es_color_rgb_foreground() {
@@ -182,28 +182,28 @@ test_es_color_rgb_foreground() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
-        "$(printf "\033[38;2;255;127;127m")"
+        "$(printf "\x1b[38;2;255;127;127m")"
 
     commandTest "es_color_rgb '255' '127' '127' 'f'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
-        "$(printf "\033[38;2;255;127;127m")"
+        "$(printf "\x1b[38;2;255;127;127m")"
 
     commandTest "es_color_rgb '255' '127' '127' 'F'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
-        "$(printf "\033[38;2;255;127;127m")"
+        "$(printf "\x1b[38;2;255;127;127m")"
 
     commandTest "es_color_rgb '255' '127' '127' 'Foreground'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
-        "$(printf "\033[38;2;255;127;127m")"
+        "$(printf "\x1b[38;2;255;127;127m")"
 }
 
 test_es_color_rgb_background() {
@@ -212,21 +212,21 @@ test_es_color_rgb_background() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
-        "$(printf "\033[48;2;255;127;127m")"
+        "$(printf "\x1b[48;2;255;127;127m")"
 
     commandTest "es_color_rgb '255' '127' '127' 'B'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
-        "$(printf "\033[48;2;255;127;127m")"
+        "$(printf "\x1b[48;2;255;127;127m")"
 
     commandTest "es_color_rgb '255' '127' '127' 'Background'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
-        "$(printf "\033[48;2;255;127;127m")"
+        "$(printf "\x1b[48;2;255;127;127m")"
 }
 
 test_es_color_rgb_envVarTurnedOff() {
@@ -234,7 +234,7 @@ test_es_color_rgb_envVarTurnedOff() {
 
     commandTest "es_color_rgb '255' '127' '127'"
 
-    assertCommandReturnTrue
+    assertCommandReturnFalse
 
     assertCommandOutputNull 'es_color_rgb function should not return output'
 
@@ -252,7 +252,7 @@ test_es_color_hex_defaultFgBg() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
-        "$(printf "\033[38;2;255;127;127m")"
+        "$(printf "\x1b[38;2;255;127;127m")"
 }
 
 test_es_color_hex_foreground() {
@@ -261,28 +261,28 @@ test_es_color_hex_foreground() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
-        "$(printf "\033[38;2;255;127;127m")"
+        "$(printf "\x1b[38;2;255;127;127m")"
 
     commandTest "es_color_hex 'ff7f7f' 'f'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
-        "$(printf "\033[38;2;255;127;127m")"
+        "$(printf "\x1b[38;2;255;127;127m")"
 
     commandTest "es_color_hex 'ff7f7f' 'F'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
-        "$(printf "\033[38;2;255;127;127m")"
+        "$(printf "\x1b[38;2;255;127;127m")"
 
     commandTest "es_color_hex 'ff7f7f' 'Foreground'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
-        "$(printf "\033[38;2;255;127;127m")"
+        "$(printf "\x1b[38;2;255;127;127m")"
 }
 
 test_es_color_hex_background() {
@@ -291,21 +291,21 @@ test_es_color_hex_background() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
-        "$(printf "\033[48;2;255;127;127m")"
+        "$(printf "\x1b[48;2;255;127;127m")"
 
     commandTest "es_color_hex 'ff7f7f' 'B'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
-        "$(printf "\033[48;2;255;127;127m")"
+        "$(printf "\x1b[48;2;255;127;127m")"
 
     commandTest "es_color_hex 'ff7f7f' 'Background'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
-        "$(printf "\033[48;2;255;127;127m")"
+        "$(printf "\x1b[48;2;255;127;127m")"
 }
 
 test_es_color_hex_envVarTurnedOff() {
@@ -313,7 +313,7 @@ test_es_color_hex_envVarTurnedOff() {
 
     commandTest "es_color_hex 'ff7f7f'"
 
-    assertCommandReturnTrue
+    assertCommandReturnFalse
 
     assertCommandOutputNull 'es_color_hex function should not return output'
 
@@ -331,7 +331,7 @@ test_es_attrib_defaultCode() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[0m")"
+        "$(printf "\x1b[0m")"
 }
 
 test_es_attrib_reset() {
@@ -340,21 +340,21 @@ test_es_attrib_reset() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[0m")"
+        "$(printf "\x1b[0m")"
 
     commandTest "es_attrib 0"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[0m")"
+        "$(printf "\x1b[0m")"
 
     commandTest "es_attrib 'anything'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[0m")"
+        "$(printf "\x1b[0m")"
 }
 
 test_es_attrib_bold() {
@@ -363,14 +363,14 @@ test_es_attrib_bold() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[1m")"
+        "$(printf "\x1b[1m")"
 
     commandTest "es_attrib 1"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[1m")"
+        "$(printf "\x1b[1m")"
 }
 
 test_es_attrib_faint() {
@@ -379,14 +379,14 @@ test_es_attrib_faint() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[2m")"
+        "$(printf "\x1b[2m")"
 
     commandTest "es_attrib 2"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[2m")"
+        "$(printf "\x1b[2m")"
 }
 
 test_es_attrib_italic() {
@@ -395,14 +395,14 @@ test_es_attrib_italic() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[3m")"
+        "$(printf "\x1b[3m")"
 
     commandTest "es_attrib 3"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[3m")"
+        "$(printf "\x1b[3m")"
 }
 
 test_es_attrib_underline() {
@@ -411,14 +411,14 @@ test_es_attrib_underline() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[4m")"
+        "$(printf "\x1b[4m")"
 
     commandTest "es_attrib 4"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[4m")"
+        "$(printf "\x1b[4m")"
 }
 
 test_es_attrib_blink() {
@@ -427,21 +427,21 @@ test_es_attrib_blink() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[5m")"
+        "$(printf "\x1b[5m")"
 
     commandTest "es_attrib 5"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[5m")"
+        "$(printf "\x1b[5m")"
 
     commandTest "es_attrib 6"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[5m")"
+        "$(printf "\x1b[5m")"
 }
 
 test_es_attrib_swap() {
@@ -450,14 +450,14 @@ test_es_attrib_swap() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[7m")"
+        "$(printf "\x1b[7m")"
 
     commandTest "es_attrib 7"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[7m")"
+        "$(printf "\x1b[7m")"
 }
 
 test_es_attrib_hidden() {
@@ -466,14 +466,14 @@ test_es_attrib_hidden() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[8m")"
+        "$(printf "\x1b[8m")"
 
     commandTest "es_attrib 8"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[8m")"
+        "$(printf "\x1b[8m")"
 }
 
 test_es_attrib_strike() {
@@ -482,14 +482,14 @@ test_es_attrib_strike() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[9m")"
+        "$(printf "\x1b[9m")"
 
     commandTest "es_attrib 9"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\033[9m")"
+        "$(printf "\x1b[9m")"
 }
 
 test_es_attrib_envVarTurnedOff() {
@@ -497,7 +497,7 @@ test_es_attrib_envVarTurnedOff() {
 
     commandTest "es_attrib 'clear'"
 
-    assertCommandReturnTrue
+    assertCommandReturnFalse
 
     assertCommandOutputNull 'es_attrib function should not return output'
 
@@ -515,7 +515,7 @@ test_es_erase_defaultCode() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_erase function not returning correct control sequence' \
-        "$(printf "\033[2J")"
+        "$(printf "\x1b[2J")"
 }
 
 test_es_erase_clear() {
@@ -524,14 +524,14 @@ test_es_erase_clear() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_erase function not returning correct control sequence' \
-        "$(printf "\033[2J")"
+        "$(printf "\x1b[2J")"
 
     commandTest "es_erase 'anything'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_erase function not returning correct control sequence' \
-        "$(printf "\033[2J")"
+        "$(printf "\x1b[2J")"
 }
 
 test_es_erase_top() {
@@ -540,7 +540,7 @@ test_es_erase_top() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_erase function not returning correct control sequence' \
-        "$(printf "\033[1J")"
+        "$(printf "\x1b[1J")"
 }
 
 test_es_erase_bottom() {
@@ -549,7 +549,7 @@ test_es_erase_bottom() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_erase function not returning correct control sequence' \
-        "$(printf "\033[0J")"
+        "$(printf "\x1b[0J")"
 }
 
 test_es_erase_cur() {
@@ -558,7 +558,7 @@ test_es_erase_cur() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_erase function not returning correct control sequence' \
-        "$(printf "\033[2K")"
+        "$(printf "\x1b[2K")"
 }
 
 test_es_erase_sol() {
@@ -567,7 +567,7 @@ test_es_erase_sol() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_erase function not returning correct control sequence' \
-        "$(printf "\033[1K")"
+        "$(printf "\x1b[1K")"
 }
 
 test_es_erase_eol() {
@@ -576,7 +576,7 @@ test_es_erase_eol() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_erase function not returning correct control sequence' \
-        "$(printf "\033[0K")"
+        "$(printf "\x1b[0K")"
 }
 
 test_es_erase_envVarTurnedOff() {
@@ -584,7 +584,7 @@ test_es_erase_envVarTurnedOff() {
 
     commandTest "es_erase 'clear'"
 
-    assertCommandReturnTrue
+    assertCommandReturnFalse
 
     assertCommandOutputNull 'es_erase function should not return output'
 
@@ -602,7 +602,7 @@ test_es_cursor_defaultCode() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\033[H")"
+        "$(printf "\x1b[H")"
 }
 
 test_es_cursor_home() {
@@ -611,14 +611,14 @@ test_es_cursor_home() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\033[H")"
+        "$(printf "\x1b[H")"
 
     commandTest "es_cursor 'anything'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\033[H")"
+        "$(printf "\x1b[H")"
 }
 
 test_es_cursor_restore() {
@@ -627,7 +627,7 @@ test_es_cursor_restore() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\033[u")"
+        "$(printf "\x1b[u")"
 }
 
 test_es_cursor_save() {
@@ -636,7 +636,7 @@ test_es_cursor_save() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\033[s")"
+        "$(printf "\x1b[s")"
 }
 
 test_es_cursor_leftDefaultValue() {
@@ -645,7 +645,7 @@ test_es_cursor_leftDefaultValue() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\033[0D")"
+        "$(printf "\x1b[0D")"
 }
 
 test_es_cursor_left() {
@@ -654,7 +654,7 @@ test_es_cursor_left() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\033[4D")"
+        "$(printf "\x1b[4D")"
 }
 
 test_es_cursor_rightDefaultValue() {
@@ -663,7 +663,7 @@ test_es_cursor_rightDefaultValue() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\033[0C")"
+        "$(printf "\x1b[0C")"
 }
 
 test_es_cursor_right() {
@@ -672,7 +672,7 @@ test_es_cursor_right() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\033[4C")"
+        "$(printf "\x1b[4C")"
 }
 
 test_es_cursor_downDefaultValue() {
@@ -681,7 +681,7 @@ test_es_cursor_downDefaultValue() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\033[0B")"
+        "$(printf "\x1b[0B")"
 }
 
 test_es_cursor_down() {
@@ -690,7 +690,7 @@ test_es_cursor_down() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\033[4B")"
+        "$(printf "\x1b[4B")"
 }
 
 test_es_cursor_upDefaultValue() {
@@ -699,7 +699,7 @@ test_es_cursor_upDefaultValue() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\033[0A")"
+        "$(printf "\x1b[0A")"
 }
 
 test_es_cursor_up() {
@@ -708,7 +708,7 @@ test_es_cursor_up() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\033[4A")"
+        "$(printf "\x1b[4A")"
 }
 
 test_es_cursor_absDefaultValue() {
@@ -717,7 +717,7 @@ test_es_cursor_absDefaultValue() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\033[0;0")"
+        "$(printf "\x1b[0;0")"
 }
 
 test_es_cursor_abs() {
@@ -726,7 +726,7 @@ test_es_cursor_abs() {
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\033[3;4")"
+        "$(printf "\x1b[3;4")"
 }
 
 test_es_cursor_envVarTurnedOff() {
@@ -734,7 +734,7 @@ test_es_cursor_envVarTurnedOff() {
 
     commandTest "es_cursor 'home'"
 
-    assertCommandReturnTrue
+    assertCommandReturnFalse
 
     assertCommandOutputNull 'es_cursor function should not return output'
 

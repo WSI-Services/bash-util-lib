@@ -3,8 +3,6 @@
 # @file  Bash-Util-Lib (ANSI)
 # @brief Bash Utility Library (ANSI)
 
-# shellcheck disable=SC2034 # foo appears unused. Verify it or export it.
-
 
 if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
     BASH_UTIL_LIB_VERSION="0.1.0-dev"
@@ -32,10 +30,10 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
         esac
 
         if ${ES_USE}; then
-            printf "\033[%s" "${CONTROL_CODE}"
+            printf "%b%s" "${ANSI_CSI}" "${CONTROL_CODE}"
             return $?
         else
-            return 0
+            return 1
         fi
     }
 
