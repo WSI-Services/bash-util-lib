@@ -10,6 +10,8 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
     BASH_UTIL_LIB_VERSION="0.1.0-dev"
     BASH_UTIL_LIB_MODULES="ANSI:${BASH_UTIL_LIB_MODULES}"
 
+    source "$(dirname "${BASH_SOURCE[0]}")/bash-util-lib.ansi.const.sh"
+
 
     ES_USE=true
 
@@ -238,10 +240,6 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
         fi
     }
 
-    NC_BOLD="$(nc bold)"
-    NC_UNDERLINE="$(nc sgr 0 1)"
-    NC_RESET="$(nc sgr0)"
-
     # @description  Output ncurses color code for foreground or background
     #
     # @arg  COLOR integer - ncurses color integer
@@ -313,21 +311,4 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
         nc_color "${COLOR}" "${FG_BG}"
         return $?
     }
-
-    NC_BLACK="$(nc_color_hex 000000)"
-    NC_RED="$(nc_color_hex ff0000)"
-    NC_GREEN="$(nc_color_hex 00ff00)"
-    NC_YELLOW="$(nc_color_hex ffff00)"
-    NC_BLUE="$(nc_color_hex 0000ff)"
-    NC_MAGENTA="$(nc_color_hex ff00ff)"
-    NC_CYAN="$(nc_color_hex 00ffff)"
-    NC_WHITE="$(nc_color_hex ffffff)"
-    NC_BLACK_BG="$(nc_color_hex 000000 b)"
-    NC_RED_BG="$(nc_color_hex ff0000 b)"
-    NC_GREEN_BG="$(nc_color_hex 00ff00 b)"
-    NC_YELLOW_BG="$(nc_color_hex ffff00 b)"
-    NC_BLUE_BG="$(nc_color_hex 0000ff b)"
-    NC_MAGENTA_BG="$(nc_color_hex ff00ff b)"
-    NC_CYAN_BG="$(nc_color_hex 00ffff b)"
-    NC_WHITE_BG="$(nc_color_hex ffffff b)"
 fi

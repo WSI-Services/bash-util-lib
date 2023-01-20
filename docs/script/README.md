@@ -21,14 +21,14 @@
 
 ## Environment Variables
 
-| Variable                  | Default                                                                                            | Description                                                   |
-| ------------------------- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
-| `EXIT_ERR_MSG_ERROR`      | `${NC_RED}Error [${NC_BOLD}%i${NC_RESET}${NC_RED}]${NC_RESET}: ${NC_BOLD}${NC_RED}%b${NC_RESET}\n` | Variable to store `printf` style string for error message     |
-| `EXIT_ERR_MSG_COMMAND`    | `${NC_RED}Command failed${NC_RESET}: ${NC_BOLD}${NC_WHITE}%b${NC_RESET}\n`                         | Variable to store `printf` style string for command string    |
-| `EXIT_ERR_MSG_ADDITIONAL` | `%s\n`                                                                                             | Variable to store `printf` style string for additional string |
-| `UTIL_SCRIPT_CMD`         |                                                                                                    | Variable to hold command string                               |
-| `UTIL_ARRAY_SEPARATOR`    | `$(printf '\n\t\v')`                                                                               | Value to use to separate positional arguments                 |
-| `UTIL_PARAM_POSITIONAL`   |                                                                                                    | Variable to store positional arguments                        |
+| Variable                  | Default                                                                                                            | Description                                                   |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------- |
+| `EXIT_ERR_MSG_ERROR`      | `${ANSI_RED}Error [${ANSI_BOLD}%i${ANSI_RESET}${ANSI_RED}]${ANSI_RESET}: ${ANSI_BOLD}${ANSI_RED}%b${ANSI_RESET}\n` | Variable to store `printf` style string for error message     |
+| `EXIT_ERR_MSG_COMMAND`    | `${ANSI_RED}Command failed${ANSI_RESET}: ${ANSI_BOLD}${ANSI_WHITE}%b${ANSI_RESET}\n`                               | Variable to store `printf` style string for command string    |
+| `EXIT_ERR_MSG_ADDITIONAL` | `%s\n`                                                                                                             | Variable to store `printf` style string for additional string |
+| `UTIL_SCRIPT_CMD`         |                                                                                                                    | Variable to hold command string                               |
+| `UTIL_ARRAY_SEPARATOR`    | `$(printf '\n\t\v')`                                                                                               | Value to use to separate positional arguments                 |
+| `UTIL_PARAM_POSITIONAL`   |                                                                                                                    | Variable to store positional arguments                        |
 
 ---
 

@@ -3,6 +3,7 @@
 > **Navegate: &nbsp; [ [^ Parent: Manual](../MANUAL.md) &nbsp;&mdash;&nbsp; [> Next: File](../file/README.md) ]**
 
 - [ANSI](#ansi)
+  - [Constants](#constants)
   - [Environment Variables](#environment-variables)
   - [**`es`**](#es)
     - [Arguments](#arguments)
@@ -52,32 +53,22 @@
 ---
 
 
+## Constants
+
+ANSI has a few read-only environment variables defined in their own component module library.
+
+[**READ MORE ...**](./const/README.md)
+
+---
+
+
 ## Environment Variables
 
-| Variable        | Default                    | Description                                                                        |
-| --------------- | -------------------------- | ---------------------------------------------------------------------------------- |
-| `ES_USE`        | `true`                     | Value as to whether to use escape sequence commands (used with any `ES*` function) |
-| `NC_USE`        | `true`                     | Value as to whether to use ncurses commands (used with any `NC*` function)         |
-| `CMD_TPUT`      | `$(which tput)`            | Path to `tput` command utility (used with any `NC*` function)                      |
-| `NC_BOLD`       | `$(nc bold)`               | ncurses command for text bold                                                      |
-| `NC_UNDERLINE`  | `$(nc sgr 0 1)`            | ncurses command for text underline                                                 |
-| `NC_RESET`      | `$(nc sgr0)`               | ncurses command for text reset                                                     |
-| `NC_BLACK`      | `$(nc_color_hex 000000)`   | ncurses command for text foreground color black                                    |
-| `NC_BLACK_BG`   | `$(nc_color_hex 000000 b)` | ncurses command for text background color black                                    |
-| `NC_RED`        | `$(nc_color_hex ff0000)`   | ncurses command for text foreground color red                                      |
-| `NC_RED_BG`     | `$(nc_color_hex ff0000 b)` | ncurses command for text background color red                                      |
-| `NC_GREEN`      | `$(nc_color_hex 00ff00)`   | ncurses command for text foreground color green                                    |
-| `NC_GREEN_BG`   | `$(nc_color_hex 00ff00 b)` | ncurses command for text background color green                                    |
-| `NC_YELLOW`     | `$(nc_color_hex ffff00)`   | ncurses command for text foreground color yellow                                   |
-| `NC_YELLOW_BG`  | `$(nc_color_hex ffff00 b)` | ncurses command for text background color yellow                                   |
-| `NC_BLUE`       | `$(nc_color_hex 0000ff)`   | ncurses command for text foreground color blue                                     |
-| `NC_BLUE_BG`    | `$(nc_color_hex 0000ff b)` | ncurses command for text background color blue                                     |
-| `NC_MAGENTA`    | `$(nc_color_hex ff00ff)`   | ncurses command for text foreground color magenta                                  |
-| `NC_MAGENTA_BG` | `$(nc_color_hex ff00ff b)` | ncurses command for text background color magenta                                  |
-| `NC_CYAN`       | `$(nc_color_hex 00ffff)`   | ncurses command for text foreground color cyan                                     |
-| `NC_CYAN_BG`    | `$(nc_color_hex 00ffff b)` | ncurses command for text background color cyan                                     |
-| `NC_WHITE`      | `$(nc_color_hex ffffff)`   | ncurses command for text foreground color white                                    |
-| `NC_WHITE_BG`   | `$(nc_color_hex ffffff b)` | ncurses command for text background color white                                    |
+| Variable                 | Default         | Description                                                                         |
+| ------------------------ | --------------- | ----------------------------------------------------------------------------------- |
+| `ES_USE`                 | `true`          | Value as to whether to use escape sequence commands  (used with any `ES*` function) |
+| `NC_USE`                 | `true`          | Value as to whether to use ncurses commands  (used with any `NC*` function)         |
+| `CMD_TPUT`               | `$(which tput)` | Path to `tput` command utility (used with any `NC*` function)                       |
 
 ---
 

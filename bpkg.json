@@ -5,6 +5,7 @@
   "install": "make install",
   "scripts": [
     "./src/bash-util-lib.sh",
+    "./src/bash-util-lib.ansi.const.sh",
     "./src/bash-util-lib.ansi.sh",
     "./src/bash-util-lib.file.sh",
     "./src/bash-util-lib.script.sh",

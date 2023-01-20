@@ -3,6 +3,7 @@
 
 TESTS_DIR="$(dirname "${BASH_SOURCE[0]}")"
 
+"${TESTS_DIR}/bash-util-lib.ansi.const.test.sh"
 "${TESTS_DIR}/bash-util-lib.ansi.test.sh"
 "${TESTS_DIR}/bash-util-lib.file.test.sh"
 "${TESTS_DIR}/bash-util-lib.script.test.sh"
