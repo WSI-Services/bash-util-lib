@@ -1,34 +1,73 @@
-# Development Environment
+# Development
 
 > **Navegate: &nbsp; [ [^ Parent: Bash Utility Library](../README.md) &nbsp;&mdash;&nbsp; [< Previous: Install](./INSTALL.md) &nbsp;&mdash;&nbsp; [> Next: Usage Manual](./MANUAL.md) ]**
 
-- [Development Environment](#development-environment)
-  - [Docker](#docker)
-    - [**`docker-compose.yml`**](#docker-composeyml)
-    - [**`Dockerfile`**](#dockerfile)
-    - [**`entrypoint`**](#entrypoint)
-  - [Tools](#tools)
-    - [BPKG](#bpkg)
-      - [BPKG Commands](#bpkg-commands)
-    - [Shellcheck](#shellcheck)
-    - [shUnit2](#shunit2)
-    - [BashCov](#bashcov)
+- [Development](#development)
+  - [Project](#project)
+    - [Creating Library Script](#creating-library-script)
+    - [Creating Non-Library Script](#creating-non-library-script)
+    - [Creating Unit Test](#creating-unit-test)
+  - [Environment](#environment)
+    - [Docker](#docker)
+      - [**`docker-compose.yml`**](#docker-composeyml)
+      - [**`Dockerfile`**](#dockerfile)
+      - [**`entrypoint`**](#entrypoint)
+    - [Tools](#tools)
+      - [BPKG](#bpkg)
+        - [BPKG Commands](#bpkg-commands)
+      - [Shellcheck](#shellcheck)
+      - [shUnit2](#shunit2)
+      - [BashCov](#bashcov)
 
 ---
+
+
+## Project
+
+When working on the project it's important to keep aspects consistent for a reliable outcome.
+
+---
+
+
+### Creating Library Script
+
+- Name script with the template `bash-util-lib.{COMPONENT}.sh`, where `{COMPONENT}` is the specific component for the library
+- Add script in [`src`](../src) directory
+- [Create unit test](#creating-unit-test) to run against script
+
+---
+
+
+### Creating Non-Library Script
+
+- Add script to [`entrypoint`](#entrypoint) function `shellchecks`
+
+---
+
+
+### Creating Unit Test
+
+- Name test with the template `bash-util-lib.{COMPONENT}.test.sh`, where `{COMPONENT}` is the specific component for the library
+- Add test in [`tests`](../tests) directory
+
+---
+
+
+## Environment
 
 It's helpful to have BPKG and Docker installed in your environment, the reset of the tools are provided within the development Docker container; thus not needed on the host system.
 
 ---
 
 
-## Docker
+### Docker
 
 A Docker container is provided for use in the development environment, the image is specified in the [_`Dockerfile`_](../dev/Dockerfile) definition, the services are defined in the [_`docker-compose.yml`_](../docker-compose.yml) configuration, and a shell script [_`entrypoint`_](../dev/entrypoint) provides a simplified internal environment.
 
 ---
 
 
-### **`docker-compose.yml`**
+#### **`docker-compose.yml`**
 
 The configuration file resides in the root of the project and defines the following services:
 
@@ -38,7 +77,7 @@ The configuration file resides in the root of the project and defines the follow
 ---
 
 
-### **`Dockerfile`**
+#### **`Dockerfile`**
 
 The image specification file is located in the project `dev` directory.
 
@@ -53,7 +92,7 @@ It specifies the following:
 ---
 
 
-### **`entrypoint`**
+#### **`entrypoint`**
 
 The script used for the entrypoint is located in the project `dev` directory.  There are functions defined within the script and can be executed by calling them as the first argument.  If it's invoked with no parameter, `bash` is launched.  If the first argument isn't a defined function, the provided arguments will be provided by `exec`.
 
@@ -67,14 +106,14 @@ The entrypoint functions defined:
 ---
 
 
-## Tools
+### Tools
 
 The provided development environment has several tools.
 
 ---
 
 
-### BPKG
+#### BPKG
 
 [BPKG](https://bpkg.sh/) is a _bash package manager_.  Located in the root of the project, there is a file named [`bpkg.json`](../bpkg.json); this file specifies information about this project.  You can read more information about this file format on the [Package Guidelines](https://bpkg.sh/guidelines/) page.
 
@@ -89,7 +128,7 @@ The following values are used in this projects BPKG file:
 ---
 
 
-#### BPKG Commands
+##### BPKG Commands
 
 The specified commands can be executed from the command line by calling them by name with the BPKG utilities `run` command:
 
@@ -111,14 +150,14 @@ The configured commands are for building and running within the Docker container
 ---
 
 
-### Shellcheck
+#### Shellcheck
 
 [Shellcheck](https://github.com/koalaman/shellcheck) is a static analysis tool, to locate syntax issues, semantic problems, and point out subtle caveats, corner cases, and pitfalls.  The project has a [`.shellcheckrc`](../.shellcheckrc) defining project wide directives.  Enabling optional checks (provided with the `--list-optional` flag), external sources, and defining source paths.  
 
 ---
 
 
-### shUnit2
+#### shUnit2
 
 A shell based xUnit testing framework, [shUnit2](https://github.com/kward/shunit2) uses assertion based testing to make sure of expected functionality.  The testing files exist in the [`tests`](../tests) directory; a single tests file for each shell script in the [`src`](../src) directory.  Functions prefaced with the string 'test' (ex: _`test_this_function`_) are treated as tests to perform and will either _pass_ or _fail_.  There are four function names which are specially used during the testing process; one for before all tests (ie: _`oneTimeSetUp`_), one for after all tests (ie: _`oneTimeTearDown`_), one for before each test (ie: _`setUp`_), and one for after each test (ie: _`tearDown`_).
 
@@ -136,7 +175,7 @@ If all setup and teardown functions were defined and there were two tests (ie: `
 ---
 
 
-### BashCov
+#### BashCov
 
 An execution coverage analysis tool, [Bashcov](https://github.com/infertux/bashcov) is built on SimpleCov, and provides an [HTML report](../coverage/index.html) of how many times each line of code is executed during execution.  By using this utility while running tests, this provides a comprehensive report of which code is covered by tests and which is lacking.  The configuration file (ie: [`.simplecov`](../.simplecov)) defines test suites, groups, and filters as defined by the SimpleCov utility.
 

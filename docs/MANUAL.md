@@ -1,6 +1,6 @@
 # Usage Manual
 
-> **Navegate: &nbsp; [ [^ Parent: Bash Utility Library](../README.md) &nbsp;&mdash;&nbsp; [< Previous: Development Environment](./DEVELOPMENT.md) ]**
+> **Navegate: &nbsp; [ [^ Parent: Bash Utility Library](../README.md) &nbsp;&mdash;&nbsp; [< Previous: Development](./DEVELOPMENT.md) ]**
 
 - [Usage Manual](#usage-manual)
   - [Usage](#usage)
