@@ -12,6 +12,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)SCRIPT(:|$) ]]; then
     BASH_UTIL_LIB_VERSION="0.1.0-dev"
     BASH_UTIL_LIB_MODULES="SCRIPT:${BASH_UTIL_LIB_MODULES}"
 
+    source "$(dirname "${BASH_SOURCE[0]}")/bash-util-lib.ansi.const.sh"
 
 
     EXIT_ERR_MSG_ERROR="${ANSI_RED}Error [${ANSI_BOLD}%i${ANSI_RESET}${ANSI_RED}]${ANSI_RESET}: ${ANSI_BOLD}${ANSI_RED}%b${ANSI_RESET}\n"
