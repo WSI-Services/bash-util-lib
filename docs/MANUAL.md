@@ -23,17 +23,17 @@ source "deps/bash-util-lib/src/bash-util-lib.string.sh"
 If you want to provide a dynamic source include, allowing local or global path, add the project dependency bin directory to the environment `PATH` before performing the `source`.
 
 ```bash
-__SCRIPT_DIRNAME="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+__SCRIPT_DIRNAME="$(dirname "${BASH_SOURCE[0]}")"
 
 # Add dependency bin to PATH
 if [[ -d "${__SCRIPT_DIRNAME}/${BPKG_DEPS:-deps}/bin" ]]; then
     PATH="${__SCRIPT_DIRNAME}/${BPKG_DEPS:-deps}/bin:${PATH}"
 fi
 
-source "bash-util-lib.ansi"
-source "bash-util-lib.file"
-source "bash-util-lib.script"
-source "bash-util-lib.string"
+source "bash-util-lib.ansi.sh"
+source "bash-util-lib.file.sh"
+source "bash-util-lib.script.sh"
+source "bash-util-lib.string.sh"
 ```
 
 ---
