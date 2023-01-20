@@ -2,6 +2,9 @@
 
 > **Navegate: &nbsp; [ [^ Parent: Manual](../MANUAL.md) &nbsp;&mdash;&nbsp; [< Previous: Script](../script/README.md) ]**
 
+
+This component module library is named [`bash-util-lib.string.sh`](../../src/bash-util-lib.string.sh).
+
 - [String](#string)
   - [**`string_expand`**](#string_expand)
     - [Arguments](#arguments)

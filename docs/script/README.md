@@ -2,6 +2,9 @@
 
 > **Navegate: &nbsp; [ [^ Parent: Manual](../MANUAL.md) &nbsp;&mdash;&nbsp; [< Previous: File](../file/README.md) &nbsp;&mdash;&nbsp; [> Next: String](../string/README.md) ]**
 
+
+This component module library is named [`bash-util-lib.script.sh`](../../src/bash-util-lib.script.sh).
+
 - [Script](#script)
   - [Environment Variables](#environment-variables)
   - [**`exit_err`**](#exit_err)

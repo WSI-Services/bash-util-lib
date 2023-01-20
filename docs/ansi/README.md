@@ -2,6 +2,9 @@
 
 > **Navegate: &nbsp; [ [^ Parent: Manual](../MANUAL.md) &nbsp;&mdash;&nbsp; [> Next: File](../file/README.md) ]**
 
+
+This component module library is named [`bash-util-lib.ansi.sh`](../../src/bash-util-lib.ansi.sh).
+
 - [ANSI](#ansi)
   - [Constants](#constants)
   - [Environment Variables](#environment-variables)

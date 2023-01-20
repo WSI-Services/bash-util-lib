@@ -2,6 +2,9 @@
 
 > **Navegate: &nbsp; [ [^ Parent: ANSI](../README.md) ]**
 
+
+This component module library is named [`bash-util-lib.ansi.const.sh`](../../../src/bash-util-lib.ansi.const.sh).
+
 - [ANSI Constants](#ansi-constants)
   - [Environment Variables](#environment-variables)
 
