@@ -764,7 +764,7 @@ test_nc_envVarTurnedOff() {
 
     commandTest "nc 'setaf' '1'"
 
-    assertCommandReturnTrue
+    assertCommandReturnFalse
 
     assertCommandOutputNull 'nc function should not return output'
 
@@ -859,7 +859,7 @@ test_nc_color_envVarTurnedOff() {
 
     commandTest "nc_color '1'"
 
-    assertCommandReturnTrue
+    assertCommandReturnFalse
 
     assertCommandOutputNull 'nc_color function should not return output'
 
@@ -988,7 +988,7 @@ test_nc_color_hex_envVarTurnedOff() {
 
     commandTest "nc_color_hex 'ff7f7f'"
 
-    assertCommandReturnTrue
+    assertCommandReturnFalse
 
     assertCommandOutputNull 'nc_color_hex function should not return output'
 

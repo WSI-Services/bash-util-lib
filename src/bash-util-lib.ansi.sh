@@ -13,6 +13,9 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
 
     ES_USE=true
 
+    NC_USE=true
+    CMD_TPUT="$(command -v tput)"
+
     # @description  Output escape sequence with provided control code if **`ES_USE`** environment variable is true
     #
     # @arg  CONTROL_CODE string - Argument to pass to escape sequence
@@ -213,10 +216,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
         return $?
     }
 
-    CMD_TPUT="$(command -v tput)"
-    NC_USE=true
-
-    # @description  Call ncurses `tput`` command with provided arguments if command exists (**`CMD_TPUT`**) and **`NC_USE`**` environment variable is true
+    # @description  Call ncurses `tput` command with provided arguments if command exists (**`CMD_TPUT`**) and **`NC_USE`**` environment variable is true
     #
     # @arg  @ array - Arguments to pass to ncurses command `tput`
     #
@@ -230,9 +230,9 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
             *)      NC_USE=false ;;
         esac
 
-        if [[ -z "${CMD_TPUT}" ]]; then
+        if ! ${NC_USE} || [[ -z "${CMD_TPUT}" ]]; then
             return 1
-        elif ${NC_USE}; then
+        else
             "${CMD_TPUT}" "${@}"
             return $?
         fi
