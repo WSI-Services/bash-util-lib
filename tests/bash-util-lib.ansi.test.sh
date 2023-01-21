@@ -88,7 +88,7 @@ test_es_envVarTurnedOff() {
 # Function: es_color #
 ######################
 
-test_es_color_defaultFgBg() {
+test_es_color_fgBgNotSpecified() {
     commandTest "es_color '1'"
 
     assertCommandReturnTrue
@@ -97,28 +97,34 @@ test_es_color_defaultFgBg() {
         "$(printf "\x1b[38;5;1m")"
 }
 
-test_es_color_foreground() {
+test_es_color_fgBgEmpty() {
     commandTest "es_color '1' ''"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color function not returning correct control sequence' \
         "$(printf "\x1b[38;5;1m")"
+}
 
+test_es_color_fgBgLowerCaseF() {
     commandTest "es_color '1' 'f'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color function not returning correct control sequence' \
         "$(printf "\x1b[38;5;1m")"
+}
 
+test_es_color_fgBgUpperCaseF() {
     commandTest "es_color '1' 'F'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color function not returning correct control sequence' \
         "$(printf "\x1b[38;5;1m")"
+}
 
+test_es_color_fgBgForeground() {
     commandTest "es_color '1' 'Foreground'"
 
     assertCommandReturnTrue
@@ -127,21 +133,25 @@ test_es_color_foreground() {
         "$(printf "\x1b[38;5;1m")"
 }
 
-test_es_color_background() {
+test_es_color_fgBgLowerCaseB() {
     commandTest "es_color '1' 'b'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color function not returning correct control sequence' \
         "$(printf "\x1b[48;5;1m")"
+}
 
+test_es_color_fgBgUpperCaseB() {
     commandTest "es_color '1' 'B'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color function not returning correct control sequence' \
         "$(printf "\x1b[48;5;1m")"
+}
 
+test_es_color_fgBgBackground() {
     commandTest "es_color '1' 'Background'"
 
     assertCommandReturnTrue
@@ -167,7 +177,7 @@ test_es_color_envVarTurnedOff() {
 # Function: es_color_rgb #
 ##########################
 
-test_es_color_rgb_defaultFgBg() {
+test_es_color_rgb_fgBgNotSpecified() {
     commandTest "es_color_rgb '255' '127' '127'"
 
     assertCommandReturnTrue
@@ -176,28 +186,34 @@ test_es_color_rgb_defaultFgBg() {
         "$(printf "\x1b[38;2;255;127;127m")"
 }
 
-test_es_color_rgb_foreground() {
+test_es_color_rgb_fgBgEmpty() {
     commandTest "es_color_rgb '255' '127' '127' ''"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
         "$(printf "\x1b[38;2;255;127;127m")"
+}
 
+test_es_color_rgb_fgBgLowerCaseF() {
     commandTest "es_color_rgb '255' '127' '127' 'f'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
         "$(printf "\x1b[38;2;255;127;127m")"
+}
 
+test_es_color_rgb_fgBgUpperCaseF() {
     commandTest "es_color_rgb '255' '127' '127' 'F'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
         "$(printf "\x1b[38;2;255;127;127m")"
+}
 
+test_es_color_rgb_fgBgForeground() {
     commandTest "es_color_rgb '255' '127' '127' 'Foreground'"
 
     assertCommandReturnTrue
@@ -206,21 +222,25 @@ test_es_color_rgb_foreground() {
         "$(printf "\x1b[38;2;255;127;127m")"
 }
 
-test_es_color_rgb_background() {
+test_es_color_rgb_fgBgLowerCaseB() {
     commandTest "es_color_rgb '255' '127' '127' 'b'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
         "$(printf "\x1b[48;2;255;127;127m")"
+}
 
+test_es_color_rgb_fgBgUpperCaseB() {
     commandTest "es_color_rgb '255' '127' '127' 'B'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
         "$(printf "\x1b[48;2;255;127;127m")"
+}
 
+test_es_color_rgb_fgBgBackground() {
     commandTest "es_color_rgb '255' '127' '127' 'Background'"
 
     assertCommandReturnTrue
@@ -246,7 +266,7 @@ test_es_color_rgb_envVarTurnedOff() {
 # Function: es_color_hex #
 ##########################
 
-test_es_color_hex_defaultFgBg() {
+test_es_color_hex_fgBgNotSpecified() {
     commandTest "es_color_hex 'ff7f7f'"
 
     assertCommandReturnTrue
@@ -255,28 +275,34 @@ test_es_color_hex_defaultFgBg() {
         "$(printf "\x1b[38;2;255;127;127m")"
 }
 
-test_es_color_hex_foreground() {
+test_es_color_hex_fgBgEmpty() {
     commandTest "es_color_hex 'ff7f7f' ''"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
         "$(printf "\x1b[38;2;255;127;127m")"
+}
 
+test_es_color_hex_fgBgLowerCaseF() {
     commandTest "es_color_hex 'ff7f7f' 'f'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
         "$(printf "\x1b[38;2;255;127;127m")"
+}
 
+test_es_color_hex_fgBgUpperCaseF() {
     commandTest "es_color_hex 'ff7f7f' 'F'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
         "$(printf "\x1b[38;2;255;127;127m")"
+}
 
+test_es_color_hex_fgBgForeground() {
     commandTest "es_color_hex 'ff7f7f' 'Foreground'"
 
     assertCommandReturnTrue
@@ -285,21 +311,25 @@ test_es_color_hex_foreground() {
         "$(printf "\x1b[38;2;255;127;127m")"
 }
 
-test_es_color_hex_background() {
+test_es_color_hex_fgBgLowerCaseB() {
     commandTest "es_color_hex 'ff7f7f' 'b'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
         "$(printf "\x1b[48;2;255;127;127m")"
+}
 
+test_es_color_hex_fgBgUpperCaseB() {
     commandTest "es_color_hex 'ff7f7f' 'B'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
         "$(printf "\x1b[48;2;255;127;127m")"
+}
 
+test_es_color_hex_fgBgBackground() {
     commandTest "es_color_hex 'ff7f7f' 'Background'"
 
     assertCommandReturnTrue
@@ -325,7 +355,7 @@ test_es_color_hex_envVarTurnedOff() {
 # Function: es_attrib #
 #######################
 
-test_es_attrib_defaultCode() {
+test_es_attrib_controlCodeNotSpecified() {
     commandTest "es_attrib"
 
     assertCommandReturnTrue
@@ -862,135 +892,6 @@ test_nc_color_envVarTurnedOff() {
     assertCommandReturnFalse
 
     assertCommandOutputNull 'nc_color function should not return output'
-
-    setNC_USE true
-}
-
-
-###############################
-# Function: nc_color_from_hex #
-###############################
-
-test_nc_color_from_hex_noHex() {
-    commandTest "nc_color_from_hex ''"
-
-    assertCommandReturnFalse
-}
-
-test_nc_color_from_hex_withColor() {
-    commandTest "nc_color_from_hex 'c7ff7c'"
-
-    assertCommandReturnTrue
-
-    assertCommandOutputEquals 'nc_color_from_hex should return color index code' \
-        '192'
-
-    commandTest "nc_color_from_hex 'ffffff'"
-
-    assertCommandReturnTrue
-
-    assertCommandOutputEquals 'nc_color_from_hex should return color index code' \
-        '231'
-
-    commandTest "nc_color_from_hex '000000'"
-
-    assertCommandReturnTrue
-
-    assertCommandOutputEquals 'nc_color_from_hex should return color index code' \
-        '14'
-}
-
-
-##########################
-# Function: nc_color_hex #
-##########################
-
-test_nc_color_hex_defaultFgBg() {
-    commandTest "nc_color_hex 'c7ff7c'"
-
-    TPUT_STRING="$(tput setaf 192)"
-
-    assertCommandReturnTrue
-
-    assertCommandOutputEquals 'nc_color_hex function not returning correct control sequence' \
-        "${TPUT_STRING}"
-}
-
-test_nc_color_hex_foreground() {
-    commandTest "nc_color_hex 'c7ff7c' ''"
-
-    TPUT_STRING="$(tput setaf 192)"
-
-    assertCommandReturnTrue
-
-    assertCommandOutputEquals 'nc_color_hex function not returning correct control sequence' \
-        "${TPUT_STRING}"
-
-    commandTest "nc_color_hex 'ffffff' 'f'"
-
-    TPUT_STRING="$(tput setaf 231)"
-
-    assertCommandReturnTrue
-
-    assertCommandOutputEquals 'nc_color_hex function not returning correct control sequence' \
-        "${TPUT_STRING}"
-
-    commandTest "nc_color_hex '000000' 'F'"
-
-    TPUT_STRING="$(tput setaf 14)"
-
-    assertCommandReturnTrue
-
-    assertCommandOutputEquals 'nc_color_hex function not returning correct control sequence' \
-        "${TPUT_STRING}"
-
-    commandTest "nc_color_hex 'ffffff' 'Foreground'"
-
-    TPUT_STRING="$(tput setaf 231)"
-
-    assertCommandReturnTrue
-
-    assertCommandOutputEquals 'nc_color_hex function not returning correct control sequence' \
-        "${TPUT_STRING}"
-}
-
-test_nc_color_hex_background() {
-    commandTest "nc_color_hex 'ffffff' 'b'"
-
-    TPUT_STRING="$(tput setab 231)"
-
-    assertCommandReturnTrue
-
-    assertCommandOutputEquals 'nc_color_hex function not returning correct control sequence' \
-        "${TPUT_STRING}"
-
-    commandTest "nc_color_hex '000000' 'B'"
-
-    TPUT_STRING="$(tput setab 14)"
-
-    assertCommandReturnTrue
-
-    assertCommandOutputEquals 'nc_color_hex function not returning correct control sequence' \
-        "${TPUT_STRING}"
-
-    commandTest "nc_color_hex 'ffffff' 'Background'"
-
-    TPUT_STRING="$(tput setab 231)"
-
-    assertCommandReturnTrue
-
-    assertCommandOutputEquals 'nc_color_hex function not returning correct control sequence' \
-        "${TPUT_STRING}"
-}
-
-test_nc_color_hex_envVarTurnedOff() {
-    setNC_USE false
-
-    commandTest "nc_color_hex 'ff7f7f'"
-
-    assertCommandReturnFalse
-
-    assertCommandOutputNull 'nc_color_hex function should not return output'
 
     setNC_USE true
 }
