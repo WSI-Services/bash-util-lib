@@ -126,22 +126,22 @@ test_function_exists_exists() {
 PROCESS_ARGS_RETURN=0
 PROCESS_OPTS_RETURN=0
 
-processArgsEmpty() {
+helper_processArgsEmpty() {
     return "${PROCESS_ARGS_RETURN}"
 }
 
-processOptsEmpty() {
+helper_processOptsEmpty() {
     return "${PROCESS_OPTS_RETURN}"
 }
 
-test_process_parameters_noArgFn() {
+test_process_parameters_missingArgFn() {
     commandTest "process_parameters 'nonExist'"
 
     assertCommandReturnFalse
 }
 
-test_process_parameters_noOptFn() {
-    commandTest "process_parameters 'processArgsEmpty' 'nonExist'"
+test_process_parameters_missingOptFn() {
+    commandTest "process_parameters 'helper_processArgsEmpty' 'nonExist'"
 
     assertCommandReturnEquals 2
 }
@@ -149,7 +149,7 @@ test_process_parameters_noOptFn() {
 test_process_parameters_fnReturnValue() {
     PROCESS_OPTS_RETURN=123
 
-    commandTest "process_parameters 'processArgsEmpty' 'processOptsEmpty'"
+    commandTest "process_parameters 'helper_processArgsEmpty' 'helper_processOptsEmpty'"
 
     assertCommandReturnEquals "${PROCESS_OPTS_RETURN}"
 
@@ -157,14 +157,14 @@ test_process_parameters_fnReturnValue() {
 }
 
 test_process_parameters_empty() {
-    commandTest "process_parameters 'processArgsEmpty' 'processOptsEmpty'"
+    commandTest "process_parameters 'helper_processArgsEmpty' 'helper_processOptsEmpty'"
 
     assertCommandReturnTrue
 }
 
 ARGS_DETAILS=""
 
-processArgsTest() {
+helper_processArgsTest() {
     ARG1="$1"
     POS_ARG=""
     SHIFT_COUNT=0
@@ -204,13 +204,35 @@ processArgsTest() {
 
 OPTS_DETAILS=""
 
-processOptsTest() {
+helper_processOptsTest() {
     export OPTS_DETAILS="$*"
     return $#
 }
 
+test_process_parameters_extraShift() {
+    process_parameters 'helper_processArgsTest' 'helper_processOptsTest' -a=A1 --add=B2 -a
+
+    TEST_RETURN_CODE="$?"
+
+    assertEquals 'Return Code not returned correctly' \
+        0 \
+        "${TEST_RETURN_CODE}"
+
+    assertEquals 'Arguments not processed correctly' \
+        'A1 B2 ' \
+        "${ARGS_DETAILS}"
+
+    ARGS_DETAILS=''
+
+    assertEquals 'Options not collecting correctly' \
+        '' \
+        "${OPTS_DETAILS}"
+
+    OPTS_DETAILS=''
+}
+
 test_process_parameters_shift() {
-    process_parameters 'processArgsTest' 'processOptsTest' -a=A1 --add=B2 -d -a C3 --add D4 --del -- what
+    process_parameters 'helper_processArgsTest' 'helper_processOptsTest' -a=A1 --add=B2 -d -a C3 --add D4 --del -- what
 
     TEST_RETURN_CODE="$?"
 
@@ -222,9 +244,13 @@ test_process_parameters_shift() {
         'A1 B2 C3 D4' \
         "${ARGS_DETAILS}"
 
+    ARGS_DETAILS=''
+
     assertEquals 'Options not collecting correctly' \
         '-d --del -- what' \
         "${OPTS_DETAILS}"
+
+    OPTS_DETAILS=''
 }
 
 

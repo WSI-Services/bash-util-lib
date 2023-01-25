@@ -92,7 +92,9 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)SCRIPT(:|$) ]]; then
             ${PROCESS_ARG_FN} "${@}"
             SHIFT_COUNT=$?
 
-            if [[ "${SHIFT_COUNT}" -gt 0 ]]; then
+            if [[ "${SHIFT_COUNT}" -gt "$#" ]]; then
+                shift "$#"
+            elif [[ "${SHIFT_COUNT}" -gt 0 ]]; then
                 shift "${SHIFT_COUNT}"
             fi
         done
@@ -101,7 +103,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)SCRIPT(:|$) ]]; then
         export IFS="${UTIL_ARRAY_SEPARATOR}"
 
         # Double quoting converts multiple arguments into a single one
-        # shellcheck disable=SC2086
+        # shellcheck disable=SC2086 # Double quote to prevent globbing and word splitting.
         set -- ${UTIL_PARAM_POSITIONAL} # restore positional parameters
 
         export UTIL_PARAM_POSITIONAL=""
