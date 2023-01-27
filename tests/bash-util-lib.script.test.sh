@@ -16,23 +16,6 @@ SOURCE_DIR="$(readlink -f "${TESTS_DIR}/../src")"
 . "${TESTS_DIR}/shunit2.assert.command-test"
 
 
-###########
-# Helpers #
-###########
-
-EXPECTED_EXIT_CODE=0
-
-trap_exit() {
-    CAPTURED_EXIT_CODE="$?"
-
-    assertEquals 'EXIT called, code not correct' \
-        "${EXPECTED_EXIT_CODE}" \
-        "${CAPTURED_EXIT_CODE}"
-}
-
-trap trap_exit EXIT
-
-
 ######################
 # Function: exit_err #
 ######################
@@ -41,9 +24,11 @@ test_exit_err_basic() {
     local ERR_CODE=123
     local ERR_MSG='Test error message'
 
-    EXPECTED_EXIT_CODE="${ERR_CODE}"
-
     TEST_OUTPUT="$(exit_err "${ERR_CODE}" "${ERR_MSG}" 2>&1 > /dev/null)"
+
+    assertEquals 'exit_err EXIT called, code not correct' \
+        "${ERR_CODE}" \
+        "$?"
 
     assertEquals 'exit_err message not as expected' \
         "$(printf "${EXIT_ERR_MSG_ERROR}" "${ERR_CODE}" "${ERR_MSG}")" \
@@ -55,9 +40,11 @@ test_exit_err_additionalMessage() {
     local ERR_MSG='Test error message'
     local ADD_MSG='Test additional message'
 
-    EXPECTED_EXIT_CODE="${ERR_CODE}"
-
     TEST_OUTPUT="$(exit_err "${ERR_CODE}" "${ERR_MSG}" "${ADD_MSG}" 2>&1)"
+
+    assertEquals 'exit_err EXIT called, code not correct' \
+        "${ERR_CODE}" \
+        "$?"
 
     assertEquals 'exit_err message not as expected' \
         "$(printf "${EXIT_ERR_MSG_ERROR}" "${ERR_CODE}" "${ERR_MSG}"; printf "${EXIT_ERR_MSG_ADDITIONAL}" "${ADD_MSG}")" \
@@ -68,11 +55,13 @@ test_exit_err_utilScriptCmd() {
     local ERR_CODE=125
     local ERR_MSG='Test error message'
 
-    EXPECTED_EXIT_CODE="${ERR_CODE}"
-
     UTIL_SCRIPT_CMD='/path/to/cmd --flag option'
 
     TEST_OUTPUT="$(exit_err "${ERR_CODE}" "${ERR_MSG}" 2>&1 > /dev/null)"
+
+    assertEquals 'exit_err EXIT called, code not correct' \
+        "${ERR_CODE}" \
+        "$?"
 
     assertEquals 'exit_err message not as expected' \
         "$(printf "${EXIT_ERR_MSG_ERROR}" "${ERR_CODE}" "${ERR_MSG}"; printf "${EXIT_ERR_MSG_COMMAND}" "${UTIL_SCRIPT_CMD}")" \
@@ -86,11 +75,13 @@ test_exit_err_additionalMessageUtilScriptCmd() {
     local ERR_MSG='Test error message'
     local ADD_MSG='Test additional message'
 
-    EXPECTED_EXIT_CODE="${ERR_CODE}"
-
     UTIL_SCRIPT_CMD='/path/to/new_cmd --flag optionB'
 
     TEST_OUTPUT="$(exit_err "${ERR_CODE}" "${ERR_MSG}" "${ADD_MSG}" 2>&1)"
+
+    assertEquals 'exit_err EXIT called, code not correct' \
+        "${ERR_CODE}" \
+        "$?"
 
     assertEquals 'exit_err message not as expected' \
         "$(printf "${EXIT_ERR_MSG_ERROR}" "${ERR_CODE}" "${ERR_MSG}"; printf "${EXIT_ERR_MSG_COMMAND}" "${UTIL_SCRIPT_CMD}"; printf "${EXIT_ERR_MSG_ADDITIONAL}" "${ADD_MSG}")" \
