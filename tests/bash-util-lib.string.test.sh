@@ -45,5 +45,40 @@ test_string_expand_emptyString() {
 }
 
 
+##########################
+# Function: string_lower #
+##########################
+
+test_string_lower_withAllUppercaseLetters() {
+    local OUTPUT
+
+    OUTPUT="$(string_lower "UPPERCASE")"
+
+    assertEquals 'string_lower not returning correct output' \
+        'uppercase' \
+        "${OUTPUT}"
+}
+
+test_string_lower_withMixedCaseLetters() {
+    local OUTPUT
+
+    OUTPUT="$(string_lower "MiXeD CaSe")"
+
+    assertEquals 'string_lower not returning correct output' \
+        'mixed case' \
+        "${OUTPUT}"
+}
+
+test_string_lower_withAllLowercaseLetters() {
+    local OUTPUT
+
+    OUTPUT="$(string_lower "lowercase")"
+
+    assertEquals 'string_lower not returning correct output' \
+        'lowercase' \
+        "${OUTPUT}"
+}
+
+
 # Load and run shUnit2
 . shunit2

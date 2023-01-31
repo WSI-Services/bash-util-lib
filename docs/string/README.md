@@ -10,6 +10,9 @@ This component module library is named [`bash-util-lib.string.sh`](../../src/bas
     - [Arguments](#arguments)
     - [Exit Codes](#exit-codes)
     - [Standard Out](#standard-out)
+  - [**`string_lower`**](#string_lower)
+    - [Arguments](#arguments-1)
+    - [Standard Out](#standard-out-1)
 
 ---
 
@@ -45,4 +48,33 @@ Specified string expanded
 >
 > ```bash
 > Output: Test
+> ```
+
+---
+
+
+## **`string_lower`**
+
+String to lowercase
+
+### Arguments
+
+| Name     | Type     | Description                    |
+| -------- | :------: | ------------------------------ |
+| `STRING` | _string_ | String to convert to lowercase |
+
+### Standard Out
+
+Provided string to lowercase
+
+> Example:
+>
+> ```bash
+> string_lower "LOWERCASE"
+> ```
+>
+> Output:
+>
+> ```bash
+> lowercase
 > ```

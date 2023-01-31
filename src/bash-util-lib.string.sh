@@ -29,4 +29,15 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)STRING(:|$) ]]; then
         printf '%s' "${LINES}"
         return $?
     }
+
+    # @description  String to lowercase
+    #
+    # @arg  STRING string - String to convert to lowercase
+    #
+    # @stdout  Provided string to lowercase
+    string_lower() {
+        local STRING="$1"
+
+        echo "${STRING}" | tr '[:upper:]' '[:lower:]'
+    }
 fi
