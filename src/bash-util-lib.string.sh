@@ -40,4 +40,15 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)STRING(:|$) ]]; then
 
         echo "${STRING}" | tr '[:upper:]' '[:lower:]'
     }
+
+    # @description  String to uppercase
+    #
+    # @arg  STRING string - String to convert to uppercase
+    #
+    # @stdout  Provided string to uppercase
+    string_upper() {
+        local STRING="$1"
+
+        echo "${STRING}" | tr '[:lower:]' '[:upper:]'
+    }
 fi

@@ -13,6 +13,9 @@ This component module library is named [`bash-util-lib.string.sh`](../../src/bas
   - [**`string_lower`**](#string_lower)
     - [Arguments](#arguments-1)
     - [Standard Out](#standard-out-1)
+  - [**`string_upper`**](#string_upper)
+    - [Arguments](#arguments-2)
+    - [Standard Out](#standard-out-2)
 
 ---
 
@@ -77,4 +80,33 @@ Provided string to lowercase
 >
 > ```bash
 > lowercase
+> ```
+
+---
+
+
+## **`string_upper`**
+
+String to uppercase
+
+### Arguments
+
+| Name     | Type     | Description                    |
+| -------- | :------: | ------------------------------ |
+| `STRING` | _string_ | String to convert to uppercase |
+
+### Standard Out
+
+Provided string to uppercase
+
+> Example:
+>
+> ```bash
+> string_upper "uppercase"
+> ```
+>
+> Output:
+>
+> ```bash
+> UPPERCASE
 > ```

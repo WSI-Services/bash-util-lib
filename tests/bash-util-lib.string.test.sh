@@ -80,5 +80,40 @@ test_string_lower_withAllLowercaseLetters() {
 }
 
 
+##########################
+# Function: string_upper #
+##########################
+
+test_string_upper_withAllLowercaseLetters() {
+    local OUTPUT
+
+    OUTPUT="$(string_upper "lowercase")"
+
+    assertEquals 'string_upper not returning correct output' \
+        'LOWERCASE' \
+        "${OUTPUT}"
+}
+
+test_string_upper_withMixedCaseLetters() {
+    local OUTPUT
+
+    OUTPUT="$(string_upper "MiXeD CaSe")"
+
+    assertEquals 'string_upper not returning correct output' \
+        'MIXED CASE' \
+        "${OUTPUT}"
+}
+
+test_string_upper_withAllUppercaseLetters() {
+    local OUTPUT
+
+    OUTPUT="$(string_upper "UPPERCASE")"
+
+    assertEquals 'string_upper not returning correct output' \
+        'UPPERCASE' \
+        "${OUTPUT}"
+}
+
+
 # Load and run shUnit2
 . shunit2
