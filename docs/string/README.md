@@ -16,6 +16,9 @@ This component module library is named [`bash-util-lib.string.sh`](../../src/bas
   - [**`string_upper`**](#string_upper)
     - [Arguments](#arguments-2)
     - [Standard Out](#standard-out-2)
+  - [**`preface_lines`**](#preface_lines)
+    - [Arguments](#arguments-4)
+    - [Standard Out](#standard-out-4)
 
 ---
 
@@ -109,4 +112,38 @@ Provided string to uppercase
 >
 > ```bash
 > UPPERCASE
+> ```
+
+---
+
+
+## **`preface_lines`**
+
+Preface each line with provided text
+
+### Arguments
+
+| Name      | Type     | Description                                   |
+| --------- | :------: | --------------------------------------------- |
+| `PREFACE` | _string_ | Characters to prepend to each provided line   |
+| `LINES`   | _string_ | Lines of content to prepend specified text to |
+
+### Standard Out
+
+Provided lines of content with specified characters prepended
+
+> Example:
+>
+> ```bash
+> string_repeat " * " "Line 1
+> Line 2
+> Line 3"
+> ```
+>
+> Output:
+>
+> ```bash
+>  * Line 1
+>  * Line 2
+>  * Line 3
 > ```

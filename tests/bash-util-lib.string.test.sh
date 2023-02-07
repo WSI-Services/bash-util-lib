@@ -115,5 +115,26 @@ test_string_upper_withAllUppercaseLetters() {
 }
 
 
+###########################
+# Function: preface_lines #
+###########################
+
+test_preface_lines() {
+    local PREFACE='--> '
+    local LINE1='Line 1'
+    local LINE2='Line 2'
+    
+    commandTest "preface_lines '${PREFACE}' '$(echo "${LINE1}"; echo "${LINE2}")'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputContains 'preface_lines not returning correct formatting' \
+        "${PREFACE}${LINE1}"
+
+    assertCommandOutputContains 'preface_lines not returning correct formatting' \
+        "${PREFACE}${LINE2}"
+}
+
+
 # Load and run shUnit2
 . shunit2

@@ -51,4 +51,18 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)STRING(:|$) ]]; then
 
         echo "${STRING}" | tr '[:lower:]' '[:upper:]'
     }
+
+    # Preface each provided line with specified text 
+    #
+    # @arg  PREFACE string - Characters to prepend to each provided line
+    # @arg  LINES   string - Lines of content to prepend specified text to
+    #
+    # @stdout  Provided lines of content with specified characters prepended
+    preface_lines() {
+        local PREFACE="$1"
+        local LINES="$2"
+
+        printf '%b' "${LINES}" | awk -v pre="${PREFACE}" '{ print pre $0 }'
+        return $?
+    }
 fi
