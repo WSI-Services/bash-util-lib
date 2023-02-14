@@ -116,6 +116,51 @@ test_string_upper_withAllUppercaseLetters() {
 
 
 ###########################
+# Function: string_repeat #
+###########################
+
+test_string_repeat_withStringNotSpecified() {
+    local OUTPUT
+
+    OUTPUT="$(string_repeat 2)"
+
+    assertEquals 'string_repeat not returning correct output' \
+    '  ' \
+    "${OUTPUT}"
+}
+
+test_string_repeat_withStringEmpty() {
+    local OUTPUT
+
+    OUTPUT="$(string_repeat 2 '')"
+
+    assertEquals 'string_repeat not returning correct output' \
+    '' \
+    "${OUTPUT}"
+}
+
+test_string_repeat_withCountZero() {
+    local OUTPUT
+
+    OUTPUT="$(string_repeat 0 'WOW')"
+
+    assertEquals 'string_repeat not returning correct output' \
+    '' \
+    "${OUTPUT}"
+}
+
+test_string_repeat() {
+    local OUTPUT
+
+    OUTPUT="$(string_repeat 2 'WOW ')"
+
+    assertEquals 'string_repeat not returning correct output' \
+    'WOW WOW ' \
+    "${OUTPUT}"
+}
+
+
+###########################
 # Function: preface_lines #
 ###########################
 

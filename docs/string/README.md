@@ -16,6 +16,9 @@ This component module library is named [`bash-util-lib.string.sh`](../../src/bas
   - [**`string_upper`**](#string_upper)
     - [Arguments](#arguments-2)
     - [Standard Out](#standard-out-2)
+  - [**`string_repeat`**](#string_repeat)
+    - [Arguments](#arguments-3)
+    - [Standard Out](#standard-out-3)
   - [**`preface_lines`**](#preface_lines)
     - [Arguments](#arguments-4)
     - [Standard Out](#standard-out-4)
@@ -112,6 +115,36 @@ Provided string to uppercase
 >
 > ```bash
 > UPPERCASE
+> ```
+
+---
+
+
+## **`string_repeat`**
+
+Repeat provided string specified times
+
+### Arguments
+
+| Name     | Type      | Description                                               |
+| -------- | :-------: | --------------------------------------------------------- |
+| `COUNT`  | _integer_ | Number of times to repeat provided string                 |
+| `STRING` | _string_  | [OPTIONAL] String to repeat specified times, default: ' ' |
+
+### Standard Out
+
+Provided string repeated specified times
+
+> Example:
+>
+> ```bash
+> string_repeat 3 " -=*=-"
+> ```
+>
+> Output:
+>
+> ```bash
+>  -=*=- -=*=- -=*=-
 > ```
 
 ---

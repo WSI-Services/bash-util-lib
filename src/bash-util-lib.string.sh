@@ -52,6 +52,23 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)STRING(:|$) ]]; then
         echo "${STRING}" | tr '[:lower:]' '[:upper:]'
     }
 
+    # @description  Repeat provided string specified times
+    #
+    # @arg  COUNT  integer - Number of times to repeat provided string
+    # @arg  STRING string  - [OPTIONAL] String to repeat specified times, default: ' '
+    #
+    # @stdout  Provided string repeated specified times
+    string_repeat() {
+        local COUNT="$1"
+        local STRING="$2"
+
+        [[ $# -eq 1 ]] && STRING=" "
+
+        if [[ "${COUNT}" -gt 0 ]]; then
+            printf "%${COUNT}s" |sed "s/ /${STRING}/g"        
+        fi
+    }
+
     # Preface each provided line with specified text 
     #
     # @arg  PREFACE string - Characters to prepend to each provided line
