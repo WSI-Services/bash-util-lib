@@ -897,5 +897,172 @@ test_nc_color_envVarTurnedOff() {
 }
 
 
+#######################
+# Function: nc_cursor #
+#######################
+
+test_nc_cursor_controlCodeNotSpecified() {
+    RESULT="$(tput home)"
+    commandTest "nc_cursor"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_cursor function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_cursor_controlCodeUnknown() {
+    RESULT="$(tput home)"
+    commandTest "nc_cursor 'anything'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_cursor function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_cursor_controlCodeHome() {
+    RESULT="$(tput home)"
+    commandTest "nc_cursor 'home'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_cursor function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_cursor_controlCodeAbsolutePositionNoValueSpecified() {
+    RESULT="$(tput cup '0;0')"
+    commandTest "nc_cursor 'abs'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_cursor function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_cursor_controlCodeAbsolutePosition() {
+    RESULT="$(tput cup '3;4')"
+    commandTest "nc_cursor 'abs' 3 4"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_cursor function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_cursor_controlCodeRightNoValueSpecified() {
+    RESULT="$(tput cuf 0)"
+    commandTest "nc_cursor 'right'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_cursor function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_cursor_controlCodeRight() {
+    RESULT="$(tput cuf 4)"
+    commandTest "nc_cursor 'right' 4"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_cursor function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_cursor_controlCodeLeftNoValueSpecified() {
+    RESULT="$(tput cub 0)"
+    commandTest "nc_cursor 'left'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_cursor function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_cursor_controlCodeLeft() {
+    RESULT="$(tput cub 4)"
+    commandTest "nc_cursor 'left' 4"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_cursor function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_cursor_controlCodeDown() {
+    RESULT="$(tput cud1)"
+    commandTest "nc_cursor 'down'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_cursor function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_cursor_controlCodeUp() {
+    RESULT="$(tput cuu1)"
+    commandTest "nc_cursor 'up'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_cursor function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_cursor_controlCodeInvisibleOff() {
+    RESULT="$(tput cvvis)"
+    commandTest "nc_cursor 'invisible-off'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_cursor function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_cursor_controlCodeInvisible() {
+    RESULT="$(tput civis)"
+    commandTest "nc_cursor 'invisible'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_cursor function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_cursor_controlCodeRestore() {
+    RESULT="$(tput rc)"
+    commandTest "nc_cursor 'restore'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_cursor function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_cursor_controlCodeSave() {
+    RESULT="$(tput sc)"
+    commandTest "nc_cursor 'save'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_cursor function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_cursor_envVarTurnedOff() {
+    setNC_USE false
+
+    commandTest "nc_cursor"
+
+    assertCommandReturnFalse
+
+    assertCommandOutputNull 'nc_cursor function should not return output'
+
+    setNC_USE true
+}
+
+
 # Load and run shUnit2
 . shunit2

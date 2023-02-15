@@ -44,6 +44,10 @@ This component module library is named [`bash-util-lib.ansi.sh`](../../src/bash-
     - [Arguments](#arguments-8)
     - [Exit Codes](#exit-codes-8)
     - [Standard Out](#standard-out-8)
+  - [**`nc_cursor`**](#nc_cursor)
+    - [Arguments](#arguments-11)
+    - [Exit Codes](#exit-codes-11)
+    - [Standard Out](#standard-out-11)
 
 ---
 
@@ -426,4 +430,55 @@ Specified ncurses `tput` color code output
 >
 > ```bash
 > Message: Output Message
+> ```
+
+---
+
+
+## **`nc_cursor`**
+
+Output ncurses sequence with provided cursor control code
+
+### Arguments
+
+| Name           | Type      | Description                                    |
+| -------------- | :-------: | ---------------------------------------------- |
+| `CONTROL_CODE` | _string_  | [OPTIONAL] ncurses sequence erase control code |
+| `VAL1`         | _integer_ | [OPTIONAL] First value for CONTROL_CODE        |
+| `VAL2`         | _integer_ | [OPTIONAL] Second value for CONTROL_CODE       |
+
+| Code          | Description                                          |
+| ------------- | ---------------------------------------------------- |
+| save          | Save cursor position                                 |
+| restore       | Restore cursor position                              |
+| invisible     | Make cursor invisible                                |
+| invisible-off | Make cursor visible                                  |
+| up            | Move cursor up 1 line                                |
+| down          | Move cursor down 1 line                              |
+| left          | Move cursor left _N_ columns                         |
+| right         | Move cursor right _N_ columns                        |
+| abs           | Move cursor to absolute position line _N_ column _N_ |
+| home          | Move cursor to home position (0, 0) [DEFAULT]        |
+
+### Exit Codes
+
+| Code | Description                                   |
+| ---- | --------------------------------------------- |
+| `0`  | Command `tput` exists                         |
+| `1`  | Command `tput` turned off, missing, or failed |
+
+### Standard Out
+
+Specified ncurses sequence cursor control code output
+
+> Example:
+>
+> ```bash
+> printf "Message: %b\n" "Output$(nc_cursor left 6) Message"
+> ```
+>
+> Output:
+>
+> ```bash
+> Message:  Message
 > ```

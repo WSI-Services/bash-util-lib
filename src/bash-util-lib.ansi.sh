@@ -233,7 +233,8 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
         if ! ${NC_USE} || [[ -z "${CMD_TPUT}" ]]; then
             return 1
         else
-            "${CMD_TPUT}" "${@}"
+            # shellcheck disable=SC2068 # Double quote array expansions to avoid re-splitting elements.
+            "${CMD_TPUT}" $@
             return $?
         fi
     }
@@ -258,6 +259,50 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
         esac
 
         nc "${CAP_NAME}" "${COLOR}"
+        return $?
+    }
+
+    # @description  Output ncurses sequence with provided cursor control code
+    #
+    # @arg  CONTROL_CODE  string  - [OPTIONAL] ncurses sequence cursor control code
+    #           save          Save cursor position
+    #           restore       Restore cursor position
+    #           invisible     Make cursor invisible
+    #           invisible-off Make cursor visible
+    #           up            Move cursor up 1 line
+    #           down          Move cursor down 1 line
+    #           left          Move cursor left _N_ columns
+    #           right         Move cursor right _N_ columns
+    #           abs           Move cursor to absolute position line _N_ column _N_
+    #           home          Move cursor to home position (0, 0) [DEFAULT]
+    # @arg  VAL1         integer - [OPTIONAL] First value for CONTROL_CODE
+    # @arg  VAL2         integer - [OPTIONAL] Second value for CONTROL_CODE
+    #
+    # @exitcode  0  Command `tput` exists
+    # @exitcode  1  Command `tput` turned off, missing, or failed
+    #
+    # @stdout  Specified ncurses sequence cursor control code output
+    nc_cursor() {
+        local CONTROL_CODE="$1"
+        local VAL1="${2:-0}"
+        local VAL2="${3:-0}"
+
+        CONTROL_CODE="$(echo "${CONTROL_CODE}" | tr '[:upper:]' '[:lower:]')"
+
+        case "${CONTROL_CODE}" in
+                     save)   CONTROL_CODE="sc" ;;
+                  restore)   CONTROL_CODE="rc" ;;
+                invisible)   CONTROL_CODE="civis" ;;
+            invisible-off)   CONTROL_CODE="cvvis" ;;
+                       up)   CONTROL_CODE="cuu1" ;;
+                     down)   CONTROL_CODE="cud1" ;;
+                     left)   CONTROL_CODE="cub ${VAL1}" ;;
+                    right)   CONTROL_CODE="cuf ${VAL1}" ;;
+                      abs)   CONTROL_CODE="cup '${VAL1};${VAL2}'" ;;
+                     home|*) CONTROL_CODE="home" ;;
+        esac
+
+        nc "${CONTROL_CODE}"
         return $?
     }
 fi
