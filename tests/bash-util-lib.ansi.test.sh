@@ -897,6 +897,143 @@ test_nc_color_envVarTurnedOff() {
 }
 
 
+######################
+# Function: nc_erase #
+######################
+
+test_nc_erase_controlCodeNotSpecified() {
+    RESULT="$(tput clear)"
+    commandTest "nc_erase"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_erase function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_erase_controlCodeUnknown() {
+    RESULT="$(tput clear)"
+    commandTest "nc_erase 'anything'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_erase function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_erase_controlCodeClear() {
+    RESULT="$(tput clear)"
+    commandTest "nc_erase 'clear'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_erase function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_erase_controlCodeInsertLinesNoValueSpecified() {
+    RESULT="$(tput il 0)"
+    commandTest "nc_erase 'il'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_erase function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_erase_controlCodeInsertLines() {
+    RESULT="$(tput il 4)"
+    commandTest "nc_erase 'il' 4"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_erase function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_erase_controlCodeInsertCharactersNoValueSpecified() {
+    RESULT="$(tput ich 0)"
+    commandTest "nc_erase 'ic'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_erase function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_erase_controlCodeInsertCharacters() {
+    RESULT="$(tput ich 4)"
+    commandTest "nc_erase 'ic' 4"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_erase function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_erase_controlCodeCharactersNoValueSpecified() {
+    RESULT="$(tput ech 0)"
+    commandTest "nc_erase 'en'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_erase function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_erase_controlCodeCharacters() {
+    RESULT="$(tput ech 4)"
+    commandTest "nc_erase 'en' 4"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_erase function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_erase_controlCodeEndOfScreen() {
+    RESULT="$(tput ed)"
+    commandTest "nc_erase 'eos'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_erase function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_erase_controlCodeEndOfLine() {
+    RESULT="$(tput el)"
+    commandTest "nc_erase 'eol'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_erase function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_erase_controlCodeStartOfLine() {
+    RESULT="$(tput el1)"
+    commandTest "nc_erase 'sol'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_erase function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_erase_envVarTurnedOff() {
+    setNC_USE false
+
+    commandTest "nc_erase"
+
+    assertCommandReturnFalse
+
+    assertCommandOutputNull 'nc_erase function should not return output'
+
+    setNC_USE true
+}
+
+
 #######################
 # Function: nc_cursor #
 #######################

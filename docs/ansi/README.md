@@ -44,6 +44,10 @@ This component module library is named [`bash-util-lib.ansi.sh`](../../src/bash-
     - [Arguments](#arguments-8)
     - [Exit Codes](#exit-codes-8)
     - [Standard Out](#standard-out-8)
+  - [**`nc_erase`**](#nc_erase)
+    - [Arguments](#arguments-10)
+    - [Exit Codes](#exit-codes-10)
+    - [Standard Out](#standard-out-10)
   - [**`nc_cursor`**](#nc_cursor)
     - [Arguments](#arguments-11)
     - [Exit Codes](#exit-codes-11)
@@ -430,6 +434,53 @@ Specified ncurses `tput` color code output
 >
 > ```bash
 > Message: Output Message
+> ```
+
+---
+
+
+## **`nc_erase`**
+
+Output ncurses sequence with provided erase control code
+
+### Arguments
+
+| Name           | Type      | Description                                    |
+| -------------- | :-------: | ---------------------------------------------- |
+| `CONTROL_CODE` | _string_  | [OPTIONAL] ncurses sequence erase control code |
+| `VAL`          | _integer_ | [OPTIONAL] Value for CONTROL_CODE              |
+
+| Code  | Description                                                          |
+| ----- | -------------------------------------------------------------------- |
+| sol   | Erase from cursor position to start of line                          |
+| eol   | Erase from cursor position to end of line                            |
+| eos   | Erase from cursor position to end of screen                          |
+| en    | Erase from cursor _N_ characters                                     |
+| ic    | Insert from cursor _N_ characters (moves rest of characters in line) |
+| il    | Insert from cursor _N_ lines (moves rest of lines on screen)         |
+| clear | Clear the screen [DEFAULT]                                           |
+
+### Exit Codes
+
+| Code | Description                                   |
+| ---- | --------------------------------------------- |
+| `0`  | Command `tput` exists                         |
+| `1`  | Command `tput` turned off, missing, or failed |
+
+### Standard Out
+
+Specified ncurses sequence erase control code output
+
+> Example:
+>
+> ```bash
+> printf "Message: %b\n" "Output$(nc_erase sol) Message"
+> ```
+>
+> Output:
+>
+> ```bash
+>                 Message
 > ```
 
 ---

@@ -262,6 +262,42 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
         return $?
     }
 
+    # @description  Output ncurses sequence with provided erase control code
+    #
+    # @arg  CONTROL_CODE string  - [OPTIONAL] ncurses sequence erase control code
+    #           sol    Erase from cursor position to start of line
+    #           eol    Erase from cursor position to end of line
+    #           eos    Erase from cursor position to end of screen
+    #           en     Erase from cursor _N_ characters
+    #           ic     Insert from cursor _N_ characters (moves rest of characters in line)
+    #           il     Insert from cursor _N_ lines (moves rest of lines on screen)
+    #           clear  Clear the screen [DEFAULT]
+    # @arg  VAL          integer - [OPTIONAL] Value for CONTROL_CODE
+    #
+    # @exitcode  0  Command `tput` exists
+    # @exitcode  1  Command `tput` turned off, missing, or failed
+    #
+    # @stdout  Specified ncurses sequence erase control code output
+    nc_erase() {
+        local CONTROL_CODE="$1"
+        local VAL="${2:-0}"
+
+        CONTROL_CODE="$(echo "${CONTROL_CODE}" | tr '[:upper:]' '[:lower:]')"
+
+        case "${CONTROL_CODE}" in
+               sol)   CONTROL_CODE="el1" ;;
+               eol)   CONTROL_CODE="el" ;;
+               eos)   CONTROL_CODE="ed" ;;
+                en)   CONTROL_CODE="ech ${VAL}" ;;
+                ic)   CONTROL_CODE="ich ${VAL}" ;;
+                il)   CONTROL_CODE="il ${VAL}" ;;
+             clear|*) CONTROL_CODE="clear" ;;
+        esac
+
+        nc "${CONTROL_CODE}"
+        return $?
+    }
+
     # @description  Output ncurses sequence with provided cursor control code
     #
     # @arg  CONTROL_CODE  string  - [OPTIONAL] ncurses sequence cursor control code
