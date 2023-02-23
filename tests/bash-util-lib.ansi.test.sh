@@ -427,6 +427,15 @@ test_es_attrib_controlCodeBlink() {
         "$(printf "\x1b[5m")"
 }
 
+test_es_attrib_controlCodeFastBlink() {
+    commandTest "es_attrib 'fast-blink'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\x1b[6m")"
+}
+
 test_es_attrib_controlCodeSwap() {
     commandTest "es_attrib 'swap'"
 
@@ -452,6 +461,24 @@ test_es_attrib_controlCodeStrike() {
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
         "$(printf "\x1b[9m")"
+}
+
+test_es_attrib_controlCodeForegroundOff() {
+    commandTest "es_attrib 'foreground-off'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\x1b[39m")"
+}
+
+test_es_attrib_controlCodeBackgroundOff() {
+    commandTest "es_attrib 'background-off'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\x1b[49m")"
 }
 
 test_es_attrib_envVarTurnedOff() {

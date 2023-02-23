@@ -123,15 +123,18 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
     # @description  Output escape sequence with provided text attribute control code
     #
     # @arg  CONTROL_CODE string - [OPTIONAL] Escape sequence text attribute control code
-    #           strike    Strike-through text
-    #           hidden    Hidden text
-    #           swap      Swap foreground and background colors
-    #           blink     Slow blink
-    #           underline Underline text
-    #           italic    Italic text
-    #           fait      Faint text
-    #           bold      Bold text
-    #           reset     Reset text formatting and colors [DEFAULT]
+    #           background-off   Background color off
+    #           foreground-off   Foreground color off
+    #           strike           Strike-through text
+    #           hidden           Hidden text
+    #           swap             Swap foreground and background colors
+    #           fast-blink       Fast blink
+    #           blink            Slow blink
+    #           underline        Underline text
+    #           italic           Italic text
+    #           faint            Faint text
+    #           bold             Bold text
+    #           reset            Reset text formatting and colors [DEFAULT]
     #
     # @exitcode  0  Command control code turned on and output sequence
     # @exitcode  1  Command control code turned off or failed
@@ -143,15 +146,18 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
         CONTROL_CODE="$(echo "${CONTROL_CODE}" | tr '[:upper:]' '[:lower:]')"
 
         case "${CONTROL_CODE}" in
-               strike)   CONTROL_CODE="9m" ;;
-               hidden)   CONTROL_CODE="8m" ;;
-                 swap)   CONTROL_CODE="7m" ;;
-                blink)   CONTROL_CODE="5m" ;;
-            underline)   CONTROL_CODE="4m" ;;
-               italic)   CONTROL_CODE="3m" ;;
-                faint)   CONTROL_CODE="2m" ;;
-                 bold)   CONTROL_CODE="1m" ;;
-                reset|*) CONTROL_CODE="0m" ;;
+             background-off)   CONTROL_CODE="49m" ;;
+             foreground-off)   CONTROL_CODE="39m" ;;
+                     strike)   CONTROL_CODE="9m" ;;
+                     hidden)   CONTROL_CODE="8m" ;;
+                       swap)   CONTROL_CODE="7m" ;;
+                 fast-blink)   CONTROL_CODE="6m" ;;
+                      blink)   CONTROL_CODE="5m" ;;
+                  underline)   CONTROL_CODE="4m" ;;
+                     italic)   CONTROL_CODE="3m" ;;
+                      faint)   CONTROL_CODE="2m" ;;
+                       bold)   CONTROL_CODE="1m" ;;
+                      reset|*) CONTROL_CODE="0m" ;;
         esac
 
         es "${CONTROL_CODE}"

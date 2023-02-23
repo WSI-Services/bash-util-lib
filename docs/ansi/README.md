@@ -253,17 +253,20 @@ Output escape sequence with provided text attribute control code
 | -------------- | :------: | ------------------------------------------------------ |
 | `CONTROL_CODE` | _string_ | [OPTIONAL] Escape sequence text attribute control code |
 
-| Code       | Description                                |
-| ---------- | ------------------------------------------ |
-| strike     | Strike-through text                        |
-| hidden     | Hidden text                                |
-| swap       | Swap foreground and background colors      |
-| blink      | Slow blink                                 |
-| underline  | Underline text                             |
-| italic     | Italic text                                |
-| fait       | Faint text                                 |
-| bold       | Bold text                                  |
-| reset      | Reset text formatting and colors [DEFAULT] |
+| Code           | Description                                |
+| -------------- | ------------------------------------------ |
+| background-off | Background color off                       |
+| foreground-off | Foreground color off                       |
+| strike         | Strike-through text                        |
+| hidden         | Hidden text                                |
+| swap           | Swap foreground and background colors      |
+| fast-blink     | Fast blink                                 |
+| blink          | Slow blink                                 |
+| underline      | Underline text                             |
+| italic         | Italic text                                |
+| fait           | Faint text                                 |
+| bold           | Bold text                                  |
+| reset          | Reset text formatting and colors [DEFAULT] |
 
 ### Exit Codes
 
