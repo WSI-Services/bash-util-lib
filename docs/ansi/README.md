@@ -44,6 +44,10 @@ This component module library is named [`bash-util-lib.ansi.sh`](../../src/bash-
     - [Arguments](#arguments-8)
     - [Exit Codes](#exit-codes-8)
     - [Standard Out](#standard-out-8)
+  - [**`nc_attrib`**](#nc_attrib)
+    - [Arguments](#arguments-9)
+    - [Exit Codes](#exit-codes-9)
+    - [Standard Out](#standard-out-9)
   - [**`nc_erase`**](#nc_erase)
     - [Arguments](#arguments-10)
     - [Exit Codes](#exit-codes-10)
@@ -428,6 +432,56 @@ Specified ncurses `tput` color code output
 >
 > ```bash
 > printf "Message: $(nc_color 031)%s$(nc sgr0)" "Output Message"
+> ```
+>
+> Output:
+>
+> ```bash
+> Message: Output Message
+> ```
+
+---
+
+
+## **`nc_attrib`**
+
+Output ncurses sequence with provided text attribute control code
+
+### Arguments
+
+| Name           | Type     | Description                                             |
+| -------------- | :------: | ------------------------------------------------------- |
+| `CONTROL_CODE` | _string_ | [OPTIONAL] ncurses sequence text attribute control code |
+
+| Code          | Description                           |
+| ------------- | ------------------------------------- |
+| standout      | Standout                              |
+| standout-off  | Standout off                          |
+| invisible     | Blank mode                            |
+| reverse       | Swap foreground and background colors |
+| blink         | Slow blink                            |
+| underline     | Underline text                        |
+| underline-off | Underline text off                    |
+| italic        | Italic text                           |
+| dim           | Dim text                              |
+| bold          | Bold text                             |
+| reset         | Reset all attributes [DEFAULT]        |
+
+### Exit Codes
+
+| Code | Description                                   |
+| ---- | --------------------------------------------- |
+| `0`  | Command `tput` exists                         |
+| `1`  | Command `tput` turned off, missing, or failed |
+
+### Standard Out
+
+Specified ncurses sequence text attribute control code output
+
+> Example:
+>
+> ```bash
+> printf "Message: $(nc_attrib bold)%s$(nc_attrib reset)\n" "Output Message"
 > ```
 >
 > Output:

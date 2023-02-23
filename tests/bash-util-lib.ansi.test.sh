@@ -897,6 +897,153 @@ test_nc_color_envVarTurnedOff() {
 }
 
 
+#######################
+# Function: nc_attrib #
+#######################
+
+test_nc_attrib_controlCodeNotSpecified() {
+    RESULT="$(tput sgr0)"
+    commandTest "nc_attrib"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_attrib function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_attrib_controlCodeUnknown() {
+    RESULT="$(tput sgr0)"
+    commandTest "nc_attrib 'anything'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_attrib function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_attrib_controlCodeReset() {
+    RESULT="$(tput sgr0)"
+    commandTest "nc_attrib 'reset'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_attrib function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_attrib_controlCodeBold() {
+    RESULT="$(tput bold)"
+    commandTest "nc_attrib 'bold'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_attrib function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_attrib_controlCodeDim() {
+    RESULT="$(tput dim)"
+    commandTest "nc_attrib 'dim'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_attrib function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_attrib_controlCodeItalic() {
+    RESULT="$(tput sitm)"
+    commandTest "nc_attrib 'italic'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_attrib function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_attrib_controlCodeUnderlineOff() {
+    RESULT="$(tput rmul)"
+    commandTest "nc_attrib 'underline-off'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_attrib function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_attrib_controlCodeUnderline() {
+    RESULT="$(tput smul)"
+    commandTest "nc_attrib 'underline'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_attrib function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_attrib_controlCodeBlink() {
+    RESULT="$(tput blink)"
+    commandTest "nc_attrib 'blink'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_attrib function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_attrib_controlCodeReverse() {
+    RESULT="$(tput rev)"
+    commandTest "nc_attrib 'reverse'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_attrib function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_attrib_controlCodeInvisible() {
+    RESULT="$(tput invis)"
+    commandTest "nc_attrib 'invisible'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_attrib function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_attrib_controlCodeStandoutOff() {
+    RESULT="$(tput rmso)"
+    commandTest "nc_attrib 'standout-off'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_attrib function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_attrib_controlCodeStandout() {
+    RESULT="$(tput smso)"
+    commandTest "nc_attrib 'standout'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'nc_attrib function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_nc_attrib_envVarTurnedOff() {
+    setNC_USE false
+
+    commandTest "nc_attrib"
+
+    assertCommandReturnFalse
+
+    assertCommandOutputNull 'nc_attrib function should not return output'
+
+    setNC_USE true
+}
+
+
 ######################
 # Function: nc_erase #
 ######################

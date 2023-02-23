@@ -262,6 +262,48 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
         return $?
     }
 
+    # @description  Output ncurses sequence with provided text attribute control code
+    #
+    # @arg  CONTROL_CODE string - [OPTIONAL] ncurses sequence text attribute control code
+    #           standout      Standout
+    #           standout-off  Standout off
+    #           invisible     Blank mode
+    #           reverse       Swap foreground and background colors
+    #           blink         Slow blink
+    #           underline     Underline text
+    #           underline-off Underline text off
+    #           italic        Italic text
+    #           dim           Dim text
+    #           bold          Bold text
+    #           reset         Reset all attributes [DEFAULT]
+    #
+    # @exitcode  0  Command `tput` exists
+    # @exitcode  1  Command `tput` turned off, missing, or failed
+    #
+    # @stdout  Specified ncurses sequence text attribute control code output
+    nc_attrib() {
+        local CONTROL_CODE="$1"
+
+        CONTROL_CODE="$(echo "${CONTROL_CODE}" | tr '[:upper:]' '[:lower:]')"
+
+        case "${CONTROL_CODE}" in
+                 standout)   CONTROL_CODE="smso" ;;
+             standout-off)   CONTROL_CODE="rmso" ;;
+                invisible)   CONTROL_CODE="invis" ;;
+                  reverse)   CONTROL_CODE="rev" ;;
+                    blink)   CONTROL_CODE="blink" ;;
+                underline)   CONTROL_CODE="smul" ;;
+            underline-off)   CONTROL_CODE="rmul" ;;
+                   italic)   CONTROL_CODE="sitm" ;;
+                      dim)   CONTROL_CODE="dim" ;;
+                     bold)   CONTROL_CODE="bold" ;;
+                    reset|*) CONTROL_CODE="sgr0" ;;
+        esac
+
+        nc "${CONTROL_CODE}"
+        return $?
+    }
+
     # @description  Output ncurses sequence with provided erase control code
     #
     # @arg  CONTROL_CODE string  - [OPTIONAL] ncurses sequence erase control code
