@@ -143,15 +143,15 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
         CONTROL_CODE="$(echo "${CONTROL_CODE}" | tr '[:upper:]' '[:lower:]')"
 
         case "${CONTROL_CODE}" in
-               strike|9)   CONTROL_CODE="9m" ;;
-               hidden|8)   CONTROL_CODE="8m" ;;
-                 swap|7)   CONTROL_CODE="7m" ;;
-                blink|5|6) CONTROL_CODE="5m" ;;
-            underline|4)   CONTROL_CODE="4m" ;;
-               italic|3)   CONTROL_CODE="3m" ;;
-                faint|2)   CONTROL_CODE="2m" ;;
-                 bold|1)   CONTROL_CODE="1m" ;;
-                reset|0|*) CONTROL_CODE="0m" ;;
+               strike)   CONTROL_CODE="9m" ;;
+               hidden)   CONTROL_CODE="8m" ;;
+                 swap)   CONTROL_CODE="7m" ;;
+                blink)   CONTROL_CODE="5m" ;;
+            underline)   CONTROL_CODE="4m" ;;
+               italic)   CONTROL_CODE="3m" ;;
+                faint)   CONTROL_CODE="2m" ;;
+                 bold)   CONTROL_CODE="1m" ;;
+                reset|*) CONTROL_CODE="0m" ;;
         esac
 
         es "${CONTROL_CODE}"

@@ -364,21 +364,7 @@ test_es_attrib_controlCodeNotSpecified() {
         "$(printf "\x1b[0m")"
 }
 
-test_es_attrib_reset() {
-    commandTest "es_attrib 'reset'"
-
-    assertCommandReturnTrue
-
-    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\x1b[0m")"
-
-    commandTest "es_attrib 0"
-
-    assertCommandReturnTrue
-
-    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\x1b[0m")"
-
+test_es_attrib_controlCodeUnknown() {
     commandTest "es_attrib 'anything'"
 
     assertCommandReturnTrue
@@ -387,134 +373,80 @@ test_es_attrib_reset() {
         "$(printf "\x1b[0m")"
 }
 
-test_es_attrib_bold() {
+test_es_attrib_controlCodeReset() {
+    commandTest "es_attrib 'reset'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\x1b[0m")"
+}
+
+test_es_attrib_controlCodeBold() {
     commandTest "es_attrib 'bold'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
         "$(printf "\x1b[1m")"
-
-    commandTest "es_attrib 1"
-
-    assertCommandReturnTrue
-
-    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\x1b[1m")"
 }
 
-test_es_attrib_faint() {
+test_es_attrib_controlCodeFaint() {
     commandTest "es_attrib 'faint'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
         "$(printf "\x1b[2m")"
-
-    commandTest "es_attrib 2"
-
-    assertCommandReturnTrue
-
-    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\x1b[2m")"
 }
 
-test_es_attrib_italic() {
+test_es_attrib_controlCodeItalic() {
     commandTest "es_attrib 'italic'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
         "$(printf "\x1b[3m")"
-
-    commandTest "es_attrib 3"
-
-    assertCommandReturnTrue
-
-    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\x1b[3m")"
 }
 
-test_es_attrib_underline() {
+test_es_attrib_controlCodeUnderline() {
     commandTest "es_attrib 'underline'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
         "$(printf "\x1b[4m")"
-
-    commandTest "es_attrib 4"
-
-    assertCommandReturnTrue
-
-    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\x1b[4m")"
 }
 
-test_es_attrib_blink() {
+test_es_attrib_controlCodeBlink() {
     commandTest "es_attrib 'blink'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
         "$(printf "\x1b[5m")"
-
-    commandTest "es_attrib 5"
-
-    assertCommandReturnTrue
-
-    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\x1b[5m")"
-
-    commandTest "es_attrib 6"
-
-    assertCommandReturnTrue
-
-    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\x1b[5m")"
 }
 
-test_es_attrib_swap() {
+test_es_attrib_controlCodeSwap() {
     commandTest "es_attrib 'swap'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
         "$(printf "\x1b[7m")"
-
-    commandTest "es_attrib 7"
-
-    assertCommandReturnTrue
-
-    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\x1b[7m")"
 }
 
-test_es_attrib_hidden() {
+test_es_attrib_controlCodeHidden() {
     commandTest "es_attrib 'hidden'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
         "$(printf "\x1b[8m")"
-
-    commandTest "es_attrib 8"
-
-    assertCommandReturnTrue
-
-    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\x1b[8m")"
 }
 
-test_es_attrib_strike() {
+test_es_attrib_controlCodeStrike() {
     commandTest "es_attrib 'strike'"
-
-    assertCommandReturnTrue
-
-    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\x1b[9m")"
-
-    commandTest "es_attrib 9"
 
     assertCommandReturnTrue
 
