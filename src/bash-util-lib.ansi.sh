@@ -42,8 +42,10 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
 
     # @description  Output escape sequence with provided color code for foreground or background
     #
-    # @arg  COLOR string - escape sequence color integer (0 - 255)
-    # @arg  FG_BG string - [OPTIONAL] Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else
+    # @arg  COLOR integer - Escape sequence color integer (0 - 255)
+    # @arg  ROLE  string  - [OPTIONAL] Role of color to change
+    #           f  Foreground color [DEFAULT]
+    #           b  Background color
     #
     # @exitcode  0  Command control code turned on and output sequence
     # @exitcode  1  Command control code turned off or failed
@@ -51,24 +53,27 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
     # @stdout  Specified escape sequence color code output
     es_color() {
         local COLOR="$1"
-        local FG_BG="$2"
-        local CONTROL_CODE
+        local ROLE="$2"
 
-        case "$(echo "${FG_BG}" | tr '[:upper:]' '[:lower:]')" in
-            b*)   CONTROL_CODE="48" ;;
-            f*|*) CONTROL_CODE="38" ;;
+        ROLE="$(echo "${ROLE}" | tr '[:upper:]' '[:lower:]')"
+
+        case "${ROLE}" in
+            b*)   ROLE="48" ;;
+            f*|*) ROLE="38" ;;
         esac
 
-        es "${CONTROL_CODE};5;${COLOR}m"
+        es "${ROLE};5;${COLOR}m"
         return $?
     }
 
     # @description  Output escape sequence with provided red, green, blue color code for foreground or background
     #
-    # @arg  R     integer - Red color integer (0 - 255)
-    # @arg  G     integer - Green color integer (0 - 255)
-    # @arg  B     integer - Blue color integer (0 - 255)
-    # @arg  FG_BG string  - [OPTIONAL] Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else
+    # @arg  R    integer - Escape sequence red color integer (0 - 255)
+    # @arg  G    integer - Escape sequence green color integer (0 - 255)
+    # @arg  B    integer - Escape sequence blue color integer (0 - 255)
+    # @arg  ROLE string  - [OPTIONAL] Role of color to change
+    #           f  Foreground color [DEFAULT]
+    #           b  Background color
     #
     # @exitcode  0  Command control code turned on and output sequence
     # @exitcode  1  Command control code turned off or failed
@@ -78,22 +83,25 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
         local R="$1"
         local G="$2"
         local B="$3"
-        local FG_BG="$4"
-        local CONTROL_CODE
+        local ROLE="$4"
 
-        case "$(echo "${FG_BG}" | tr '[:upper:]' '[:lower:]')" in
-            b*)   CONTROL_CODE="48" ;;
-            f*|*) CONTROL_CODE="38" ;;
+        ROLE="$(echo "${ROLE}" | tr '[:upper:]' '[:lower:]')"
+
+        case "${ROLE}" in
+            b*)   ROLE="48" ;;
+            f*|*) ROLE="38" ;;
         esac
 
-        es "${CONTROL_CODE};2;${R};${G};${B}m"
+        es "${ROLE};2;${R};${G};${B}m"
         return $?
     }
 
     # @description  Output escape sequence with provided HEX color code for foreground or background
     #
-    # @arg  HEX   string - Escape sequence color in HEX [RRGGBB] (00 - FF)
-    # @arg  FG_BG string - [OPTIONAL] Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else
+    # @arg  HEX  string - Escape sequence color in HEX [RRGGBB] (00 - FF)
+    # @arg  ROLE string - [OPTIONAL] Role of color to change
+    #           f  Foreground color [DEFAULT]
+    #           b  Background color
     #
     # @exitcode  0  Command control code turned on and output sequence
     # @exitcode  1  Command control code turned off or failed
@@ -101,14 +109,14 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
     # @stdout  Specified escape sequence color code output
     es_color_hex() {
         local HEX=${1#"#"}
-        local FG_BG="$2"
-        local CONTROL_CODE R G B
+        local ROLE="$2"
+        local R G B
 
         R="$(printf "%d\n" "$(printf '0x%0.2s' "${HEX}")")"
         G="$(printf "%d\n" "$(printf '0x%0.2s' "${HEX#??}")")"
         B="$(printf "%d\n" "$(printf '0x%0.2s' "${HEX#????}")")"
 
-        es_color_rgb "${R}" "${G}" "${B}" "${FG_BG}"
+        es_color_rgb "${R}" "${G}" "${B}" "${ROLE}"
         return $?
     }
 
@@ -132,7 +140,9 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
     es_attrib() {
         local CONTROL_CODE="$1"
 
-        case "$(echo "${CONTROL_CODE}" | tr '[:upper:]' '[:lower:]')" in
+        CONTROL_CODE="$(echo "${CONTROL_CODE}" | tr '[:upper:]' '[:lower:]')"
+
+        case "${CONTROL_CODE}" in
                strike|9)   CONTROL_CODE="9m" ;;
                hidden|8)   CONTROL_CODE="8m" ;;
                  swap|7)   CONTROL_CODE="7m" ;;
@@ -165,7 +175,9 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
     es_erase() {
         local CONTROL_CODE="$1"
 
-        case "$(echo "${CONTROL_CODE}" | tr '[:upper:]' '[:lower:]')" in
+        CONTROL_CODE="$(echo "${CONTROL_CODE}" | tr '[:upper:]' '[:lower:]')"
+
+        case "${CONTROL_CODE}" in
                eol)   CONTROL_CODE="0K" ;;
                sol)   CONTROL_CODE="1K" ;;
                cur)   CONTROL_CODE="2K" ;;
@@ -201,7 +213,9 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
         local VAL1="${2:-0}"
         local VAL2="${3:-0}"
 
-        case "$(echo "${CONTROL_CODE}" | tr '[:upper:]' '[:lower:]')" in
+        CONTROL_CODE="$(echo "${CONTROL_CODE}" | tr '[:upper:]' '[:lower:]')"
+
+        case "${CONTROL_CODE}" in
                 abs)   CONTROL_CODE="${VAL1};${VAL2}" ;;
                  up)   CONTROL_CODE="${VAL1}A" ;;
                down)   CONTROL_CODE="${VAL1}B" ;;
@@ -241,19 +255,23 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
 
     # @description  Output ncurses color code for foreground or background
     #
-    # @arg  COLOR integer - ncurses color integer
-    # @arg  FG_BG string  - [OPTIONAL] Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else
+    # @arg  COLOR integer - ncurses color integer (0 - 255)
+    # @arg  ROLE  string  - [OPTIONAL] Role of color to change
+    #           f  Foreground [DEFAULT]
+    #           b  Background
     #
     # @exitcode  0  Command `tput` exists
     # @exitcode  1  Command `tput` turned off, missing, or failed
     #
-    # @stdout  Specified ncurses `tput`` color code output
+    # @stdout  Specified ncurses `tput` color code output
     nc_color() {
         local COLOR="$1"
-        local FG_BG="$2"
+        local ROLE="$2"
         local CAP_NAME
 
-        case "$(echo "${FG_BG}" | tr '[:upper:]' '[:lower:]')" in
+        ROLE="$(echo "${ROLE}" | tr '[:upper:]' '[:lower:]')"
+
+        case "${ROLE}" in
             b*)   CAP_NAME="setab" ;;
             f*|*) CAP_NAME="setaf" ;;
         esac

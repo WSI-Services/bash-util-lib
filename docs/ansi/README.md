@@ -122,10 +122,15 @@ Output escape sequence with provided color code for foreground or background
 
 ### Arguments
 
-| Name    | Type      | Description                                                                                                      |
-| ------- | :-------: | ---------------------------------------------------------------------------------------------------------------- |
-| `COLOR` | _integer_ | Escape sequence color integer (0 - 255)                                                                          |
-| `FG_BG` | _string_  | [OPTIONAL] Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else |
+| Name    | Type      | Description                             |
+| ------- | :-------: | --------------------------------------- |
+| `COLOR` | _integer_ | Escape sequence color integer (0 - 255) |
+| `ROLE`  | _string_  | [OPTIONAL] Role of color to change      |
+
+| Role | Description                |
+| ---- | -------------------------- |
+| `f`  | Foreground color [DEFAULT] |
+| `b`  | Background color           |
 
 ### Exit Codes
 
@@ -158,12 +163,17 @@ Output escape sequence with provided red, green, blue color code for foreground 
 
 ### Arguments
 
-| Name    | Type      | Description                                                                                                      |
-| ------- | :-------: | ---------------------------------------------------------------------------------------------------------------- |
-| `R`     | _integer_ | Escape sequence red color integer (0 - 255)                                                                      |
-| `G`     | _integer_ | Escape sequence green color integer (0 - 255)                                                                    |
-| `B`     | _integer_ | Escape sequence blue color integer (0 - 255)                                                                     |
-| `FG_BG` | _string_  | [OPTIONAL] Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else |
+| Name   | Type      | Description                                   |
+| ------ | :-------: | --------------------------------------------- |
+| `R`    | _integer_ | Escape sequence red color integer (0 - 255)   |
+| `G`    | _integer_ | Escape sequence green color integer (0 - 255) |
+| `B`    | _integer_ | Escape sequence blue color integer (0 - 255)  |
+| `ROLE` | _string_  | [OPTIONAL] Role of color to change            |
+
+| Role | Description                |
+| ---- | -------------------------- |
+| `f`  | Foreground color [DEFAULT] |
+| `b`  | Background color           |
 
 ### Exit Codes
 
@@ -197,10 +207,15 @@ Output escape sequence with provided HEX color code for foreground or background
 
 ### Arguments
 
-| Name    | Type     | Description                                                                                                      |
-| ------- | :------: | ---------------------------------------------------------------------------------------------------------------- |
-| `HEX`   | _string_ | Escape sequence color in HEX [RRGGBB] (00 - FF)                                                                  |
-| `FG_BG` | _string_ | [OPTIONAL] Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else |
+| Name   | Type     | Description                                     |
+| ------ | :------: | ----------------------------------------------- |
+| `HEX`  | _string_ | Escape sequence color in HEX [RRGGBB] (00 - FF) |
+| `ROLE` | _string_ | [OPTIONAL] Role of color to change              |
+
+| Role | Description                |
+| ---- | -------------------------- |
+| `f`  | Foreground color [DEFAULT] |
+| `b`  | Background color           |
 
 ### Exit Codes
 
@@ -412,10 +427,15 @@ Output ncurses color code for foreground or background
 
 ### Arguments
 
-| Name    | Type      | Description                                                                                                      |
-| ------- | :-------: | ---------------------------------------------------------------------------------------------------------------- |
-| `COLOR` | _integer_ | ncurses color integer (0 - 255)                                                                                  |
-| `FG_BG` | _string_  | [OPTIONAL] Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else |
+| Name    | Type      | Description                        |
+| ------- | :-------: | ---------------------------------- |
+| `COLOR` | _integer_ | ncurses color integer (0 - 255)    |
+| `ROLE`  | _string_  | [OPTIONAL] Role of color to change |
+
+| Role | Description                |
+| ---- | -------------------------- |
+| f    | Foreground color [DEFAULT] |
+| b    | Background color           |
 
 ### Exit Codes
 
