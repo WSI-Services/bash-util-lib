@@ -25,15 +25,9 @@ setES_USE() {
     local SET_VALUE="$1"
 
     case "${SET_VALUE}" in
-        true)
-            ES_USE=true
-            assertTrue 'ES_USE environment variable was not turned on' "${ES_USE}"
-            ;;
-
-        false|*)
-            ES_USE=false
-            assertFalse 'ES_USE environment variable was not turned off' "${ES_USE}"
-            ;;
+         true) ES_USE=true ;;
+        false) ES_USE=false ;;
+            *) fail "ES_USE failed to be set: provide 'true' or 'false'"
     esac
 }
 
@@ -41,15 +35,9 @@ setNC_USE() {
     local SET_VALUE="$1"
 
     case "${SET_VALUE}" in
-        true)
-            NC_USE=true
-            assertTrue 'NC_USE environment variable was not turned on' "${NC_USE}"
-            ;;
-
-        false|*)
-            NC_USE=false
-            assertFalse 'NC_USE environment variable was not turned off' "${NC_USE}"
-            ;;
+         true) NC_USE=true ;;
+        false) NC_USE=false ;;
+            *) fail "NC_USE failed to be set: provide 'true' or 'false'"
     esac
 }
 
