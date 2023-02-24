@@ -7,8 +7,6 @@
 
 TESTS_DIR="$(dirname "${BASH_SOURCE[0]}")"
 SOURCE_DIR="$(readlink -f "${TESTS_DIR}/../src")"
-TPUT_SETAF_STRING="$(tput setaf 1)"
-TPUT_SETAB_STRING="$(tput setab 1)"
 
 # shellcheck source=../src/bash-util-lib.ansi.sh
 . "${SOURCE_DIR}/bash-util-lib.ansi.sh"
@@ -791,12 +789,14 @@ test_nc_envVarTurnedOnByDefault() {
 }
 
 test_nc_controlCode() {
+    RESULT="$(tput setaf 1)"
+
     commandTest "nc 'setaf' '1'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'nc function not returning correct control sequence' \
-        "${TPUT_SETAF_STRING}"
+        "${RESULT}"
 }
 
 test_nc_envVarTurnedOff() {
@@ -833,65 +833,81 @@ test_nc_cmdTputEmpty() {
 ######################
 
 test_nc_color_defaultFgBg() {
+    RESULT="$(tput setaf 1)"
+
     commandTest "nc_color '1'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
-        "${TPUT_SETAF_STRING}"
+        "${RESULT}"
 }
 
 test_nc_color_foreground() {
+    RESULT="$(tput setaf 1)"
+
     commandTest "nc_color '1' ''"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
-        "${TPUT_SETAF_STRING}"
+        "${RESULT}"
+
+    RESULT="$(tput setaf 1)"
 
     commandTest "nc_color '1' 'f'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
-        "${TPUT_SETAF_STRING}"
+        "${RESULT}"
+
+    RESULT="$(tput setaf 1)"
 
     commandTest "nc_color '1' 'F'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
-        "${TPUT_SETAF_STRING}"
+        "${RESULT}"
+
+    RESULT="$(tput setaf 1)"
 
     commandTest "nc_color '1' 'Foreground'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
-        "${TPUT_SETAF_STRING}"
+        "${RESULT}"
 }
 
 test_nc_color_background() {
+    RESULT="$(tput setab 1)"
+
     commandTest "nc_color '1' 'b'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
-        "${TPUT_SETAB_STRING}"
+        "${RESULT}"
+
+    RESULT="$(tput setab 1)"
 
     commandTest "nc_color '1' 'B'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
-        "${TPUT_SETAB_STRING}"
+        "${RESULT}"
+
+    RESULT="$(tput setab 1)"
 
     commandTest "nc_color '1' 'Background'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
-        "${TPUT_SETAB_STRING}"
+        "${RESULT}"
 }
 
 test_nc_color_envVarTurnedOff() {
