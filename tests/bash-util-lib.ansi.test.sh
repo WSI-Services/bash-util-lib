@@ -49,12 +49,14 @@ test_es_envVarTurnedOnByDefault() {
 }
 
 test_es_controlCode() {
+    RESULT="$(printf "\x1b[38;5;1m")"
+
     commandTest "es '38;5;1m'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es function not returning correct control sequence' \
-        "$(printf "\x1b[38;5;1m")"
+        "${RESULT}"
 }
 
 test_es_envVarTurnedOff() {
@@ -75,102 +77,124 @@ test_es_envVarTurnedOff() {
 ######################
 
 test_es_color_fgBgNotSpecified() {
+    RESULT="$(printf "\x1b[38;5;1m")"
+
     commandTest "es_color '1'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color function not returning correct control sequence' \
-        "$(printf "\x1b[38;5;1m")"
+        "${RESULT}"
 }
 
 test_es_color_fgBgEmpty() {
+    RESULT="$(printf "\x1b[38;5;1m")"
+
     commandTest "es_color '1' ''"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color function not returning correct control sequence' \
-        "$(printf "\x1b[38;5;1m")"
+        "${RESULT}"
 }
 
 test_es_color_fgBgLowerCaseF() {
+    RESULT="$(printf "\x1b[38;5;1m")"
+
     commandTest "es_color '1' 'f'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color function not returning correct control sequence' \
-        "$(printf "\x1b[38;5;1m")"
+        "${RESULT}"
 }
 
 test_es_color_fgBgUpperCaseF() {
+    RESULT="$(printf "\x1b[38;5;1m")"
+
     commandTest "es_color '1' 'F'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color function not returning correct control sequence' \
-        "$(printf "\x1b[38;5;1m")"
+        "${RESULT}"
 }
 
 test_es_color_fgBgForeground() {
+    RESULT="$(printf "\x1b[38;5;1m")"
+
     commandTest "es_color '1' 'Foreground'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color function not returning correct control sequence' \
-        "$(printf "\x1b[38;5;1m")"
+        "${RESULT}"
 }
 
 test_es_color_fgBgLowerCaseB() {
+    RESULT="$(printf "\x1b[48;5;1m")"
+
     commandTest "es_color '1' 'b'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color function not returning correct control sequence' \
-        "$(printf "\x1b[48;5;1m")"
+        "${RESULT}"
 }
 
 test_es_color_fgBgUpperCaseB() {
+    RESULT="$(printf "\x1b[48;5;1m")"
+
     commandTest "es_color '1' 'B'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color function not returning correct control sequence' \
-        "$(printf "\x1b[48;5;1m")"
+        "${RESULT}"
 }
 
 test_es_color_fgBgBackground() {
+    RESULT="$(printf "\x1b[48;5;1m")"
+
     commandTest "es_color '1' 'Background'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color function not returning correct control sequence' \
-        "$(printf "\x1b[48;5;1m")"
+        "${RESULT}"
 }
 
 test_es_color_fgBgLowerCaseU() {
+    RESULT="$(printf "\x1b[58;5;1m")"
+
     commandTest "es_color '1' 'u'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color function not returning correct control sequence' \
-        "$(printf "\x1b[58;5;1m")"
+        "${RESULT}"
 }
 
 test_es_color_fgBgUpperCaseU() {
+    RESULT="$(printf "\x1b[58;5;1m")"
+
     commandTest "es_color '1' 'U'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color function not returning correct control sequence' \
-        "$(printf "\x1b[58;5;1m")"
+        "${RESULT}"
 }
 
 test_es_color_fgBgUnderline() {
+    RESULT="$(printf "\x1b[58;5;1m")"
+
     commandTest "es_color '1' 'Underline'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color function not returning correct control sequence' \
-        "$(printf "\x1b[58;5;1m")"
+        "${RESULT}"
 }
 
 test_es_color_envVarTurnedOff() {
@@ -191,102 +215,124 @@ test_es_color_envVarTurnedOff() {
 ##########################
 
 test_es_color_rgb_fgBgNotSpecified() {
+    RESULT="$(printf "\x1b[38;2;255;127;127m")"
+
     commandTest "es_color_rgb '255' '127' '127'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
-        "$(printf "\x1b[38;2;255;127;127m")"
+        "${RESULT}"
 }
 
 test_es_color_rgb_fgBgEmpty() {
+    RESULT="$(printf "\x1b[38;2;255;127;127m")"
+
     commandTest "es_color_rgb '255' '127' '127' ''"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
-        "$(printf "\x1b[38;2;255;127;127m")"
+        "${RESULT}"
 }
 
 test_es_color_rgb_fgBgLowerCaseF() {
+    RESULT="$(printf "\x1b[38;2;255;127;127m")"
+
     commandTest "es_color_rgb '255' '127' '127' 'f'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
-        "$(printf "\x1b[38;2;255;127;127m")"
+        "${RESULT}"
 }
 
 test_es_color_rgb_fgBgUpperCaseF() {
+    RESULT="$(printf "\x1b[38;2;255;127;127m")"
+
     commandTest "es_color_rgb '255' '127' '127' 'F'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
-        "$(printf "\x1b[38;2;255;127;127m")"
+        "${RESULT}"
 }
 
 test_es_color_rgb_fgBgForeground() {
+    RESULT="$(printf "\x1b[38;2;255;127;127m")"
+
     commandTest "es_color_rgb '255' '127' '127' 'Foreground'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
-        "$(printf "\x1b[38;2;255;127;127m")"
+        "${RESULT}"
 }
 
 test_es_color_rgb_fgBgLowerCaseB() {
+    RESULT="$(printf "\x1b[48;2;255;127;127m")"
+
     commandTest "es_color_rgb '255' '127' '127' 'b'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
-        "$(printf "\x1b[48;2;255;127;127m")"
+        "${RESULT}"
 }
 
 test_es_color_rgb_fgBgUpperCaseB() {
+    RESULT="$(printf "\x1b[48;2;255;127;127m")"
+
     commandTest "es_color_rgb '255' '127' '127' 'B'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
-        "$(printf "\x1b[48;2;255;127;127m")"
+        "${RESULT}"
 }
 
 test_es_color_rgb_fgBgBackground() {
+    RESULT="$(printf "\x1b[48;2;255;127;127m")"
+
     commandTest "es_color_rgb '255' '127' '127' 'Background'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
-        "$(printf "\x1b[48;2;255;127;127m")"
+        "${RESULT}"
 }
 
 test_es_color_rgb_fgBgLowerCaseU() {
+    RESULT="$(printf "\x1b[58;2;255;127;127m")"
+
     commandTest "es_color_rgb '255' '127' '127' 'u'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
-        "$(printf "\x1b[58;2;255;127;127m")"
+        "${RESULT}"
 }
 
 test_es_color_rgb_fgBgUpperCaseU() {
+    RESULT="$(printf "\x1b[58;2;255;127;127m")"
+
     commandTest "es_color_rgb '255' '127' '127' 'U'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
-        "$(printf "\x1b[58;2;255;127;127m")"
+        "${RESULT}"
 }
 
 test_es_color_rgb_fgBgUnderline() {
+    RESULT="$(printf "\x1b[58;2;255;127;127m")"
+
     commandTest "es_color_rgb '255' '127' '127' 'Underline'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
-        "$(printf "\x1b[58;2;255;127;127m")"
+        "${RESULT}"
 }
 
 test_es_color_rgb_envVarTurnedOff() {
@@ -307,75 +353,91 @@ test_es_color_rgb_envVarTurnedOff() {
 ##########################
 
 test_es_color_hex_fgBgNotSpecified() {
+    RESULT="$(printf "\x1b[38;2;255;127;127m")"
+
     commandTest "es_color_hex 'ff7f7f'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
-        "$(printf "\x1b[38;2;255;127;127m")"
+        "${RESULT}"
 }
 
 test_es_color_hex_fgBgEmpty() {
+    RESULT="$(printf "\x1b[38;2;255;127;127m")"
+
     commandTest "es_color_hex 'ff7f7f' ''"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
-        "$(printf "\x1b[38;2;255;127;127m")"
+        "${RESULT}"
 }
 
 test_es_color_hex_fgBgLowerCaseF() {
+    RESULT="$(printf "\x1b[38;2;255;127;127m")"
+
     commandTest "es_color_hex 'ff7f7f' 'f'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
-        "$(printf "\x1b[38;2;255;127;127m")"
+        "${RESULT}"
 }
 
 test_es_color_hex_fgBgUpperCaseF() {
+    RESULT="$(printf "\x1b[38;2;255;127;127m")"
+
     commandTest "es_color_hex 'ff7f7f' 'F'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
-        "$(printf "\x1b[38;2;255;127;127m")"
+        "${RESULT}"
 }
 
 test_es_color_hex_fgBgForeground() {
+    RESULT="$(printf "\x1b[38;2;255;127;127m")"
+
     commandTest "es_color_hex 'ff7f7f' 'Foreground'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
-        "$(printf "\x1b[38;2;255;127;127m")"
+        "${RESULT}"
 }
 
 test_es_color_hex_fgBgLowerCaseB() {
+    RESULT="$(printf "\x1b[48;2;255;127;127m")"
+
     commandTest "es_color_hex 'ff7f7f' 'b'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
-        "$(printf "\x1b[48;2;255;127;127m")"
+        "${RESULT}"
 }
 
 test_es_color_hex_fgBgUpperCaseB() {
+    RESULT="$(printf "\x1b[48;2;255;127;127m")"
+
     commandTest "es_color_hex 'ff7f7f' 'B'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
-        "$(printf "\x1b[48;2;255;127;127m")"
+        "${RESULT}"
 }
 
 test_es_color_hex_fgBgBackground() {
+    RESULT="$(printf "\x1b[48;2;255;127;127m")"
+
     commandTest "es_color_hex 'ff7f7f' 'Background'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
-        "$(printf "\x1b[48;2;255;127;127m")"
+        "${RESULT}"
 }
 
 test_es_color_hex_envVarTurnedOff() {
@@ -396,138 +458,168 @@ test_es_color_hex_envVarTurnedOff() {
 #######################
 
 test_es_attrib_controlCodeNotSpecified() {
+    RESULT="$(printf "\x1b[0m")"
+
     commandTest "es_attrib"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\x1b[0m")"
+        "${RESULT}"
 }
 
 test_es_attrib_controlCodeUnknown() {
+    RESULT="$(printf "\x1b[0m")"
+
     commandTest "es_attrib 'anything'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\x1b[0m")"
+        "${RESULT}"
 }
 
 test_es_attrib_controlCodeReset() {
+    RESULT="$(printf "\x1b[0m")"
+
     commandTest "es_attrib 'reset'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\x1b[0m")"
+        "${RESULT}"
 }
 
 test_es_attrib_controlCodeBold() {
+    RESULT="$(printf "\x1b[1m")"
+
     commandTest "es_attrib 'bold'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\x1b[1m")"
+        "${RESULT}"
 }
 
 test_es_attrib_controlCodeFaint() {
+    RESULT="$(printf "\x1b[2m")"
+
     commandTest "es_attrib 'faint'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\x1b[2m")"
+        "${RESULT}"
 }
 
 test_es_attrib_controlCodeItalic() {
+    RESULT="$(printf "\x1b[3m")"
+
     commandTest "es_attrib 'italic'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\x1b[3m")"
+        "${RESULT}"
 }
 
 test_es_attrib_controlCodeUnderline() {
+    RESULT="$(printf "\x1b[4m")"
+
     commandTest "es_attrib 'underline'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\x1b[4m")"
+        "${RESULT}"
 }
 
 test_es_attrib_controlCodeBlink() {
+    RESULT="$(printf "\x1b[5m")"
+
     commandTest "es_attrib 'blink'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\x1b[5m")"
+        "${RESULT}"
 }
 
 test_es_attrib_controlCodeFastBlink() {
+    RESULT="$(printf "\x1b[6m")"
+
     commandTest "es_attrib 'fast-blink'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\x1b[6m")"
+        "${RESULT}"
 }
 
 test_es_attrib_controlCodeSwap() {
+    RESULT="$(printf "\x1b[7m")"
+
     commandTest "es_attrib 'swap'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\x1b[7m")"
+        "${RESULT}"
 }
 
 test_es_attrib_controlCodeHidden() {
+    RESULT="$(printf "\x1b[8m")"
+
     commandTest "es_attrib 'hidden'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\x1b[8m")"
+        "${RESULT}"
 }
 
 test_es_attrib_controlCodeStrike() {
+    RESULT="$(printf "\x1b[9m")"
+
     commandTest "es_attrib 'strike'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\x1b[9m")"
+        "${RESULT}"
 }
 
 test_es_attrib_controlCodeForegroundOff() {
+    RESULT="$(printf "\x1b[39m")"
+
     commandTest "es_attrib 'foreground-off'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\x1b[39m")"
+        "${RESULT}"
 }
 
 test_es_attrib_controlCodeBackgroundOff() {
+    RESULT="$(printf "\x1b[49m")"
+
     commandTest "es_attrib 'background-off'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\x1b[49m")"
+        "${RESULT}"
 }
 
 test_es_attrib_controlCodeUnderlineOff() {
+    RESULT="$(printf "\x1b[59m")"
+
     commandTest "es_attrib 'underline-off'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
-        "$(printf "\x1b[59m")"
+        "${RESULT}"
 }
 
 test_es_attrib_envVarTurnedOff() {
@@ -548,73 +640,89 @@ test_es_attrib_envVarTurnedOff() {
 ######################
 
 test_es_erase_defaultCode() {
+    RESULT="$(printf "\x1b[2J")"
+
     commandTest "es_erase"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_erase function not returning correct control sequence' \
-        "$(printf "\x1b[2J")"
+        "${RESULT}"
 }
 
 test_es_erase_clear() {
-    commandTest "es_erase 'clear'"
-
-    assertCommandReturnTrue
-
-    assertCommandOutputEquals 'es_erase function not returning correct control sequence' \
-        "$(printf "\x1b[2J")"
+    RESULT="$(printf "\x1b[2J")"
 
     commandTest "es_erase 'anything'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_erase function not returning correct control sequence' \
-        "$(printf "\x1b[2J")"
+        "${RESULT}"
+
+    RESULT="$(printf "\x1b[2J")"
+
+    commandTest "es_erase 'clear'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'es_erase function not returning correct control sequence' \
+        "${RESULT}"
 }
 
 test_es_erase_top() {
+    RESULT="$(printf "\x1b[1J")"
+
     commandTest "es_erase 'top'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_erase function not returning correct control sequence' \
-        "$(printf "\x1b[1J")"
+        "${RESULT}"
 }
 
 test_es_erase_bottom() {
+    RESULT="$(printf "\x1b[0J")"
+
     commandTest "es_erase 'bottom'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_erase function not returning correct control sequence' \
-        "$(printf "\x1b[0J")"
+        "${RESULT}"
 }
 
 test_es_erase_cur() {
+    RESULT="$(printf "\x1b[2K")"
+
     commandTest "es_erase 'cur'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_erase function not returning correct control sequence' \
-        "$(printf "\x1b[2K")"
+        "${RESULT}"
 }
 
 test_es_erase_sol() {
+    RESULT="$(printf "\x1b[1K")"
+
     commandTest "es_erase 'sol'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_erase function not returning correct control sequence' \
-        "$(printf "\x1b[1K")"
+        "${RESULT}"
 }
 
 test_es_erase_eol() {
+    RESULT="$(printf "\x1b[0K")"
+
     commandTest "es_erase 'eol'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_erase function not returning correct control sequence' \
-        "$(printf "\x1b[0K")"
+        "${RESULT}"
 }
 
 test_es_erase_envVarTurnedOff() {
@@ -635,136 +743,166 @@ test_es_erase_envVarTurnedOff() {
 #######################
 
 test_es_cursor_defaultCode() {
+    RESULT="$(printf "\x1b[H")"
+
     commandTest "es_cursor"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\x1b[H")"
+        "${RESULT}"
 }
 
 test_es_cursor_home() {
+    RESULT="$(printf "\x1b[H")"
+
     commandTest "es_cursor 'home'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\x1b[H")"
+        "${RESULT}"
+
+    RESULT="$(printf "\x1b[H")"
 
     commandTest "es_cursor 'anything'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\x1b[H")"
+        "${RESULT}"
 }
 
 test_es_cursor_restore() {
+    RESULT="$(printf "\x1b[u")"
+
     commandTest "es_cursor 'restore'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\x1b[u")"
+        "${RESULT}"
 }
 
 test_es_cursor_save() {
+    RESULT="$(printf "\x1b[s")"
+
     commandTest "es_cursor 'save'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\x1b[s")"
+        "${RESULT}"
 }
 
 test_es_cursor_leftDefaultValue() {
+    RESULT="$(printf "\x1b[0D")"
+
     commandTest "es_cursor 'left'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\x1b[0D")"
+        "${RESULT}"
 }
 
 test_es_cursor_left() {
+    RESULT="$(printf "\x1b[4D")"
+
     commandTest "es_cursor 'left' 4"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\x1b[4D")"
+        "${RESULT}"
 }
 
 test_es_cursor_rightDefaultValue() {
+    RESULT="$(printf "\x1b[0C")"
+
     commandTest "es_cursor 'right'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\x1b[0C")"
+        "${RESULT}"
 }
 
 test_es_cursor_right() {
+    RESULT="$(printf "\x1b[4C")"
+
     commandTest "es_cursor 'right' 4"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\x1b[4C")"
+        "${RESULT}"
 }
 
 test_es_cursor_downDefaultValue() {
+    RESULT="$(printf "\x1b[0B")"
+
     commandTest "es_cursor 'down'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\x1b[0B")"
+        "${RESULT}"
 }
 
 test_es_cursor_down() {
+    RESULT="$(printf "\x1b[4B")"
+
     commandTest "es_cursor 'down' 4"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\x1b[4B")"
+        "${RESULT}"
 }
 
 test_es_cursor_upDefaultValue() {
+    RESULT="$(printf "\x1b[0A")"
+
     commandTest "es_cursor 'up'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\x1b[0A")"
+        "${RESULT}"
 }
 
 test_es_cursor_up() {
+    RESULT="$(printf "\x1b[4A")"
+
     commandTest "es_cursor 'up' 4"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\x1b[4A")"
+        "${RESULT}"
 }
 
 test_es_cursor_absDefaultValue() {
+    RESULT="$(printf "\x1b[0;0")"
+
     commandTest "es_cursor 'abs'"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\x1b[0;0")"
+        "${RESULT}"
 }
 
 test_es_cursor_abs() {
+    RESULT="$(printf "\x1b[3;4")"
+
     commandTest "es_cursor 'abs' 3 4"
 
     assertCommandReturnTrue
 
     assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
-        "$(printf "\x1b[3;4")"
+        "${RESULT}"
 }
 
 test_es_cursor_envVarTurnedOff() {
@@ -929,6 +1067,7 @@ test_nc_color_envVarTurnedOff() {
 
 test_nc_attrib_controlCodeNotSpecified() {
     RESULT="$(tput sgr0)"
+
     commandTest "nc_attrib"
 
     assertCommandReturnTrue
@@ -939,6 +1078,7 @@ test_nc_attrib_controlCodeNotSpecified() {
 
 test_nc_attrib_controlCodeUnknown() {
     RESULT="$(tput sgr0)"
+
     commandTest "nc_attrib 'anything'"
 
     assertCommandReturnTrue
@@ -949,6 +1089,7 @@ test_nc_attrib_controlCodeUnknown() {
 
 test_nc_attrib_controlCodeReset() {
     RESULT="$(tput sgr0)"
+
     commandTest "nc_attrib 'reset'"
 
     assertCommandReturnTrue
@@ -959,6 +1100,7 @@ test_nc_attrib_controlCodeReset() {
 
 test_nc_attrib_controlCodeBold() {
     RESULT="$(tput bold)"
+
     commandTest "nc_attrib 'bold'"
 
     assertCommandReturnTrue
@@ -969,6 +1111,7 @@ test_nc_attrib_controlCodeBold() {
 
 test_nc_attrib_controlCodeDim() {
     RESULT="$(tput dim)"
+
     commandTest "nc_attrib 'dim'"
 
     assertCommandReturnTrue
@@ -979,6 +1122,7 @@ test_nc_attrib_controlCodeDim() {
 
 test_nc_attrib_controlCodeItalic() {
     RESULT="$(tput sitm)"
+
     commandTest "nc_attrib 'italic'"
 
     assertCommandReturnTrue
@@ -989,6 +1133,7 @@ test_nc_attrib_controlCodeItalic() {
 
 test_nc_attrib_controlCodeUnderlineOff() {
     RESULT="$(tput rmul)"
+
     commandTest "nc_attrib 'underline-off'"
 
     assertCommandReturnTrue
@@ -999,6 +1144,7 @@ test_nc_attrib_controlCodeUnderlineOff() {
 
 test_nc_attrib_controlCodeUnderline() {
     RESULT="$(tput smul)"
+
     commandTest "nc_attrib 'underline'"
 
     assertCommandReturnTrue
@@ -1009,6 +1155,7 @@ test_nc_attrib_controlCodeUnderline() {
 
 test_nc_attrib_controlCodeBlink() {
     RESULT="$(tput blink)"
+
     commandTest "nc_attrib 'blink'"
 
     assertCommandReturnTrue
@@ -1019,6 +1166,7 @@ test_nc_attrib_controlCodeBlink() {
 
 test_nc_attrib_controlCodeReverse() {
     RESULT="$(tput rev)"
+
     commandTest "nc_attrib 'reverse'"
 
     assertCommandReturnTrue
@@ -1029,6 +1177,7 @@ test_nc_attrib_controlCodeReverse() {
 
 test_nc_attrib_controlCodeInvisible() {
     RESULT="$(tput invis)"
+
     commandTest "nc_attrib 'invisible'"
 
     assertCommandReturnTrue
@@ -1039,6 +1188,7 @@ test_nc_attrib_controlCodeInvisible() {
 
 test_nc_attrib_controlCodeStandoutOff() {
     RESULT="$(tput rmso)"
+
     commandTest "nc_attrib 'standout-off'"
 
     assertCommandReturnTrue
@@ -1049,6 +1199,7 @@ test_nc_attrib_controlCodeStandoutOff() {
 
 test_nc_attrib_controlCodeStandout() {
     RESULT="$(tput smso)"
+
     commandTest "nc_attrib 'standout'"
 
     assertCommandReturnTrue
@@ -1076,6 +1227,7 @@ test_nc_attrib_envVarTurnedOff() {
 
 test_nc_erase_controlCodeNotSpecified() {
     RESULT="$(tput clear)"
+
     commandTest "nc_erase"
 
     assertCommandReturnTrue
@@ -1086,6 +1238,7 @@ test_nc_erase_controlCodeNotSpecified() {
 
 test_nc_erase_controlCodeUnknown() {
     RESULT="$(tput clear)"
+
     commandTest "nc_erase 'anything'"
 
     assertCommandReturnTrue
@@ -1096,6 +1249,7 @@ test_nc_erase_controlCodeUnknown() {
 
 test_nc_erase_controlCodeClear() {
     RESULT="$(tput clear)"
+
     commandTest "nc_erase 'clear'"
 
     assertCommandReturnTrue
@@ -1106,6 +1260,7 @@ test_nc_erase_controlCodeClear() {
 
 test_nc_erase_controlCodeInsertLinesNoValueSpecified() {
     RESULT="$(tput il 0)"
+
     commandTest "nc_erase 'il'"
 
     assertCommandReturnTrue
@@ -1116,6 +1271,7 @@ test_nc_erase_controlCodeInsertLinesNoValueSpecified() {
 
 test_nc_erase_controlCodeInsertLines() {
     RESULT="$(tput il 4)"
+
     commandTest "nc_erase 'il' 4"
 
     assertCommandReturnTrue
@@ -1126,6 +1282,7 @@ test_nc_erase_controlCodeInsertLines() {
 
 test_nc_erase_controlCodeInsertCharactersNoValueSpecified() {
     RESULT="$(tput ich 0)"
+
     commandTest "nc_erase 'ic'"
 
     assertCommandReturnTrue
@@ -1136,6 +1293,7 @@ test_nc_erase_controlCodeInsertCharactersNoValueSpecified() {
 
 test_nc_erase_controlCodeInsertCharacters() {
     RESULT="$(tput ich 4)"
+
     commandTest "nc_erase 'ic' 4"
 
     assertCommandReturnTrue
@@ -1146,6 +1304,7 @@ test_nc_erase_controlCodeInsertCharacters() {
 
 test_nc_erase_controlCodeCharactersNoValueSpecified() {
     RESULT="$(tput ech 0)"
+
     commandTest "nc_erase 'en'"
 
     assertCommandReturnTrue
@@ -1156,6 +1315,7 @@ test_nc_erase_controlCodeCharactersNoValueSpecified() {
 
 test_nc_erase_controlCodeCharacters() {
     RESULT="$(tput ech 4)"
+
     commandTest "nc_erase 'en' 4"
 
     assertCommandReturnTrue
@@ -1166,6 +1326,7 @@ test_nc_erase_controlCodeCharacters() {
 
 test_nc_erase_controlCodeEndOfScreen() {
     RESULT="$(tput ed)"
+
     commandTest "nc_erase 'eos'"
 
     assertCommandReturnTrue
@@ -1176,6 +1337,7 @@ test_nc_erase_controlCodeEndOfScreen() {
 
 test_nc_erase_controlCodeEndOfLine() {
     RESULT="$(tput el)"
+
     commandTest "nc_erase 'eol'"
 
     assertCommandReturnTrue
@@ -1186,6 +1348,7 @@ test_nc_erase_controlCodeEndOfLine() {
 
 test_nc_erase_controlCodeStartOfLine() {
     RESULT="$(tput el1)"
+
     commandTest "nc_erase 'sol'"
 
     assertCommandReturnTrue
@@ -1213,6 +1376,7 @@ test_nc_erase_envVarTurnedOff() {
 
 test_nc_cursor_controlCodeNotSpecified() {
     RESULT="$(tput home)"
+
     commandTest "nc_cursor"
 
     assertCommandReturnTrue
@@ -1223,6 +1387,7 @@ test_nc_cursor_controlCodeNotSpecified() {
 
 test_nc_cursor_controlCodeUnknown() {
     RESULT="$(tput home)"
+
     commandTest "nc_cursor 'anything'"
 
     assertCommandReturnTrue
@@ -1233,6 +1398,7 @@ test_nc_cursor_controlCodeUnknown() {
 
 test_nc_cursor_controlCodeHome() {
     RESULT="$(tput home)"
+
     commandTest "nc_cursor 'home'"
 
     assertCommandReturnTrue
@@ -1243,6 +1409,7 @@ test_nc_cursor_controlCodeHome() {
 
 test_nc_cursor_controlCodeAbsolutePositionNoValueSpecified() {
     RESULT="$(tput cup '0;0')"
+
     commandTest "nc_cursor 'abs'"
 
     assertCommandReturnTrue
@@ -1253,6 +1420,7 @@ test_nc_cursor_controlCodeAbsolutePositionNoValueSpecified() {
 
 test_nc_cursor_controlCodeAbsolutePosition() {
     RESULT="$(tput cup '3;4')"
+
     commandTest "nc_cursor 'abs' 3 4"
 
     assertCommandReturnTrue
@@ -1263,6 +1431,7 @@ test_nc_cursor_controlCodeAbsolutePosition() {
 
 test_nc_cursor_controlCodeRightNoValueSpecified() {
     RESULT="$(tput cuf 0)"
+
     commandTest "nc_cursor 'right'"
 
     assertCommandReturnTrue
@@ -1273,6 +1442,7 @@ test_nc_cursor_controlCodeRightNoValueSpecified() {
 
 test_nc_cursor_controlCodeRight() {
     RESULT="$(tput cuf 4)"
+
     commandTest "nc_cursor 'right' 4"
 
     assertCommandReturnTrue
@@ -1283,6 +1453,7 @@ test_nc_cursor_controlCodeRight() {
 
 test_nc_cursor_controlCodeLeftNoValueSpecified() {
     RESULT="$(tput cub 0)"
+
     commandTest "nc_cursor 'left'"
 
     assertCommandReturnTrue
@@ -1293,6 +1464,7 @@ test_nc_cursor_controlCodeLeftNoValueSpecified() {
 
 test_nc_cursor_controlCodeLeft() {
     RESULT="$(tput cub 4)"
+
     commandTest "nc_cursor 'left' 4"
 
     assertCommandReturnTrue
@@ -1303,6 +1475,7 @@ test_nc_cursor_controlCodeLeft() {
 
 test_nc_cursor_controlCodeDown() {
     RESULT="$(tput cud1)"
+
     commandTest "nc_cursor 'down'"
 
     assertCommandReturnTrue
@@ -1313,6 +1486,7 @@ test_nc_cursor_controlCodeDown() {
 
 test_nc_cursor_controlCodeUp() {
     RESULT="$(tput cuu1)"
+
     commandTest "nc_cursor 'up'"
 
     assertCommandReturnTrue
@@ -1323,6 +1497,7 @@ test_nc_cursor_controlCodeUp() {
 
 test_nc_cursor_controlCodeInvisibleOff() {
     RESULT="$(tput cvvis)"
+
     commandTest "nc_cursor 'invisible-off'"
 
     assertCommandReturnTrue
@@ -1333,6 +1508,7 @@ test_nc_cursor_controlCodeInvisibleOff() {
 
 test_nc_cursor_controlCodeInvisible() {
     RESULT="$(tput civis)"
+
     commandTest "nc_cursor 'invisible'"
 
     assertCommandReturnTrue
@@ -1343,6 +1519,7 @@ test_nc_cursor_controlCodeInvisible() {
 
 test_nc_cursor_controlCodeRestore() {
     RESULT="$(tput rc)"
+
     commandTest "nc_cursor 'restore'"
 
     assertCommandReturnTrue
@@ -1353,6 +1530,7 @@ test_nc_cursor_controlCodeRestore() {
 
 test_nc_cursor_controlCodeSave() {
     RESULT="$(tput sc)"
+
     commandTest "nc_cursor 'save'"
 
     assertCommandReturnTrue
