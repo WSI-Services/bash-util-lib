@@ -118,7 +118,7 @@ Specified escape sequence control code
 
 ## **`es_color`**
 
-Output escape sequence with provided color code for foreground or background
+Output escape sequence with provided color code for foreground, background, or underline
 
 ### Arguments
 
@@ -131,6 +131,7 @@ Output escape sequence with provided color code for foreground or background
 | ---- | -------------------------- |
 | `f`  | Foreground color [DEFAULT] |
 | `b`  | Background color           |
+| `u`  | Underline color            |
 
 ### Exit Codes
 
@@ -159,7 +160,7 @@ Specified escape sequence color code output
 
 ## **`es_color_rgb`**
 
-Output escape sequence with provided red, green, blue color code for foreground or background
+Output escape sequence with provided red, green, blue color code for foreground, background, or underline
 
 ### Arguments
 
@@ -174,6 +175,7 @@ Output escape sequence with provided red, green, blue color code for foreground 
 | ---- | -------------------------- |
 | `f`  | Foreground color [DEFAULT] |
 | `b`  | Background color           |
+| `u`  | Underline color            |
 
 ### Exit Codes
 
@@ -203,7 +205,7 @@ Specified escape sequence color code output
 
 ## **`es_color_hex`**
 
-Output escape sequence with provided HEX color code for foreground or background
+Output escape sequence with provided HEX color code for foreground, background, or underline
 
 ### Arguments
 
@@ -216,6 +218,7 @@ Output escape sequence with provided HEX color code for foreground or background
 | ---- | -------------------------- |
 | `f`  | Foreground color [DEFAULT] |
 | `b`  | Background color           |
+| `u`  | Underline color            |
 
 ### Exit Codes
 
@@ -255,6 +258,7 @@ Output escape sequence with provided text attribute control code
 
 | Code           | Description                                |
 | -------------- | ------------------------------------------ |
+| underline-off  | Underline color off                        |
 | background-off | Background color off                       |
 | foreground-off | Foreground color off                       |
 | strike         | Strike-through text                        |

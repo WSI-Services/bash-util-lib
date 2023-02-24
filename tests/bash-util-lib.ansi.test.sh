@@ -160,6 +160,33 @@ test_es_color_fgBgBackground() {
         "$(printf "\x1b[48;5;1m")"
 }
 
+test_es_color_fgBgLowerCaseU() {
+    commandTest "es_color '1' 'u'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'es_color function not returning correct control sequence' \
+        "$(printf "\x1b[58;5;1m")"
+}
+
+test_es_color_fgBgUpperCaseU() {
+    commandTest "es_color '1' 'U'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'es_color function not returning correct control sequence' \
+        "$(printf "\x1b[58;5;1m")"
+}
+
+test_es_color_fgBgUnderline() {
+    commandTest "es_color '1' 'Underline'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'es_color function not returning correct control sequence' \
+        "$(printf "\x1b[58;5;1m")"
+}
+
 test_es_color_envVarTurnedOff() {
     setES_USE false
 
@@ -247,6 +274,33 @@ test_es_color_rgb_fgBgBackground() {
 
     assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
         "$(printf "\x1b[48;2;255;127;127m")"
+}
+
+test_es_color_rgb_fgBgLowerCaseU() {
+    commandTest "es_color_rgb '255' '127' '127' 'u'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
+        "$(printf "\x1b[58;2;255;127;127m")"
+}
+
+test_es_color_rgb_fgBgUpperCaseU() {
+    commandTest "es_color_rgb '255' '127' '127' 'U'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
+        "$(printf "\x1b[58;2;255;127;127m")"
+}
+
+test_es_color_rgb_fgBgUnderline() {
+    commandTest "es_color_rgb '255' '127' '127' 'Underline'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
+        "$(printf "\x1b[58;2;255;127;127m")"
 }
 
 test_es_color_rgb_envVarTurnedOff() {
@@ -479,6 +533,15 @@ test_es_attrib_controlCodeBackgroundOff() {
 
     assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
         "$(printf "\x1b[49m")"
+}
+
+test_es_attrib_controlCodeUnderlineOff() {
+    commandTest "es_attrib 'underline-off'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+        "$(printf "\x1b[59m")"
 }
 
 test_es_attrib_envVarTurnedOff() {

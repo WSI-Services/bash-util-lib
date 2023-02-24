@@ -40,12 +40,13 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
         fi
     }
 
-    # @description  Output escape sequence with provided color code for foreground or background
+    # @description  Output escape sequence with provided color code for foreground, background, or underline
     #
     # @arg  COLOR integer - Escape sequence color integer (0 - 255)
     # @arg  ROLE  string  - [OPTIONAL] Role of color to change
     #           f  Foreground color [DEFAULT]
     #           b  Background color
+    #           u  Underline color
     #
     # @exitcode  0  Command control code turned on and output sequence
     # @exitcode  1  Command control code turned off or failed
@@ -58,6 +59,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
         ROLE="$(echo "${ROLE}" | tr '[:upper:]' '[:lower:]')"
 
         case "${ROLE}" in
+            u*)   ROLE="58" ;;
             b*)   ROLE="48" ;;
             f*|*) ROLE="38" ;;
         esac
@@ -66,7 +68,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
         return $?
     }
 
-    # @description  Output escape sequence with provided red, green, blue color code for foreground or background
+    # @description  Output escape sequence with provided red, green, blue color code for foreground, background, or underline
     #
     # @arg  R    integer - Escape sequence red color integer (0 - 255)
     # @arg  G    integer - Escape sequence green color integer (0 - 255)
@@ -74,6 +76,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
     # @arg  ROLE string  - [OPTIONAL] Role of color to change
     #           f  Foreground color [DEFAULT]
     #           b  Background color
+    #           u  Underline color
     #
     # @exitcode  0  Command control code turned on and output sequence
     # @exitcode  1  Command control code turned off or failed
@@ -88,6 +91,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
         ROLE="$(echo "${ROLE}" | tr '[:upper:]' '[:lower:]')"
 
         case "${ROLE}" in
+            u*)   ROLE="58" ;;
             b*)   ROLE="48" ;;
             f*|*) ROLE="38" ;;
         esac
@@ -96,12 +100,13 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
         return $?
     }
 
-    # @description  Output escape sequence with provided HEX color code for foreground or background
+    # @description  Output escape sequence with provided HEX color code for foreground, background, or underline
     #
     # @arg  HEX  string - Escape sequence color in HEX [RRGGBB] (00 - FF)
     # @arg  ROLE string - [OPTIONAL] Role of color to change
     #           f  Foreground color [DEFAULT]
     #           b  Background color
+    #           u  Underline color
     #
     # @exitcode  0  Command control code turned on and output sequence
     # @exitcode  1  Command control code turned off or failed
@@ -123,6 +128,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
     # @description  Output escape sequence with provided text attribute control code
     #
     # @arg  CONTROL_CODE string - [OPTIONAL] Escape sequence text attribute control code
+    #           underline-off    Underline color off
     #           background-off   Background color off
     #           foreground-off   Foreground color off
     #           strike           Strike-through text
@@ -146,6 +152,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
         CONTROL_CODE="$(echo "${CONTROL_CODE}" | tr '[:upper:]' '[:lower:]')"
 
         case "${CONTROL_CODE}" in
+              underline-off)   CONTROL_CODE="59m" ;;
              background-off)   CONTROL_CODE="49m" ;;
              foreground-off)   CONTROL_CODE="39m" ;;
                      strike)   CONTROL_CODE="9m" ;;
