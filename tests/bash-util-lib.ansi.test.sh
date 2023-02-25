@@ -76,7 +76,7 @@ test_es_envVarTurnedOff() {
 # Function: es_color #
 ######################
 
-test_es_color_fgBgNotSpecified() {
+test_es_color_roleNotSpecified() {
     RESULT="$(printf "\x1b[38;5;1m")"
 
     commandTest "es_color '1'"
@@ -87,7 +87,7 @@ test_es_color_fgBgNotSpecified() {
         "${RESULT}"
 }
 
-test_es_color_fgBgEmpty() {
+test_es_color_roleEmpty() {
     RESULT="$(printf "\x1b[38;5;1m")"
 
     commandTest "es_color '1' ''"
@@ -98,7 +98,7 @@ test_es_color_fgBgEmpty() {
         "${RESULT}"
 }
 
-test_es_color_fgBgLowerCaseF() {
+test_es_color_roleLowerCaseF() {
     RESULT="$(printf "\x1b[38;5;1m")"
 
     commandTest "es_color '1' 'f'"
@@ -109,7 +109,7 @@ test_es_color_fgBgLowerCaseF() {
         "${RESULT}"
 }
 
-test_es_color_fgBgUpperCaseF() {
+test_es_color_roleUpperCaseF() {
     RESULT="$(printf "\x1b[38;5;1m")"
 
     commandTest "es_color '1' 'F'"
@@ -120,7 +120,7 @@ test_es_color_fgBgUpperCaseF() {
         "${RESULT}"
 }
 
-test_es_color_fgBgForeground() {
+test_es_color_roleForeground() {
     RESULT="$(printf "\x1b[38;5;1m")"
 
     commandTest "es_color '1' 'Foreground'"
@@ -131,7 +131,7 @@ test_es_color_fgBgForeground() {
         "${RESULT}"
 }
 
-test_es_color_fgBgLowerCaseB() {
+test_es_color_roleLowerCaseB() {
     RESULT="$(printf "\x1b[48;5;1m")"
 
     commandTest "es_color '1' 'b'"
@@ -142,7 +142,7 @@ test_es_color_fgBgLowerCaseB() {
         "${RESULT}"
 }
 
-test_es_color_fgBgUpperCaseB() {
+test_es_color_roleUpperCaseB() {
     RESULT="$(printf "\x1b[48;5;1m")"
 
     commandTest "es_color '1' 'B'"
@@ -153,7 +153,7 @@ test_es_color_fgBgUpperCaseB() {
         "${RESULT}"
 }
 
-test_es_color_fgBgBackground() {
+test_es_color_roleBackground() {
     RESULT="$(printf "\x1b[48;5;1m")"
 
     commandTest "es_color '1' 'Background'"
@@ -164,7 +164,7 @@ test_es_color_fgBgBackground() {
         "${RESULT}"
 }
 
-test_es_color_fgBgLowerCaseU() {
+test_es_color_roleLowerCaseU() {
     RESULT="$(printf "\x1b[58;5;1m")"
 
     commandTest "es_color '1' 'u'"
@@ -175,7 +175,7 @@ test_es_color_fgBgLowerCaseU() {
         "${RESULT}"
 }
 
-test_es_color_fgBgUpperCaseU() {
+test_es_color_roleUpperCaseU() {
     RESULT="$(printf "\x1b[58;5;1m")"
 
     commandTest "es_color '1' 'U'"
@@ -186,7 +186,7 @@ test_es_color_fgBgUpperCaseU() {
         "${RESULT}"
 }
 
-test_es_color_fgBgUnderline() {
+test_es_color_roleUnderline() {
     RESULT="$(printf "\x1b[58;5;1m")"
 
     commandTest "es_color '1' 'Underline'"
@@ -214,7 +214,7 @@ test_es_color_envVarTurnedOff() {
 # Function: es_color_rgb #
 ##########################
 
-test_es_color_rgb_fgBgNotSpecified() {
+test_es_color_rgb_roleNotSpecified() {
     RESULT="$(printf "\x1b[38;2;255;127;127m")"
 
     commandTest "es_color_rgb '255' '127' '127'"
@@ -225,7 +225,7 @@ test_es_color_rgb_fgBgNotSpecified() {
         "${RESULT}"
 }
 
-test_es_color_rgb_fgBgEmpty() {
+test_es_color_rgb_roleEmpty() {
     RESULT="$(printf "\x1b[38;2;255;127;127m")"
 
     commandTest "es_color_rgb '255' '127' '127' ''"
@@ -236,7 +236,7 @@ test_es_color_rgb_fgBgEmpty() {
         "${RESULT}"
 }
 
-test_es_color_rgb_fgBgLowerCaseF() {
+test_es_color_rgb_roleLowerCaseF() {
     RESULT="$(printf "\x1b[38;2;255;127;127m")"
 
     commandTest "es_color_rgb '255' '127' '127' 'f'"
@@ -247,7 +247,7 @@ test_es_color_rgb_fgBgLowerCaseF() {
         "${RESULT}"
 }
 
-test_es_color_rgb_fgBgUpperCaseF() {
+test_es_color_rgb_roleUpperCaseF() {
     RESULT="$(printf "\x1b[38;2;255;127;127m")"
 
     commandTest "es_color_rgb '255' '127' '127' 'F'"
@@ -258,7 +258,7 @@ test_es_color_rgb_fgBgUpperCaseF() {
         "${RESULT}"
 }
 
-test_es_color_rgb_fgBgForeground() {
+test_es_color_rgb_roleForeground() {
     RESULT="$(printf "\x1b[38;2;255;127;127m")"
 
     commandTest "es_color_rgb '255' '127' '127' 'Foreground'"
@@ -269,7 +269,7 @@ test_es_color_rgb_fgBgForeground() {
         "${RESULT}"
 }
 
-test_es_color_rgb_fgBgLowerCaseB() {
+test_es_color_rgb_roleLowerCaseB() {
     RESULT="$(printf "\x1b[48;2;255;127;127m")"
 
     commandTest "es_color_rgb '255' '127' '127' 'b'"
@@ -280,7 +280,7 @@ test_es_color_rgb_fgBgLowerCaseB() {
         "${RESULT}"
 }
 
-test_es_color_rgb_fgBgUpperCaseB() {
+test_es_color_rgb_roleUpperCaseB() {
     RESULT="$(printf "\x1b[48;2;255;127;127m")"
 
     commandTest "es_color_rgb '255' '127' '127' 'B'"
@@ -291,7 +291,7 @@ test_es_color_rgb_fgBgUpperCaseB() {
         "${RESULT}"
 }
 
-test_es_color_rgb_fgBgBackground() {
+test_es_color_rgb_roleBackground() {
     RESULT="$(printf "\x1b[48;2;255;127;127m")"
 
     commandTest "es_color_rgb '255' '127' '127' 'Background'"
@@ -302,7 +302,7 @@ test_es_color_rgb_fgBgBackground() {
         "${RESULT}"
 }
 
-test_es_color_rgb_fgBgLowerCaseU() {
+test_es_color_rgb_roleLowerCaseU() {
     RESULT="$(printf "\x1b[58;2;255;127;127m")"
 
     commandTest "es_color_rgb '255' '127' '127' 'u'"
@@ -313,7 +313,7 @@ test_es_color_rgb_fgBgLowerCaseU() {
         "${RESULT}"
 }
 
-test_es_color_rgb_fgBgUpperCaseU() {
+test_es_color_rgb_roleUpperCaseU() {
     RESULT="$(printf "\x1b[58;2;255;127;127m")"
 
     commandTest "es_color_rgb '255' '127' '127' 'U'"
@@ -324,7 +324,7 @@ test_es_color_rgb_fgBgUpperCaseU() {
         "${RESULT}"
 }
 
-test_es_color_rgb_fgBgUnderline() {
+test_es_color_rgb_roleUnderline() {
     RESULT="$(printf "\x1b[58;2;255;127;127m")"
 
     commandTest "es_color_rgb '255' '127' '127' 'Underline'"
@@ -352,7 +352,7 @@ test_es_color_rgb_envVarTurnedOff() {
 # Function: es_color_hex #
 ##########################
 
-test_es_color_hex_fgBgNotSpecified() {
+test_es_color_hex_roleNotSpecified() {
     RESULT="$(printf "\x1b[38;2;255;127;127m")"
 
     commandTest "es_color_hex 'ff7f7f'"
@@ -363,7 +363,7 @@ test_es_color_hex_fgBgNotSpecified() {
         "${RESULT}"
 }
 
-test_es_color_hex_fgBgEmpty() {
+test_es_color_hex_roleEmpty() {
     RESULT="$(printf "\x1b[38;2;255;127;127m")"
 
     commandTest "es_color_hex 'ff7f7f' ''"
@@ -374,7 +374,7 @@ test_es_color_hex_fgBgEmpty() {
         "${RESULT}"
 }
 
-test_es_color_hex_fgBgLowerCaseF() {
+test_es_color_hex_roleLowerCaseF() {
     RESULT="$(printf "\x1b[38;2;255;127;127m")"
 
     commandTest "es_color_hex 'ff7f7f' 'f'"
@@ -385,7 +385,7 @@ test_es_color_hex_fgBgLowerCaseF() {
         "${RESULT}"
 }
 
-test_es_color_hex_fgBgUpperCaseF() {
+test_es_color_hex_roleUpperCaseF() {
     RESULT="$(printf "\x1b[38;2;255;127;127m")"
 
     commandTest "es_color_hex 'ff7f7f' 'F'"
@@ -396,7 +396,7 @@ test_es_color_hex_fgBgUpperCaseF() {
         "${RESULT}"
 }
 
-test_es_color_hex_fgBgForeground() {
+test_es_color_hex_roleForeground() {
     RESULT="$(printf "\x1b[38;2;255;127;127m")"
 
     commandTest "es_color_hex 'ff7f7f' 'Foreground'"
@@ -407,7 +407,7 @@ test_es_color_hex_fgBgForeground() {
         "${RESULT}"
 }
 
-test_es_color_hex_fgBgLowerCaseB() {
+test_es_color_hex_roleLowerCaseB() {
     RESULT="$(printf "\x1b[48;2;255;127;127m")"
 
     commandTest "es_color_hex 'ff7f7f' 'b'"
@@ -418,7 +418,7 @@ test_es_color_hex_fgBgLowerCaseB() {
         "${RESULT}"
 }
 
-test_es_color_hex_fgBgUpperCaseB() {
+test_es_color_hex_roleUpperCaseB() {
     RESULT="$(printf "\x1b[48;2;255;127;127m")"
 
     commandTest "es_color_hex 'ff7f7f' 'B'"
@@ -429,7 +429,7 @@ test_es_color_hex_fgBgUpperCaseB() {
         "${RESULT}"
 }
 
-test_es_color_hex_fgBgBackground() {
+test_es_color_hex_roleBackground() {
     RESULT="$(printf "\x1b[48;2;255;127;127m")"
 
     commandTest "es_color_hex 'ff7f7f' 'Background'"
@@ -639,7 +639,7 @@ test_es_attrib_envVarTurnedOff() {
 # Function: es_erase #
 ######################
 
-test_es_erase_defaultCode() {
+test_es_erase_controlCodeNotSpecified() {
     RESULT="$(printf "\x1b[2J")"
 
     commandTest "es_erase"
@@ -650,7 +650,7 @@ test_es_erase_defaultCode() {
         "${RESULT}"
 }
 
-test_es_erase_clear() {
+test_es_erase_controlCodeUnknown() {
     RESULT="$(printf "\x1b[2J")"
 
     commandTest "es_erase 'anything'"
@@ -659,7 +659,9 @@ test_es_erase_clear() {
 
     assertCommandOutputEquals 'es_erase function not returning correct control sequence' \
         "${RESULT}"
+}
 
+test_es_erase_controlCodeClear() {
     RESULT="$(printf "\x1b[2J")"
 
     commandTest "es_erase 'clear'"
@@ -670,7 +672,7 @@ test_es_erase_clear() {
         "${RESULT}"
 }
 
-test_es_erase_top() {
+test_es_erase_controlCodeTop() {
     RESULT="$(printf "\x1b[1J")"
 
     commandTest "es_erase 'top'"
@@ -681,7 +683,7 @@ test_es_erase_top() {
         "${RESULT}"
 }
 
-test_es_erase_bottom() {
+test_es_erase_controlCodeBottom() {
     RESULT="$(printf "\x1b[0J")"
 
     commandTest "es_erase 'bottom'"
@@ -692,7 +694,7 @@ test_es_erase_bottom() {
         "${RESULT}"
 }
 
-test_es_erase_cur() {
+test_es_erase_controlCodeCur() {
     RESULT="$(printf "\x1b[2K")"
 
     commandTest "es_erase 'cur'"
@@ -703,7 +705,7 @@ test_es_erase_cur() {
         "${RESULT}"
 }
 
-test_es_erase_sol() {
+test_es_erase_controlCodeSol() {
     RESULT="$(printf "\x1b[1K")"
 
     commandTest "es_erase 'sol'"
@@ -714,7 +716,7 @@ test_es_erase_sol() {
         "${RESULT}"
 }
 
-test_es_erase_eol() {
+test_es_erase_controlCodeEol() {
     RESULT="$(printf "\x1b[0K")"
 
     commandTest "es_erase 'eol'"
@@ -742,7 +744,7 @@ test_es_erase_envVarTurnedOff() {
 # Function: es_cursor #
 #######################
 
-test_es_cursor_defaultCode() {
+test_es_cursor_controlCodeNotSpecified() {
     RESULT="$(printf "\x1b[H")"
 
     commandTest "es_cursor"
@@ -753,16 +755,7 @@ test_es_cursor_defaultCode() {
         "${RESULT}"
 }
 
-test_es_cursor_home() {
-    RESULT="$(printf "\x1b[H")"
-
-    commandTest "es_cursor 'home'"
-
-    assertCommandReturnTrue
-
-    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
-        "${RESULT}"
-
+test_es_cursor_controlCodeUnknown() {
     RESULT="$(printf "\x1b[H")"
 
     commandTest "es_cursor 'anything'"
@@ -773,7 +766,18 @@ test_es_cursor_home() {
         "${RESULT}"
 }
 
-test_es_cursor_restore() {
+test_es_cursor_controlCodeHome() {
+    RESULT="$(printf "\x1b[H")"
+
+    commandTest "es_cursor 'home'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_es_cursor_controlCodeRestore() {
     RESULT="$(printf "\x1b[u")"
 
     commandTest "es_cursor 'restore'"
@@ -784,7 +788,7 @@ test_es_cursor_restore() {
         "${RESULT}"
 }
 
-test_es_cursor_save() {
+test_es_cursor_controlCodeSave() {
     RESULT="$(printf "\x1b[s")"
 
     commandTest "es_cursor 'save'"
@@ -795,7 +799,7 @@ test_es_cursor_save() {
         "${RESULT}"
 }
 
-test_es_cursor_leftDefaultValue() {
+test_es_cursor_controlCodeLeftValueNotSpecified() {
     RESULT="$(printf "\x1b[0D")"
 
     commandTest "es_cursor 'left'"
@@ -806,7 +810,7 @@ test_es_cursor_leftDefaultValue() {
         "${RESULT}"
 }
 
-test_es_cursor_left() {
+test_es_cursor_controlCodeLeft() {
     RESULT="$(printf "\x1b[4D")"
 
     commandTest "es_cursor 'left' 4"
@@ -817,7 +821,7 @@ test_es_cursor_left() {
         "${RESULT}"
 }
 
-test_es_cursor_rightDefaultValue() {
+test_es_cursor_controlCodeRightValueNotSpecified() {
     RESULT="$(printf "\x1b[0C")"
 
     commandTest "es_cursor 'right'"
@@ -828,7 +832,7 @@ test_es_cursor_rightDefaultValue() {
         "${RESULT}"
 }
 
-test_es_cursor_right() {
+test_es_cursor_controlCodeRight() {
     RESULT="$(printf "\x1b[4C")"
 
     commandTest "es_cursor 'right' 4"
@@ -839,7 +843,7 @@ test_es_cursor_right() {
         "${RESULT}"
 }
 
-test_es_cursor_downDefaultValue() {
+test_es_cursor_controlCodeDownValueNotSpecified() {
     RESULT="$(printf "\x1b[0B")"
 
     commandTest "es_cursor 'down'"
@@ -850,7 +854,7 @@ test_es_cursor_downDefaultValue() {
         "${RESULT}"
 }
 
-test_es_cursor_down() {
+test_es_cursor_controlCodeDown() {
     RESULT="$(printf "\x1b[4B")"
 
     commandTest "es_cursor 'down' 4"
@@ -861,7 +865,7 @@ test_es_cursor_down() {
         "${RESULT}"
 }
 
-test_es_cursor_upDefaultValue() {
+test_es_cursor_controlCodeUpValueNotSpecified() {
     RESULT="$(printf "\x1b[0A")"
 
     commandTest "es_cursor 'up'"
@@ -872,7 +876,7 @@ test_es_cursor_upDefaultValue() {
         "${RESULT}"
 }
 
-test_es_cursor_up() {
+test_es_cursor_controlCodeUp() {
     RESULT="$(printf "\x1b[4A")"
 
     commandTest "es_cursor 'up' 4"
@@ -883,7 +887,7 @@ test_es_cursor_up() {
         "${RESULT}"
 }
 
-test_es_cursor_absDefaultValue() {
+test_es_cursor_controlCodeAbsValueNotSpecified() {
     RESULT="$(printf "\x1b[0;0")"
 
     commandTest "es_cursor 'abs'"
@@ -894,7 +898,7 @@ test_es_cursor_absDefaultValue() {
         "${RESULT}"
 }
 
-test_es_cursor_abs() {
+test_es_cursor_controlCodeAbs() {
     RESULT="$(printf "\x1b[3;4")"
 
     commandTest "es_cursor 'abs' 3 4"
@@ -970,7 +974,7 @@ test_nc_cmdTputEmpty() {
 # Function: nc_color #
 ######################
 
-test_nc_color_defaultFgBg() {
+test_nc_color_roleNotSpecified() {
     RESULT="$(tput setaf 1)"
 
     commandTest "nc_color '1'"
@@ -981,7 +985,7 @@ test_nc_color_defaultFgBg() {
         "${RESULT}"
 }
 
-test_nc_color_foreground() {
+test_nc_color_roleEmpty() {
     RESULT="$(tput setaf 1)"
 
     commandTest "nc_color '1' ''"
@@ -990,7 +994,9 @@ test_nc_color_foreground() {
 
     assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
         "${RESULT}"
+}
 
+test_nc_color_roleLowerCaseF() {
     RESULT="$(tput setaf 1)"
 
     commandTest "nc_color '1' 'f'"
@@ -999,7 +1005,9 @@ test_nc_color_foreground() {
 
     assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
         "${RESULT}"
+}
 
+test_nc_color_roleUpperCaseF() {
     RESULT="$(tput setaf 1)"
 
     commandTest "nc_color '1' 'F'"
@@ -1008,7 +1016,9 @@ test_nc_color_foreground() {
 
     assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
         "${RESULT}"
+}
 
+test_nc_color_roleForeground() {
     RESULT="$(tput setaf 1)"
 
     commandTest "nc_color '1' 'Foreground'"
@@ -1019,7 +1029,7 @@ test_nc_color_foreground() {
         "${RESULT}"
 }
 
-test_nc_color_background() {
+test_nc_color_roleLowerCaseB() {
     RESULT="$(tput setab 1)"
 
     commandTest "nc_color '1' 'b'"
@@ -1028,7 +1038,9 @@ test_nc_color_background() {
 
     assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
         "${RESULT}"
+}
 
+test_nc_color_roleUpperCaseF() {
     RESULT="$(tput setab 1)"
 
     commandTest "nc_color '1' 'B'"
@@ -1037,7 +1049,9 @@ test_nc_color_background() {
 
     assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
         "${RESULT}"
+}
 
+test_nc_color_roleBackground() {
     RESULT="$(tput setab 1)"
 
     commandTest "nc_color '1' 'Background'"
