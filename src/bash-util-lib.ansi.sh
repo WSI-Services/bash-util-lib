@@ -226,14 +226,17 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
     # @description  Output escape sequence with provided cursor control code
     #
     # @arg  CONTROL_CODE string  - [OPTIONAL] Escape sequence cursor control code
-    #           abs     Move cursor to absolute position line _N_ column _N_
-    #           up      Move cursor up _N_ lines
-    #           down    Move cursor down _N_ lines
-    #           right   Move cursor right _N_ columns
-    #           left    Move cursor left _N_ columns
-    #           save    Save cursor position
-    #           restore Restore cursor position
-    #           home    Move cursor to home position (0, 0) [DEFAULT]
+    #           abs        Move cursor to absolute position line _N_ column _N_
+    #           up         Move cursor up _N_ lines
+    #           down       Move cursor down _N_ lines
+    #           right      Move cursor right _N_ columns
+    #           left       Move cursor left _N_ columns
+    #           begin-down Move cursor to beginning and down _N_ lines
+    #           begin-up   Move cursor to beginning and up _N_ lines
+    #           column     Move cursor to column _N_
+    #           save       Save cursor position
+    #           restore    Restore cursor position
+    #           home       Move cursor to home position (0, 0) [DEFAULT]
     # @arg  VAL1         integer - [OPTIONAL] First value for CONTROL_CODE
     # @arg  VAL2         integer - [OPTIONAL] Second value for CONTROL_CODE
     #
@@ -249,14 +252,17 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
         CONTROL_CODE="$(echo "${CONTROL_CODE}" | tr '[:upper:]' '[:lower:]')"
 
         case "${CONTROL_CODE}" in
-                abs)   CONTROL_CODE="${VAL1};${VAL2}" ;;
-                 up)   CONTROL_CODE="${VAL1}A" ;;
-               down)   CONTROL_CODE="${VAL1}B" ;;
-              right)   CONTROL_CODE="${VAL1}C" ;;
-               left)   CONTROL_CODE="${VAL1}D" ;;
-               save)   CONTROL_CODE="s" ;;
-            restore)   CONTROL_CODE="u" ;;
-               home|*) CONTROL_CODE="H" ;;
+                   abs)   CONTROL_CODE="${VAL1};${VAL2}" ;;
+                    up)   CONTROL_CODE="${VAL1}A" ;;
+                  down)   CONTROL_CODE="${VAL1}B" ;;
+                 right)   CONTROL_CODE="${VAL1}C" ;;
+                  left)   CONTROL_CODE="${VAL1}D" ;;
+            begin-down)   CONTROL_CODE="${VAL1}E" ;;
+              begin-up)   CONTROL_CODE="${VAL1}F" ;;
+                column)   CONTROL_CODE="${VAL1}G" ;;
+                  save)   CONTROL_CODE="s" ;;
+               restore)   CONTROL_CODE="u" ;;
+                  home|*) CONTROL_CODE="H" ;;
         esac
 
         es "${CONTROL_CODE}"

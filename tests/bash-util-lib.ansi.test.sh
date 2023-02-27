@@ -909,6 +909,72 @@ test_es_cursor_controlCodeSave() {
         "${RESULT}"
 }
 
+test_es_cursor_controlCodeColumnValueNotSpecified() {
+    RESULT="$(printf "\x1b[0G")"
+
+    commandTest "es_cursor 'column'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_es_cursor_controlCodeColumn() {
+    RESULT="$(printf "\x1b[4G")"
+
+    commandTest "es_cursor 'column' 4"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_es_cursor_controlCodeBeginUpValueNotSpecified() {
+    RESULT="$(printf "\x1b[0F")"
+
+    commandTest "es_cursor 'begin-up'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_es_cursor_controlCodeBeginUp() {
+    RESULT="$(printf "\x1b[4F")"
+
+    commandTest "es_cursor 'begin-up' 4"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_es_cursor_controlCodeBeginDownValueNotSpecified() {
+    RESULT="$(printf "\x1b[0E")"
+
+    commandTest "es_cursor 'begin-down'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_es_cursor_controlCodeBeginDown() {
+    RESULT="$(printf "\x1b[4E")"
+
+    commandTest "es_cursor 'begin-down' 4"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+        "${RESULT}"
+}
+
 test_es_cursor_controlCodeLeftValueNotSpecified() {
     RESULT="$(printf "\x1b[0D")"
 
