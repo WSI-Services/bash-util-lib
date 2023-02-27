@@ -256,21 +256,31 @@ Output escape sequence with provided text attribute control code
 | -------------- | :------: | ------------------------------------------------------ |
 | `CONTROL_CODE` | _string_ | [OPTIONAL] Escape sequence text attribute control code |
 
-| Code           | Description                                |
-| -------------- | ------------------------------------------ |
-| underline-off  | Underline color off                        |
-| background-off | Background color off                       |
-| foreground-off | Foreground color off                       |
-| strike         | Strike-through text                        |
-| hidden         | Hidden text                                |
-| swap           | Swap foreground and background colors      |
-| fast-blink     | Fast blink                                 |
-| blink          | Slow blink                                 |
-| underline      | Underline text                             |
-| italic         | Italic text                                |
-| fait           | Faint text                                 |
-| bold           | Bold text                                  |
-| reset          | Reset text formatting and colors [DEFAULT] |
+| Code            | Description                                |
+| --------------- | ------------------------------------------ |
+| underline-off   | Underline color off                        |
+| background-off  | Background color off                       |
+| foreground-off  | Foreground color off                       |
+| overline-reset  | Overline text                              |
+| strike-reset    | Strike-through text                        |
+| hidden-reset    | Hidden text                                |
+| swap-reset      | Swap foreground and background colors      |
+| blink-reset     | Slow blink                                 |
+| underline-reset | Underline text                             |
+| italic-reset    | Italic text                                |
+| faint-reset     | Faint text                                 |
+| bold-reset      | Bold text                                  |
+| overline        | Overline text                              |
+| strike          | Strike-through text                        |
+| hidden          | Hidden text                                |
+| swap            | Swap foreground and background colors      |
+| fast-blink      | Fast blink                                 |
+| blink           | Slow blink                                 |
+| underline       | Underline text                             |
+| italic          | Italic text                                |
+| fait            | Faint text                                 |
+| bold            | Bold text                                  |
+| reset           | Reset text formatting and colors [DEFAULT] |
 
 ### Exit Codes
 

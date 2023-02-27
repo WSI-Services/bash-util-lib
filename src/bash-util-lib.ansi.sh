@@ -131,6 +131,16 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
     #           underline-off    Underline color off
     #           background-off   Background color off
     #           foreground-off   Foreground color off
+    #           overline-reset   Overline text
+    #           strike-reset     Strike-through text
+    #           hidden-reset     Hidden text
+    #           swap-reset       Swap foreground and background colors
+    #           blink-reset      Slow blink
+    #           underline-reset  Underline text
+    #           italic-reset     Italic text
+    #           faint-reset      Faint text
+    #           bold-reset       Bold text
+    #           overline         Overline text
     #           strike           Strike-through text
     #           hidden           Hidden text
     #           swap             Swap foreground and background colors
@@ -155,6 +165,16 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
               underline-off)   CONTROL_CODE="59m" ;;
              background-off)   CONTROL_CODE="49m" ;;
              foreground-off)   CONTROL_CODE="39m" ;;
+             overline-reset)   CONTROL_CODE="55m" ;;
+               strike-reset)   CONTROL_CODE="29m" ;;
+               hidden-reset)   CONTROL_CODE="28m" ;;
+                 swap-reset)   CONTROL_CODE="27m" ;;
+                blink-reset)   CONTROL_CODE="25m" ;;
+            underline-reset)   CONTROL_CODE="24m" ;;
+               italic-reset)   CONTROL_CODE="23m" ;;
+                faint-reset)   CONTROL_CODE="22m" ;;
+                 bold-reset)   CONTROL_CODE="22m" ;;
+                   overline)   CONTROL_CODE="53m" ;;
                      strike)   CONTROL_CODE="9m" ;;
                      hidden)   CONTROL_CODE="8m" ;;
                        swap)   CONTROL_CODE="7m" ;;

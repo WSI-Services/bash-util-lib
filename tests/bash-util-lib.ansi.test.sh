@@ -589,6 +589,116 @@ test_es_attrib_controlCodeStrike() {
         "${RESULT}"
 }
 
+test_es_attrib_controlCodeOverline() {
+    RESULT="$(printf "\x1b[53m")"
+
+    commandTest "es_attrib 'overline'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_es_attrib_controlCodeBoldReset() {
+    RESULT="$(printf "\x1b[22m")"
+
+    commandTest "es_attrib 'bold-reset'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_es_attrib_controlCodeFaintReset() {
+    RESULT="$(printf "\x1b[22m")"
+
+    commandTest "es_attrib 'faint-reset'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_es_attrib_controlCodeItalicReset() {
+    RESULT="$(printf "\x1b[23m")"
+
+    commandTest "es_attrib 'italic-reset'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_es_attrib_controlCodeUnderlineReset() {
+    RESULT="$(printf "\x1b[24m")"
+
+    commandTest "es_attrib 'underline-reset'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_es_attrib_controlCodeBlinkReset() {
+    RESULT="$(printf "\x1b[25m")"
+
+    commandTest "es_attrib 'blink-reset'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_es_attrib_controlCodeSwapReset() {
+    RESULT="$(printf "\x1b[27m")"
+
+    commandTest "es_attrib 'swap-reset'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_es_attrib_controlCodeHiddenReset() {
+    RESULT="$(printf "\x1b[28m")"
+
+    commandTest "es_attrib 'hidden-reset'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_es_attrib_controlCodeStrikeReset() {
+    RESULT="$(printf "\x1b[29m")"
+
+    commandTest "es_attrib 'strike-reset'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+        "${RESULT}"
+}
+
+test_es_attrib_controlCodeOverlineReset() {
+    RESULT="$(printf "\x1b[55m")"
+
+    commandTest "es_attrib 'overline-reset'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+        "${RESULT}"
+}
+
 test_es_attrib_controlCodeForegroundOff() {
     RESULT="$(printf "\x1b[39m")"
 
