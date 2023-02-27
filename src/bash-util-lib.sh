@@ -5,7 +5,7 @@
 
 SOURCE_DIR="$(dirname "${BASH_SOURCE[0]}")"
 
-"${SOURCE_DIR}/bash-util-lib.ansi.sh"
-"${SOURCE_DIR}/bash-util-lib.file.sh"
-"${SOURCE_DIR}/bash-util-lib.script.sh"
-"${SOURCE_DIR}/bash-util-lib.string.sh"
+for FILE in "${SOURCE_DIR}"/bash-util-lib.*.sh; do
+    # shellcheck source=/dev/null
+    source "${FILE}"
+done

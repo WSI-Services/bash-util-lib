@@ -45,5 +45,141 @@ test_string_expand_emptyString() {
 }
 
 
+##########################
+# Function: string_lower #
+##########################
+
+test_string_lower_withAllUppercaseLetters() {
+    local OUTPUT
+
+    OUTPUT="$(string_lower "UPPERCASE")"
+
+    assertEquals 'string_lower not returning correct output' \
+        'uppercase' \
+        "${OUTPUT}"
+}
+
+test_string_lower_withMixedCaseLetters() {
+    local OUTPUT
+
+    OUTPUT="$(string_lower "MiXeD CaSe")"
+
+    assertEquals 'string_lower not returning correct output' \
+        'mixed case' \
+        "${OUTPUT}"
+}
+
+test_string_lower_withAllLowercaseLetters() {
+    local OUTPUT
+
+    OUTPUT="$(string_lower "lowercase")"
+
+    assertEquals 'string_lower not returning correct output' \
+        'lowercase' \
+        "${OUTPUT}"
+}
+
+
+##########################
+# Function: string_upper #
+##########################
+
+test_string_upper_withAllLowercaseLetters() {
+    local OUTPUT
+
+    OUTPUT="$(string_upper "lowercase")"
+
+    assertEquals 'string_upper not returning correct output' \
+        'LOWERCASE' \
+        "${OUTPUT}"
+}
+
+test_string_upper_withMixedCaseLetters() {
+    local OUTPUT
+
+    OUTPUT="$(string_upper "MiXeD CaSe")"
+
+    assertEquals 'string_upper not returning correct output' \
+        'MIXED CASE' \
+        "${OUTPUT}"
+}
+
+test_string_upper_withAllUppercaseLetters() {
+    local OUTPUT
+
+    OUTPUT="$(string_upper "UPPERCASE")"
+
+    assertEquals 'string_upper not returning correct output' \
+        'UPPERCASE' \
+        "${OUTPUT}"
+}
+
+
+###########################
+# Function: string_repeat #
+###########################
+
+test_string_repeat_withStringNotSpecified() {
+    local OUTPUT
+
+    OUTPUT="$(string_repeat 2)"
+
+    assertEquals 'string_repeat not returning correct output' \
+    '  ' \
+    "${OUTPUT}"
+}
+
+test_string_repeat_withStringEmpty() {
+    local OUTPUT
+
+    OUTPUT="$(string_repeat 2 '')"
+
+    assertEquals 'string_repeat not returning correct output' \
+    '' \
+    "${OUTPUT}"
+}
+
+test_string_repeat_withCountZero() {
+    local OUTPUT
+
+    OUTPUT="$(string_repeat 0 'WOW')"
+
+    assertEquals 'string_repeat not returning correct output' \
+    '' \
+    "${OUTPUT}"
+}
+
+test_string_repeat() {
+    local OUTPUT
+
+    OUTPUT="$(string_repeat 2 'WOW ')"
+
+    assertEquals 'string_repeat not returning correct output' \
+    'WOW WOW ' \
+    "${OUTPUT}"
+}
+
+
+###########################
+# Function: preface_lines #
+###########################
+
+test_preface_lines() {
+    local PREFACE='--> '
+    local LINE1='Line 1'
+    local LINE2='Line 2'
+    
+    commandTest "preface_lines '${PREFACE}' '$(echo "${LINE1}"; echo "${LINE2}")'"
+
+    assertCommandReturnTrue
+
+    assertCommandOutputContains 'preface_lines not returning correct formatting' \
+        "${PREFACE}${LINE1}"
+
+    assertCommandOutputContains 'preface_lines not returning correct formatting' \
+        "${PREFACE}${LINE2}"
+}
+
+
 # Load and run shUnit2
 . shunit2

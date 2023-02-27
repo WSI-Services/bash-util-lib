@@ -1,6 +1,6 @@
 # Install
 
-> **Navegate: &nbsp; [ [^ Parent: Bash Utility Library](../README.md) &nbsp;&mdash;&nbsp; [> Next: Development Environment](./DEVELOPMENT.md) ]**
+> **Navegate: &nbsp; [ [^ Parent: Bash Utility Library](../README.md) &nbsp;&mdash;&nbsp; [> Next: Development](./DEVELOPMENT.md) ]**
 
 - [Install](#install)
   - [GIT Submodules](#git-submodules)

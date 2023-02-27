@@ -2,7 +2,11 @@
 
 > **Navegate: &nbsp; [ [^ Parent: Manual](../MANUAL.md) &nbsp;&mdash;&nbsp; [> Next: File](../file/README.md) ]**
 
+
+This component module library is named [`bash-util-lib.ansi.sh`](../../src/bash-util-lib.ansi.sh).
+
 - [ANSI](#ansi)
+  - [Constants](#constants)
   - [Environment Variables](#environment-variables)
   - [**`es`**](#es)
     - [Arguments](#arguments)
@@ -40,44 +44,38 @@
     - [Arguments](#arguments-8)
     - [Exit Codes](#exit-codes-8)
     - [Standard Out](#standard-out-8)
-  - [**`nc_color_from_hex`**](#nc_color_from_hex)
+  - [**`nc_attrib`**](#nc_attrib)
     - [Arguments](#arguments-9)
     - [Exit Codes](#exit-codes-9)
     - [Standard Out](#standard-out-9)
-  - [**`nc_color_hex`**](#nc_color_hex)
+  - [**`nc_erase`**](#nc_erase)
     - [Arguments](#arguments-10)
     - [Exit Codes](#exit-codes-10)
     - [Standard Out](#standard-out-10)
+  - [**`nc_cursor`**](#nc_cursor)
+    - [Arguments](#arguments-11)
+    - [Exit Codes](#exit-codes-11)
+    - [Standard Out](#standard-out-11)
+
+---
+
+
+## Constants
+
+ANSI has a few read-only environment variables defined in their own component module library.
+
+[**READ MORE ...**](./const/README.md)
 
 ---
 
 
 ## Environment Variables
 
-| Variable        | Default                    | Description                                                                        |
-| --------------- | -------------------------- | ---------------------------------------------------------------------------------- |
-| `ES_USE`        | `true`                     | Value as to whether to use escape sequence commands (used with any `ES*` function) |
-| `NC_USE`        | `true`                     | Value as to whether to use ncurses commands (used with any `NC*` function)         |
-| `CMD_TPUT`      | `$(which tput)`            | Path to `tput` command utility (used with any `NC*` function)                      |
-| `NC_BOLD`       | `$(nc bold)`               | ncurses command for text bold                                                      |
-| `NC_UNDERLINE`  | `$(nc sgr 0 1)`            | ncurses command for text underline                                                 |
-| `NC_RESET`      | `$(nc sgr0)`               | ncurses command for text reset                                                     |
-| `NC_BLACK`      | `$(nc_color_hex 000000)`   | ncurses command for text foreground color black                                    |
-| `NC_BLACK_BG`   | `$(nc_color_hex 000000 b)` | ncurses command for text background color black                                    |
-| `NC_RED`        | `$(nc_color_hex ff0000)`   | ncurses command for text foreground color red                                      |
-| `NC_RED_BG`     | `$(nc_color_hex ff0000 b)` | ncurses command for text background color red                                      |
-| `NC_GREEN`      | `$(nc_color_hex 00ff00)`   | ncurses command for text foreground color green                                    |
-| `NC_GREEN_BG`   | `$(nc_color_hex 00ff00 b)` | ncurses command for text background color green                                    |
-| `NC_YELLOW`     | `$(nc_color_hex ffff00)`   | ncurses command for text foreground color yellow                                   |
-| `NC_YELLOW_BG`  | `$(nc_color_hex ffff00 b)` | ncurses command for text background color yellow                                   |
-| `NC_BLUE`       | `$(nc_color_hex 0000ff)`   | ncurses command for text foreground color blue                                     |
-| `NC_BLUE_BG`    | `$(nc_color_hex 0000ff b)` | ncurses command for text background color blue                                     |
-| `NC_MAGENTA`    | `$(nc_color_hex ff00ff)`   | ncurses command for text foreground color magenta                                  |
-| `NC_MAGENTA_BG` | `$(nc_color_hex ff00ff b)` | ncurses command for text background color magenta                                  |
-| `NC_CYAN`       | `$(nc_color_hex 00ffff)`   | ncurses command for text foreground color cyan                                     |
-| `NC_CYAN_BG`    | `$(nc_color_hex 00ffff b)` | ncurses command for text background color cyan                                     |
-| `NC_WHITE`      | `$(nc_color_hex ffffff)`   | ncurses command for text foreground color white                                    |
-| `NC_WHITE_BG`   | `$(nc_color_hex ffffff b)` | ncurses command for text background color white                                    |
+| Variable                 | Default         | Description                                                                         |
+| ------------------------ | --------------- | ----------------------------------------------------------------------------------- |
+| `ES_USE`                 | `true`          | Value as to whether to use escape sequence commands  (used with any `ES*` function) |
+| `NC_USE`                 | `true`          | Value as to whether to use ncurses commands  (used with any `NC*` function)         |
+| `CMD_TPUT`               | `$(which tput)` | Path to `tput` command utility (used with any `NC*` function)                       |
 
 ---
 
@@ -120,14 +118,20 @@ Specified escape sequence control code
 
 ## **`es_color`**
 
-Output escape sequence with provided color code for foreground or background
+Output escape sequence with provided color code for foreground, background, or underline
 
 ### Arguments
 
-| Name    | Type      | Description                                                                                                      |
-| ------- | :-------: | ---------------------------------------------------------------------------------------------------------------- |
-| `COLOR` | _integer_ | Escape sequence color integer (0 - 255)                                                                          |
-| `FG_BG` | _string_  | [OPTIONAL] Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else |
+| Name    | Type      | Description                             |
+| ------- | :-------: | --------------------------------------- |
+| `COLOR` | _integer_ | Escape sequence color integer (0 - 255) |
+| `ROLE`  | _string_  | [OPTIONAL] Role of color to change      |
+
+| Role | Description                |
+| ---- | -------------------------- |
+| `f`  | Foreground color [DEFAULT] |
+| `b`  | Background color           |
+| `u`  | Underline color            |
 
 ### Exit Codes
 
@@ -156,16 +160,22 @@ Specified escape sequence color code output
 
 ## **`es_color_rgb`**
 
-Output escape sequence with provided red, green, blue color code for foreground or background
+Output escape sequence with provided red, green, blue color code for foreground, background, or underline
 
 ### Arguments
 
-| Name    | Type      | Description                                                                                                      |
-| ------- | :-------: | ---------------------------------------------------------------------------------------------------------------- |
-| `R`     | _integer_ | Escape sequence red color integer (0 - 255)                                                                      |
-| `G`     | _integer_ | Escape sequence green color integer (0 - 255)                                                                    |
-| `B`     | _integer_ | Escape sequence blue color integer (0 - 255)                                                                     |
-| `FG_BG` | _string_  | [OPTIONAL] Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else |
+| Name   | Type      | Description                                   |
+| ------ | :-------: | --------------------------------------------- |
+| `R`    | _integer_ | Escape sequence red color integer (0 - 255)   |
+| `G`    | _integer_ | Escape sequence green color integer (0 - 255) |
+| `B`    | _integer_ | Escape sequence blue color integer (0 - 255)  |
+| `ROLE` | _string_  | [OPTIONAL] Role of color to change            |
+
+| Role | Description                |
+| ---- | -------------------------- |
+| `f`  | Foreground color [DEFAULT] |
+| `b`  | Background color           |
+| `u`  | Underline color            |
 
 ### Exit Codes
 
@@ -195,14 +205,20 @@ Specified escape sequence color code output
 
 ## **`es_color_hex`**
 
-Output escape sequence with provided HEX color code for foreground or background
+Output escape sequence with provided HEX color code for foreground, background, or underline
 
 ### Arguments
 
-| Name    | Type     | Description                                                                                                      |
-| ------- | :------: | ---------------------------------------------------------------------------------------------------------------- |
-| `HEX`   | _string_ | Escape sequence color in HEX [RRGGBB] (00 - FF)                                                                  |
-| `FG_BG` | _string_ | [OPTIONAL] Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else |
+| Name   | Type     | Description                                     |
+| ------ | :------: | ----------------------------------------------- |
+| `HEX`  | _string_ | Escape sequence color in HEX [RRGGBB] (00 - FF) |
+| `ROLE` | _string_ | [OPTIONAL] Role of color to change              |
+
+| Role | Description                |
+| ---- | -------------------------- |
+| `f`  | Foreground color [DEFAULT] |
+| `b`  | Background color           |
+| `u`  | Underline color            |
 
 ### Exit Codes
 
@@ -240,17 +256,31 @@ Output escape sequence with provided text attribute control code
 | -------------- | :------: | ------------------------------------------------------ |
 | `CONTROL_CODE` | _string_ | [OPTIONAL] Escape sequence text attribute control code |
 
-| Code       | Description                                |
-| ---------- | ------------------------------------------ |
-| strike     | Strike-through text                        |
-| hidden     | Hidden text                                |
-| swap       | Swap foreground and background colors      |
-| blink      | Slow blink                                 |
-| underline  | Underline text                             |
-| italic     | Italic text                                |
-| fait       | Faint text                                 |
-| bold       | Bold text                                  |
-| reset      | Reset text formatting and colors [DEFAULT] |
+| Code            | Description                                |
+| --------------- | ------------------------------------------ |
+| underline-off   | Underline color off                        |
+| background-off  | Background color off                       |
+| foreground-off  | Foreground color off                       |
+| overline-reset  | Overline text                              |
+| strike-reset    | Strike-through text                        |
+| hidden-reset    | Hidden text                                |
+| swap-reset      | Swap foreground and background colors      |
+| blink-reset     | Slow blink                                 |
+| underline-reset | Underline text                             |
+| italic-reset    | Italic text                                |
+| faint-reset     | Faint text                                 |
+| bold-reset      | Bold text                                  |
+| overline        | Overline text                              |
+| strike          | Strike-through text                        |
+| hidden          | Hidden text                                |
+| swap            | Swap foreground and background colors      |
+| fast-blink      | Fast blink                                 |
+| blink           | Slow blink                                 |
+| underline       | Underline text                             |
+| italic          | Italic text                                |
+| fait            | Faint text                                 |
+| bold            | Bold text                                  |
+| reset           | Reset text formatting and colors [DEFAULT] |
 
 ### Exit Codes
 
@@ -342,6 +372,9 @@ Output escape sequence with provided cursor control code
 | down       | Move cursor down _N_ lines                           |
 | right      | Move cursor right _N_ columns                        |
 | left       | Move cursor left _N_ columns                         |
+| begin-down | Move cursor to beginning and down _N_ lines          |
+| begin-up   | Move cursor to beginning and up _N_ lines            |
+| column     | Move cursor to column _N_                            |
 | save       | Save cursor position                                 |
 | restore    | Restore cursor position                              |
 | home       | Move cursor to home position (0, 0) [DEFAULT]        |
@@ -414,10 +447,15 @@ Output ncurses color code for foreground or background
 
 ### Arguments
 
-| Name    | Type      | Description                                                                                                      |
-| ------- | :-------: | ---------------------------------------------------------------------------------------------------------------- |
-| `COLOR` | _integer_ | ncurses color integer (0 - 255)                                                                                  |
-| `FG_BG` | _string_  | [OPTIONAL] Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else |
+| Name    | Type      | Description                        |
+| ------- | :-------: | ---------------------------------- |
+| `COLOR` | _integer_ | ncurses color integer (0 - 255)    |
+| `ROLE`  | _string_  | [OPTIONAL] Role of color to change |
+
+| Role | Description                |
+| ---- | -------------------------- |
+| f    | Foreground color [DEFAULT] |
+| b    | Background color           |
 
 ### Exit Codes
 
@@ -445,52 +483,29 @@ Specified ncurses `tput` color code output
 ---
 
 
-## **`nc_color_from_hex`**
+## **`nc_attrib`**
 
-Output ncurses color index integer from HEX
-
-### Arguments
-
-| Name  | Type     | Description                       |
-| ----- | :------: | --------------------------------- |
-| `HEX` | _string_ | HEX color code [RRGGBB] (00 - FF) |
-
-### Exit Codes
-
-| Code | Description            |
-| ---- | ---------------------- |
-| `0`  | HEX value provided     |
-| `1`  | HEX value not provided |
-
-### Standard Out
-
-Specified ncurses color index integer
-
-> Example:
->
-> ```bash
-> nc_color_from_hex ff0000
-> ```
->
-> Output:
->
-> ```bash
-> 196
-> ```
-
----
-
-
-## **`nc_color_hex`**
-
-Output ncurses color code in HEX for foreground or background
+Output ncurses sequence with provided text attribute control code
 
 ### Arguments
 
-| Name    | Type     | Description                                                                                                      |
-| ------- | :------: | ---------------------------------------------------------------------------------------------------------------- |
-| `COLOR` | _string_ | HEX color code [RRGGBB] (00 - FF)                                                                                |
-| `FG_BG` | _string_ | [OPTIONAL] Background color if starts with 'b' or foreground if starts with 'f', not specified, or anything else |
+| Name           | Type     | Description                                             |
+| -------------- | :------: | ------------------------------------------------------- |
+| `CONTROL_CODE` | _string_ | [OPTIONAL] ncurses sequence text attribute control code |
+
+| Code          | Description                           |
+| ------------- | ------------------------------------- |
+| standout      | Standout                              |
+| standout-off  | Standout off                          |
+| invisible     | Blank mode                            |
+| reverse       | Swap foreground and background colors |
+| blink         | Slow blink                            |
+| underline     | Underline text                        |
+| underline-off | Underline text off                    |
+| italic        | Italic text                           |
+| dim           | Dim text                              |
+| bold          | Bold text                             |
+| reset         | Reset all attributes [DEFAULT]        |
 
 ### Exit Codes
 
@@ -501,15 +516,114 @@ Output ncurses color code in HEX for foreground or background
 
 ### Standard Out
 
-Specified ncurses `tput` color code output
+Specified ncurses sequence text attribute control code output
 
 > Example:
 >
 > ```bash
-> printf "Message: $(nc_color_hex ff0000)%s$(nc sgr0)" "Output Message"
+> printf "Message: $(nc_attrib bold)%s$(nc_attrib reset)\n" "Output Message"
 > ```
 >
 > Output:
+>
 > ```bash
 > Message: Output Message
+> ```
+
+---
+
+
+## **`nc_erase`**
+
+Output ncurses sequence with provided erase control code
+
+### Arguments
+
+| Name           | Type      | Description                                    |
+| -------------- | :-------: | ---------------------------------------------- |
+| `CONTROL_CODE` | _string_  | [OPTIONAL] ncurses sequence erase control code |
+| `VAL`          | _integer_ | [OPTIONAL] Value for CONTROL_CODE              |
+
+| Code  | Description                                                          |
+| ----- | -------------------------------------------------------------------- |
+| sol   | Erase from cursor position to start of line                          |
+| eol   | Erase from cursor position to end of line                            |
+| eos   | Erase from cursor position to end of screen                          |
+| en    | Erase from cursor _N_ characters                                     |
+| ic    | Insert from cursor _N_ characters (moves rest of characters in line) |
+| il    | Insert from cursor _N_ lines (moves rest of lines on screen)         |
+| clear | Clear the screen [DEFAULT]                                           |
+
+### Exit Codes
+
+| Code | Description                                   |
+| ---- | --------------------------------------------- |
+| `0`  | Command `tput` exists                         |
+| `1`  | Command `tput` turned off, missing, or failed |
+
+### Standard Out
+
+Specified ncurses sequence erase control code output
+
+> Example:
+>
+> ```bash
+> printf "Message: %b\n" "Output$(nc_erase sol) Message"
+> ```
+>
+> Output:
+>
+> ```bash
+>                 Message
+> ```
+
+---
+
+
+## **`nc_cursor`**
+
+Output ncurses sequence with provided cursor control code
+
+### Arguments
+
+| Name           | Type      | Description                                    |
+| -------------- | :-------: | ---------------------------------------------- |
+| `CONTROL_CODE` | _string_  | [OPTIONAL] ncurses sequence erase control code |
+| `VAL1`         | _integer_ | [OPTIONAL] First value for CONTROL_CODE        |
+| `VAL2`         | _integer_ | [OPTIONAL] Second value for CONTROL_CODE       |
+
+| Code          | Description                                          |
+| ------------- | ---------------------------------------------------- |
+| save          | Save cursor position                                 |
+| restore       | Restore cursor position                              |
+| invisible     | Make cursor invisible                                |
+| invisible-off | Make cursor visible                                  |
+| up            | Move cursor up 1 line                                |
+| down          | Move cursor down 1 line                              |
+| left          | Move cursor left _N_ columns                         |
+| right         | Move cursor right _N_ columns                        |
+| abs           | Move cursor to absolute position line _N_ column _N_ |
+| home          | Move cursor to home position (0, 0) [DEFAULT]        |
+
+### Exit Codes
+
+| Code | Description                                   |
+| ---- | --------------------------------------------- |
+| `0`  | Command `tput` exists                         |
+| `1`  | Command `tput` turned off, missing, or failed |
+
+### Standard Out
+
+Specified ncurses sequence cursor control code output
+
+> Example:
+>
+> ```bash
+> printf "Message: %b\n" "Output$(nc_cursor left 6) Message"
+> ```
+>
+> Output:
+>
+> ```bash
+> Message:  Message
 > ```

@@ -12,8 +12,6 @@ SOURCE_DIR="$(readlink -f "${TESTS_DIR}/../src")"
 
 # shellcheck source=../src/bash-util-lib.file.sh
 . "${SOURCE_DIR}/bash-util-lib.file.sh"
-# shellcheck source=../src/bash-util-lib.string.sh
-. "${SOURCE_DIR}/bash-util-lib.string.sh"
 
 # shellcheck source=./shunit2.assert.command-test
 . "${TESTS_DIR}/shunit2.assert.command-test"

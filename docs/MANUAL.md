@@ -1,6 +1,6 @@
 # Usage Manual
 
-> **Navegate: &nbsp; [ [^ Parent: Bash Utility Library](../README.md) &nbsp;&mdash;&nbsp; [< Previous: Development Environment](./DEVELOPMENT.md) ]**
+> **Navegate: &nbsp; [ [^ Parent: Bash Utility Library](../README.md) &nbsp;&mdash;&nbsp; [< Previous: Development](./DEVELOPMENT.md) ]**
 
 - [Usage Manual](#usage-manual)
   - [Usage](#usage)
@@ -11,30 +11,34 @@
 
 ## Usage
 
-Bash utility functions can be used by sourcing the library files in your script.  To access the functions within the library, you should import the main bash library as follows.
+This library is broken into different modules for ease in use and integration.  Each module has its own script file as is described at the top of the associated module documentation.  Each module can be used by sourcing the appropriate file in your script.
 
 ```bash
 source "deps/bash-util-lib/src/bash-util-lib.ansi.sh"
 source "deps/bash-util-lib/src/bash-util-lib.file.sh"
-source "deps/bash-util-lib/src/bash-util-lib.script.sh"
-source "deps/bash-util-lib/src/bash-util-lib.string.sh"
 ```
 
-If you want to provide a dynamic source include, allowing local or global path, add the project dependency bin directory to the environment `PATH` before performing the `source`.
+The entire library can be loaded by sourcing a single file (which subsequently sources all modules automatically), called [`bash-util-lib.sh`](../src/bash-util-lib.sh).
 
 ```bash
-__SCRIPT_DIRNAME="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+source "deps/bash-util-lib/src/bash-util-lib.sh"
+```
+
+If using this project with [BPKG](./DEVELOPMENT.md#bpkg), and want to provide a dynamically sourced path (which allows for both locally and globally installed paths), the following can be used.
+
+```bash
+__SCRIPT_DIRNAME="$(dirname "${BASH_SOURCE[0]}")"
 
 # Add dependency bin to PATH
 if [[ -d "${__SCRIPT_DIRNAME}/${BPKG_DEPS:-deps}/bin" ]]; then
     PATH="${__SCRIPT_DIRNAME}/${BPKG_DEPS:-deps}/bin:${PATH}"
 fi
 
-source "bash-util-lib.ansi"
-source "bash-util-lib.file"
-source "bash-util-lib.script"
-source "bash-util-lib.string"
+source "bash-util-lib.ansi.sh"
+source "bash-util-lib.file.sh"
 ```
+
+This adds the project dependency `bin` directory (if it exists) to the environment `PATH`, before performing the `source`; allowing for ease of use during development as well as in production deployment.
 
 ---
 

@@ -43,17 +43,11 @@ function shellchecks {
     fi
 
     shellcheck \
-        "${DIR_SRC}/bash-util-lib.sh" \
-        "${DIR_SRC}/bash-util-lib.ansi.sh" \
-        "${DIR_SRC}/bash-util-lib.file.sh" \
-        "${DIR_SRC}/bash-util-lib.script.sh" \
-        "${DIR_SRC}/bash-util-lib.string.sh" \
-        "${DIR_TESTS}/bash-util-lib.test.sh" \
-        "${DIR_TESTS}/bash-util-lib.ansi.test.sh" \
-        "${DIR_TESTS}/bash-util-lib.file.test.sh" \
-        "${DIR_TESTS}/bash-util-lib.script.test.sh" \
-        "${DIR_TESTS}/bash-util-lib.string.test.sh" \
-        "${DIR_TESTS}/shunit2.assert.command-test"
+        "${DIR_SRC}"/bash-util-lib.sh \
+        "${DIR_SRC}"/bash-util-lib.*.sh \
+        "${DIR_TESTS}"/bash-util-lib.test.sh \
+        "${DIR_TESTS}"/bash-util-lib.*.test.sh \
+        "${DIR_TESTS}"/shunit2.assert.command-test
 }
 
 

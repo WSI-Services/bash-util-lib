@@ -12,9 +12,11 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)SCRIPT(:|$) ]]; then
     BASH_UTIL_LIB_VERSION="0.1.0-dev"
     BASH_UTIL_LIB_MODULES="SCRIPT:${BASH_UTIL_LIB_MODULES}"
 
+    source "$(dirname "${BASH_SOURCE[0]}")/bash-util-lib.ansi.const.sh"
 
-    EXIT_ERR_MSG_ERROR="${NC_RED}Error [${NC_BOLD}%i${NC_RESET}${NC_RED}]${NC_RESET}: ${NC_BOLD}${NC_RED}%b${NC_RESET}\n"
-    EXIT_ERR_MSG_COMMAND="${NC_RED}Command failed${NC_RESET}: ${NC_BOLD}${NC_WHITE}%b${NC_RESET}\n"
+
+    EXIT_ERR_MSG_ERROR="${ANSI_RED}Error [${ANSI_BOLD}%i${ANSI_RESET}${ANSI_RED}]${ANSI_RESET}: ${ANSI_BOLD}${ANSI_RED}%b${ANSI_RESET}\n"
+    EXIT_ERR_MSG_COMMAND="${ANSI_RED}Command failed${ANSI_RESET}: ${ANSI_BOLD}${ANSI_WHITE}%b${ANSI_RESET}\n"
     EXIT_ERR_MSG_ADDITIONAL="%s\n"
     UTIL_SCRIPT_CMD=""
 
@@ -90,7 +92,9 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)SCRIPT(:|$) ]]; then
             ${PROCESS_ARG_FN} "${@}"
             SHIFT_COUNT=$?
 
-            if [[ "${SHIFT_COUNT}" -gt 0 ]]; then
+            if [[ "${SHIFT_COUNT}" -gt "$#" ]]; then
+                shift "$#"
+            elif [[ "${SHIFT_COUNT}" -gt 0 ]]; then
                 shift "${SHIFT_COUNT}"
             fi
         done
@@ -99,7 +103,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)SCRIPT(:|$) ]]; then
         export IFS="${UTIL_ARRAY_SEPARATOR}"
 
         # Double quoting converts multiple arguments into a single one
-        # shellcheck disable=SC2086
+        # shellcheck disable=SC2086 # Double quote to prevent globbing and word splitting.
         set -- ${UTIL_PARAM_POSITIONAL} # restore positional parameters
 
         export UTIL_PARAM_POSITIONAL=""

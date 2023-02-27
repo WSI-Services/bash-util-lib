@@ -2,6 +2,9 @@
 
 > **Navegate: &nbsp; [ [^ Parent: Manual](../MANUAL.md) &nbsp;&mdash;&nbsp; [< Previous: ANSI](../ansi/README.md) &nbsp;&mdash;&nbsp; [> Next: Script](../script/README.md) ]**
 
+
+This component module library is named [`bash-util-lib.file.sh`](../../src/bash-util-lib.file.sh).
+
 - [File](#file)
   - [**`file_find_line`**](#file_find_line)
     - [Arguments](#arguments)
