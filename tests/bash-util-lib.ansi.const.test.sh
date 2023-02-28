@@ -11,6 +11,9 @@ SOURCE_DIR="$(readlink -f "${TESTS_DIR}/../src")"
 # shellcheck source=../src/bash-util-lib.ansi.const.sh
 . "${SOURCE_DIR}/bash-util-lib.ansi.const.sh"
 
+# shellcheck source=./shunit2.suite
+. "${TESTS_DIR}/shunit2.suite"
+
 
 #############
 # Constants #

@@ -13,6 +13,9 @@ SOURCE_DIR="$(readlink -f "${TESTS_DIR}/../src")"
 # shellcheck source=../src/bash-util-lib.file.sh
 . "${SOURCE_DIR}/bash-util-lib.file.sh"
 
+# shellcheck source=./shunit2.suite
+. "${TESTS_DIR}/shunit2.suite"
+
 # shellcheck source=./shunit2.assert.command-test
 . "${TESTS_DIR}/shunit2.assert.command-test"
 
@@ -28,7 +31,7 @@ test_file_find_line() {
 
     commandTest "file_find_line '${FILE}' '^${FN_NAME}() {$'"
 
-    assertCommandReturnTrue
+    assertCommandReturnSuccess
 
     assertCommandOutputEquals 'file_find_line not returning the correct line number' \
         "${FN_LINE}"
@@ -46,7 +49,7 @@ test_file_get_lines() {
 
     commandTest "file_get_lines '${FILE}' '${START_LINE}' '${STOP_LINE}'"
 
-    assertCommandReturnTrue
+    assertCommandReturnSuccess
 
     assertCommandOutputContains 'file_get_lines not returning the start line content' \
         'local START_LINE="${LINENO}"'
@@ -72,7 +75,7 @@ test_file_expand_lines() {
 
     commandTest "file_expand_lines '${FILE}' '${START_PATTERN}' '${STOP_PATTERN}'"
 
-    assertCommandReturnTrue
+    assertCommandReturnSuccess
 
     assertCommandOutputNotContains 'file_expand_lines returning the start pattern content' \
         "local START_PATTERN=\"${START_PATTERN}\""
@@ -99,7 +102,7 @@ test_grab_text_blob() {
 
     commandTest "grab_text_blob '${FILE}' 'TEST_BLOB_NAME_1'"
 
-    assertCommandReturnTrue
+    assertCommandReturnSuccess
 
     assertCommandOutputContains 'grab_text_blob not returning the correct content' \
         "Test Data: ${EXPAND}"

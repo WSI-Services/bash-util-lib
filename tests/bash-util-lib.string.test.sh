@@ -12,6 +12,9 @@ SOURCE_DIR="$(readlink -f "${TESTS_DIR}/../src")"
 # shellcheck source=../src/bash-util-lib.string.sh
 . "${SOURCE_DIR}/bash-util-lib.string.sh"
 
+# shellcheck source=./shunit2.suite
+. "${TESTS_DIR}/shunit2.suite"
+
 # shellcheck source=./shunit2.assert.command-test
 . "${TESTS_DIR}/shunit2.assert.command-test"
 
@@ -27,7 +30,7 @@ test_string_expand() {
 
     commandTest "string_expand '${STRING}'"
 
-    assertCommandReturnTrue
+    assertCommandReturnSuccess
 
     assertCommandOutputContains 'string_expand not returning the correct content' \
         "${TEMPLATE_TEXT}"
@@ -39,7 +42,7 @@ test_string_expand() {
 test_string_expand_emptyString() {
     commandTest "string_expand ''"
 
-    assertCommandReturnFalse
+    assertCommandReturnFailure
 
     assertCommandOutputNull 'string_expand not returning the correct content'
 }
@@ -171,7 +174,7 @@ test_preface_lines() {
     
     commandTest "preface_lines '${PREFACE}' '$(echo "${LINE1}"; echo "${LINE2}")'"
 
-    assertCommandReturnTrue
+    assertCommandReturnSuccess
 
     assertCommandOutputContains 'preface_lines not returning correct formatting' \
         "${PREFACE}${LINE1}"

@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
-# file: shunit2.assert.command.sh
+# file: shunit2.assert.command-test
 
+# shellcheck disable=SC2003 # expr is antiquated. Consider rewriting this using $((..)), ${} or [[ ]].
+# shellcheck disable=SC2016 # Expressions don't expand in single quotes, use double quotes for that.
 # shellcheck disable=SC2154 # var is referenced but not assigned.
 
 
@@ -15,199 +17,415 @@ commandTest() {
 }
 
 assertCommandReturnEquals() {
-    local MESSAGE EXPECTED
     ${_SHUNIT_LINENO_}
-    if command [ $# -lt 1 -o $# -gt 2 ]; then
+    if ${__SHUNIT_BUILTIN} [ $# -lt 1 -o $# -gt 2 ]; then
         _shunit_error "assertCommandReturnEquals() requires one or two arguments; $# given"
         _shunit_assertFail
         return "${SHUNIT_ERROR}"
     fi
+    if _shunit_shouldSkip; then
+        return "${SHUNIT_TRUE}"
+    fi
 
-    if command [ $# -eq 2 ];then
-        MESSAGE="$1"
+    shunit_message_="${__shunit_lineno}"
+    if ${__SHUNIT_BUILTIN} [ $# -eq 2 ]; then
+        shunit_message_="${shunit_message_}${1:-Command Test return code did not capture expected code}"
         shift
     fi
-    EXPECTED="$1"
+    shunit_expected_="$1"
+    shunit_actual_="${COMMAND_TEST_RETURN}"
 
-    assertEquals \
-        "${MESSAGE:-Command Test return code did not capture expected code}" \
-        "${EXPECTED}" \
-        "${COMMAND_TEST_RETURN}"
+    shunit_return="${SHUNIT_TRUE}"
+    if ${__SHUNIT_BUILTIN} [ "${shunit_expected_}" = "${shunit_actual_}" ]; then
+        _shunit_assertPass
+    else
+        failNotEquals "${shunit_message_}" "${shunit_expected_}" "${shunit_actual_}"
+        shunit_return="${SHUNIT_FALSE}"
+    fi
+
+    unset shunit_message_ shunit_expected_ shunit_actual_
+    return "${shunit_return}"
 }
+_ASSERT_COMMAND_RETURN_EQUALS_='eval assertCommandReturnEquals --lineno "${LINENO:-}"'
 
 assertCommandReturnNotEquals() {
-    local MESSAGE EXPECTED
     ${_SHUNIT_LINENO_}
-    if command [ $# -lt 1 -o $# -gt 2 ]; then
+    if ${__SHUNIT_BUILTIN} [ $# -lt 1 -o $# -gt 2 ]; then
         _shunit_error "assertCommandReturnNotEquals() requires one or two arguments; $# given"
         _shunit_assertFail
         return "${SHUNIT_ERROR}"
     fi
+    if _shunit_shouldSkip; then
+        return "${SHUNIT_TRUE}"
+    fi
 
-    if command [ $# -eq 2 ];then
-        MESSAGE="$1"
+    shunit_message_="${__shunit_lineno}"
+    if ${__SHUNIT_BUILTIN} [ $# -eq 2 ]; then
+        shunit_message_="${shunit_message_}${1:-Command Test return code captured unexpected code}"
         shift
     fi
-    EXPECTED="$1"
+    shunit_expected_="$1"
+    shunit_actual_="${COMMAND_TEST_RETURN}"
 
-    assertNotEquals \
-        "${MESSAGE:-Command Test return code captured unexpected code}" \
-        "${EXPECTED}" \
-        "${COMMAND_TEST_RETURN}"
+    shunit_return="${SHUNIT_TRUE}"
+    if ${__SHUNIT_BUILTIN} [ "${shunit_expected_}" != "${shunit_actual_}" ]; then
+        _shunit_assertPass
+    else
+        failSame "${shunit_message_}" "${shunit_expected_}" "${shunit_actual_}"
+        shunit_return="${SHUNIT_FALSE}"
+    fi
+
+    unset shunit_message_ shunit_expected_ shunit_actual_
+    return "${shunit_return}"
 }
+_ASSERT_COMMAND_RETURN_NOT_EQUALS_='eval assertCommandReturnNotEquals --lineno "${LINENO:-}"'
 
-assertCommandReturnTrue() {
-    local MESSAGE
+assertCommandReturnSuccess() {
     ${_SHUNIT_LINENO_}
-    if command [ $# -gt 1 ]; then
-        _shunit_error "assertCommandReturnTrue() requires zero or one argument; $# given"
+    if ${__SHUNIT_BUILTIN} [ $# -gt 1 ]; then
+        _shunit_error "assertCommandReturnSuccess() requires zero or one argument; $# given"
         _shunit_assertFail
         return "${SHUNIT_ERROR}"
     fi
-
-    if command [ $# -eq 1 ];then
-        MESSAGE="$1"
+    if _shunit_shouldSkip; then
+        return "${SHUNIT_TRUE}"
     fi
 
-    assertTrue \
-        "${MESSAGE:-Command Test return code did not capture true code}" \
-        "${COMMAND_TEST_RETURN}"
-}
+    shunit_message_="${__shunit_lineno}"
+    if ${__SHUNIT_BUILTIN} [ $# -eq 1 ]; then
+        shunit_message_="${shunit_message_}${1:-Command Test return code did not capture true code}"
+        shift
+    fi
+    shunit_condition_="${COMMAND_TEST_RETURN}"
 
-assertCommandReturnFalse() {
-    local MESSAGE
+    shunit_return="${SHUNIT_TRUE}"
+    if ${__SHUNIT_BUILTIN} [ -z "${shunit_condition_}" ]; then
+        shunit_return="${SHUNIT_FALSE}"
+    elif (expr \( "${shunit_condition_}" + '0' \) '=' "${shunit_condition_}" >/dev/null 2>&1); then
+        if ${__SHUNIT_BUILTIN} [ "${shunit_condition_}" -ne 0 ]; then
+            shunit_return="${SHUNIT_FALSE}"
+        fi
+    else
+        if ! eval "${shunit_condition_}" >/dev/null 2>&1; then
+            shunit_return="${SHUNIT_FALSE}"
+        fi
+    fi
+
+    if ${__SHUNIT_BUILTIN} [ "${shunit_return}" -eq "${SHUNIT_TRUE}" ]; then
+        _shunit_assertPass
+    else
+        _shunit_assertFail "${shunit_message_}"
+    fi
+
+    unset shunit_message_ shunit_condition_
+    return "${shunit_return}"
+}
+_ASSERT_COMMAND_RETURN_SUCCESS_='eval assertCommandReturnSuccess --lineno "${LINENO:-}"'
+
+assertCommandReturnFailure() {
     ${_SHUNIT_LINENO_}
-    if command [ $# -gt 1 ]; then
-        _shunit_error "assertCommandReturnFalse() requires zero or one argument; $# given"
+    if ${__SHUNIT_BUILTIN} [ $# -gt 1 ]; then
+        _shunit_error "assertCommandReturnFailure() requires zero or one argument; $# given"
         _shunit_assertFail
         return "${SHUNIT_ERROR}"
     fi
-
-    if command [ $# -eq 1 ];then
-        MESSAGE="$1"
+    if _shunit_shouldSkip; then
+        return "${SHUNIT_TRUE}"
     fi
 
-    assertFalse \
-        "${MESSAGE:-Command Test return code did not capture false code}" \
-        "${COMMAND_TEST_RETURN}"
+    shunit_message_="${__shunit_lineno}"
+    if ${__SHUNIT_BUILTIN} [ $# -eq 1 ]; then
+        shunit_message_="${shunit_message_}${1:-Command Test return code did not capture false code}"
+        shift
+    fi
+    shunit_condition_="${COMMAND_TEST_RETURN}"
+
+    shunit_return="${SHUNIT_TRUE}"
+    if ${__SHUNIT_BUILTIN} [ -z "${shunit_condition_}" ]; then
+        shunit_return="${SHUNIT_TRUE}"
+    elif (expr \( "${shunit_condition_}" + '0' \) '=' "${shunit_condition_}" >/dev/null 2>&1); then
+        if ${__SHUNIT_BUILTIN} [ "${shunit_condition_}" -eq 0 ]; then
+            shunit_return="${SHUNIT_FALSE}"
+        fi
+    else
+        if eval "${shunit_condition_}" >/dev/null 2>&1; then
+            shunit_return="${SHUNIT_FALSE}"
+        fi
+    fi
+
+    if ${__SHUNIT_BUILTIN} [ "${shunit_return}" -eq "${SHUNIT_TRUE}" ]; then
+        _shunit_assertPass
+    else
+        _shunit_assertFail "${shunit_message_}"
+    fi
+
+    unset shunit_message_ shunit_condition_
+    return "${shunit_return}"
 }
+_ASSERT_COMMAND_RETURN_FAILURE_='eval assertCommandReturnFailure --lineno "${LINENO:-}"'
 
 assertCommandOutputEquals() {
-    local MESSAGE EXPECTED
     ${_SHUNIT_LINENO_}
-    if command [ $# -lt 1 -o $# -gt 2 ]; then
+    if ${__SHUNIT_BUILTIN} [ $# -lt 1 -o $# -gt 2 ]; then
         _shunit_error "assertCommandOutputEquals() requires one or two arguments; $# given"
         _shunit_assertFail
         return "${SHUNIT_ERROR}"
     fi
+    if _shunit_shouldSkip; then
+        return "${SHUNIT_TRUE}"
+    fi
 
-    if command [ $# -eq 2 ];then
-        MESSAGE="$1"
+    shunit_message_="${__shunit_lineno}"
+    if ${__SHUNIT_BUILTIN} [ $# -eq 2 ]; then
+        shunit_message_="${shunit_message_}${1:-Command Test did not capture expected output string}"
         shift
     fi
-    EXPECTED="$1"
+    shunit_expected_="$1"
+    shunit_actual_="${COMMAND_TEST_OUTPUT}"
 
-    assertEquals \
-        "${MESSAGE:-Command Test did not capture expected output string}" \
-        "${EXPECTED}" \
-        "${COMMAND_TEST_OUTPUT}"
+    shunit_return="${SHUNIT_TRUE}"
+    if ${__SHUNIT_BUILTIN} [ "${shunit_expected_}" = "${shunit_actual_}" ]; then
+        _shunit_assertPass
+    else
+        failNotEquals "${shunit_message_}" "${shunit_expected_}" "${shunit_actual_}"
+        shunit_return="${SHUNIT_FALSE}"
+    fi
+
+    unset shunit_message_ shunit_expected_ shunit_actual_
+    return "${shunit_return}"
 }
+_ASSERT_COMMAND_OUTPUT_EQUALS_='eval assertCommandOutputEquals --lineno "${LINENO:-}"'
 
 assertCommandOutputNotEquals() {
-    local MESSAGE EXPECTED
     ${_SHUNIT_LINENO_}
-    if command [ $# -lt 1 -o $# -gt 2 ]; then
+    if ${__SHUNIT_BUILTIN} [ $# -lt 1 -o $# -gt 2 ]; then
         _shunit_error "assertCommandOutputNotEquals() requires one or two arguments; $# given"
         _shunit_assertFail
         return "${SHUNIT_ERROR}"
     fi
+    if _shunit_shouldSkip; then
+        return "${SHUNIT_TRUE}"
+    fi
 
-    if command [ $# -eq 2 ];then
-        MESSAGE="$1"
+    shunit_message_="${__shunit_lineno}"
+    if ${__SHUNIT_BUILTIN} [ $# -eq 2 ]; then
+        shunit_message_="${shunit_message_}${1:-Command Test captured unexpected output string}"
         shift
     fi
-    EXPECTED="$1"
+    shunit_expected_="$1"
+    shunit_actual_="${COMMAND_TEST_OUTPUT}"
 
-    assertNotEquals \
-        "${MESSAGE:-Command Test captured unexpected output string}" \
-        "${EXPECTED}" \
-        "${COMMAND_TEST_OUTPUT}"
+    shunit_return="${SHUNIT_TRUE}"
+    if ${__SHUNIT_BUILTIN} [ "${shunit_expected_}" != "${shunit_actual_}" ]; then
+        _shunit_assertPass
+    else
+        failSame "${shunit_message_}" "${shunit_expected_}" "${shunit_actual_}"
+        shunit_return="${SHUNIT_FALSE}"
+    fi
+
+    unset shunit_message_ shunit_expected_ shunit_actual_
+    return "${shunit_return}"
 }
+_ASSERT_COMMAND_OUTPUT_NOT_EQUALS_='eval assertCommandOutputNotEquals --lineno "${LINENO:-}"'
 
 assertCommandOutputContains() {
-    local MESSAGE CONTAINS
     ${_SHUNIT_LINENO_}
-    if command [ $# -lt 1 -o $# -gt 2 ]; then
+    if ${__SHUNIT_BUILTIN} [ $# -lt 1 -o $# -gt 2 ]; then
         _shunit_error "assertCommandOutputContains() requires one or two arguments; $# given"
         _shunit_assertFail
         return "${SHUNIT_ERROR}"
     fi
+    if _shunit_shouldSkip; then
+        return "${SHUNIT_TRUE}"
+    fi
 
-    if command [ $# -eq 2 ];then
-        MESSAGE="$1"
+    shunit_message_="${__shunit_lineno}"
+    if ${__SHUNIT_BUILTIN} [ $# -eq 2 ]; then
+        shunit_message_="${shunit_message_}${1:-Command Test did not capture expected output string}"
         shift
     fi
-    CONTAINS="$1"
+    shunit_container_="${COMMAND_TEST_OUTPUT}"
+    shunit_content_="$1"
 
-    assertContains \
-        "${MESSAGE:-Command Test did not capture expected output string}" \
-        "${COMMAND_TEST_OUTPUT}" \
-        "${CONTAINS}"
+    shunit_return="${SHUNIT_TRUE}"
+    if echo "${shunit_container_}" |grep -F -- "${shunit_content_}" >/dev/null; then
+        _shunit_assertPass
+    else
+        failNotFound "${shunit_message_}" "${shunit_content_}"
+        shunit_return="${SHUNIT_FALSE}"
+    fi
+
+    unset shunit_message_ shunit_container_ shunit_content_
+    return "${shunit_return}"
 }
+_ASSERT_COMMAND_OUTPUT_CONTAINS_='eval assertCommandOutputContains --lineno "${LINENO:-}"'
 
 assertCommandOutputNotContains() {
-    local MESSAGE CONTAINS
     ${_SHUNIT_LINENO_}
-    if command [ $# -lt 1 -o $# -gt 2 ]; then
+    if ${__SHUNIT_BUILTIN} [ $# -lt 1 -o $# -gt 2 ]; then
         _shunit_error "assertCommandOutputNotContains() requires one or two arguments; $# given"
         _shunit_assertFail
         return "${SHUNIT_ERROR}"
     fi
+    if _shunit_shouldSkip; then
+        return "${SHUNIT_TRUE}"
+    fi
 
-    if command [ $# -eq 2 ];then
-        MESSAGE="$1"
+    shunit_message_="${__shunit_lineno}"
+    if ${__SHUNIT_BUILTIN} [ $# -eq 2 ]; then
+        shunit_message_="${shunit_message_}${1:-Command Test captured unexpected output string}"
         shift
     fi
-    CONTAINS="$1"
+    shunit_container_="${COMMAND_TEST_OUTPUT}"
+    shunit_content_="$1"
 
-    assertNotContains \
-        "${MESSAGE:-Command Test captured unexpected output string}" \
-        "${COMMAND_TEST_OUTPUT}" \
-        "${CONTAINS}"
+    shunit_return="${SHUNIT_TRUE}"
+    if echo "${shunit_container_}" | grep -F -- "${shunit_content_}" > /dev/null; then
+        failFound "${shunit_message_}" "${shunit_content_}"
+        shunit_return="${SHUNIT_FALSE}"
+    else
+        _shunit_assertPass
+    fi
+
+    unset shunit_message_ shunit_container_ shunit_content_
+    return "${shunit_return}"
 }
+_ASSERT_COMMAND_OUTPUT_NOT_CONTAINS_='eval assertCommandOutputNotContains --lineno "${LINENO:-}"'
 
 assertCommandOutputNull() {
-    local MESSAGE
     ${_SHUNIT_LINENO_}
-    if command [ $# -gt 1 ]; then
+    if ${__SHUNIT_BUILTIN} [ $# -gt 1 ]; then
         _shunit_error "assertCommandOutputNull() requires zero or one argument; $# given"
         _shunit_assertFail
         return "${SHUNIT_ERROR}"
     fi
-
-    if command [ $# -eq 1 ];then
-        MESSAGE="$1"
+    if _shunit_shouldSkip; then
+        return "${SHUNIT_TRUE}"
     fi
 
-    assertNull \
-        "${MESSAGE:-Command Test did not capture expected empty string}" \
-        "${COMMAND_TEST_OUTPUT}"
+    shunit_message_="${__shunit_lineno}"
+    if ${__SHUNIT_BUILTIN} [ $# -eq 1 ]; then
+        shunit_message_="${shunit_message_}${1:-Command Test captured unexpected output string}"
+        shift
+    fi
+    shunit_condition_="${COMMAND_TEST_OUTPUT}"
+
+    ${__SHUNIT_BUILTIN} test -z "${shunit_condition_}"
+    assertTrue "${shunit_message_}" $?
+    shunit_return=$?
+
+    unset shunit_message_
+    return "${shunit_return}"
 }
+_ASSERT_COMMAND_OUTPUT_NULL_='eval assertCommandOutputNull --lineno "${LINENO:-}"'
 
 assertCommandOutputNotNull() {
-    local MESSAGE
     ${_SHUNIT_LINENO_}
-    if command [ $# -gt 1 ]; then
+    if ${__SHUNIT_BUILTIN} [ $# -gt 1 ]; then
         _shunit_error "assertCommandOutputNotNull() requires zero or one argument; $# given"
         _shunit_assertFail
         return "${SHUNIT_ERROR}"
     fi
-
-    if command [ $# -eq 1 ];then
-        MESSAGE="$1"
+    if _shunit_shouldSkip; then
+        return "${SHUNIT_TRUE}"
     fi
 
-    assertNotNull \
-        "${MESSAGE:-Command Test captured unexpected empty string}" \
-        "${COMMAND_TEST_OUTPUT}"
+    shunit_message_="${__shunit_lineno}"
+    if ${__SHUNIT_BUILTIN} [ $# -eq 1 ]; then
+        shunit_message_="${shunit_message_}${1:-Command Test captured unexpected output string}"
+        shift
+    fi
+    shunit_condition_="${COMMAND_TEST_OUTPUT}"
+
+    ${__SHUNIT_BUILTIN} test -n "${shunit_condition_}"
+    assertTrue "${shunit_message_}" $?
+    shunit_return=$?
+
+    unset shunit_message_
+    return "${shunit_return}"
 }
+_ASSERT_COMMAND_OUTPUT_NOT_NULL_='eval assertCommandOutputNotNull --lineno "${LINENO:-}"'
+
+assertCommandOutputTrue() {
+    ${_SHUNIT_LINENO_}
+    if ${__SHUNIT_BUILTIN} [ $# -gt 1 ]; then
+        _shunit_error "assertCommandOutputTrue() requires zero or one argument; $# given"
+        _shunit_assertFail
+        return "${SHUNIT_ERROR}"
+    fi
+    if _shunit_shouldSkip; then
+        return "${SHUNIT_TRUE}"
+    fi
+
+    shunit_message_="${__shunit_lineno}"
+    if ${__SHUNIT_BUILTIN} [ $# -eq 1 ]; then
+        shunit_message_="${shunit_message_}${1:-Command Test captured did not capture true}"
+        shift
+    fi
+    shunit_condition_="${COMMAND_TEST_OUTPUT}"
+
+    shunit_return="${SHUNIT_TRUE}"
+    if ${__SHUNIT_BUILTIN} [ -z "${shunit_condition_}" ]; then
+        shunit_return="${SHUNIT_FALSE}"
+    elif (expr \( "${shunit_condition_}" + '0' \) '=' "${shunit_condition_}" >/dev/null 2>&1); then
+        if ${__SHUNIT_BUILTIN} [ "${shunit_condition_}" -ne 0 ]; then
+            shunit_return="${SHUNIT_FALSE}"
+        fi
+    else
+        if ! eval "${shunit_condition_}" >/dev/null 2>&1; then
+            shunit_return="${SHUNIT_FALSE}"
+        fi
+    fi
+
+    if ${__SHUNIT_BUILTIN} [ "${shunit_return}" -eq "${SHUNIT_TRUE}" ]; then
+        _shunit_assertPass
+    else
+        _shunit_assertFail "${shunit_message_}"
+    fi
+
+    unset shunit_message_ shunit_condition_
+    return "${shunit_return}"
+}
+_ASSERT_COMMAND_OUTPUT_TRUE_='eval assertCommandOutputTrue --lineno "${LINENO:-}"'
+
+assertCommandOutputFalse() {
+    ${_SHUNIT_LINENO_}
+    if ${__SHUNIT_BUILTIN} [ $# -gt 1 ]; then
+        _shunit_error "assertCommandOutputFalse() requires zero or one argument; $# given"
+        _shunit_assertFail
+        return "${SHUNIT_ERROR}"
+    fi
+    if _shunit_shouldSkip; then
+        return "${SHUNIT_TRUE}"
+    fi
+
+    shunit_message_="${__shunit_lineno}"
+    if ${__SHUNIT_BUILTIN} [ $# -eq 1 ]; then
+        shunit_message_="${shunit_message_}${1:-Command Test return code did not capture false}"
+        shift
+    fi
+    shunit_condition_="${COMMAND_TEST_OUTPUT}"
+
+    shunit_return="${SHUNIT_TRUE}"
+    if ${__SHUNIT_BUILTIN} [ -z "${shunit_condition_}" ]; then
+        shunit_return="${SHUNIT_TRUE}"
+    elif (expr \( "${shunit_condition_}" + '0' \) '=' "${shunit_condition_}" >/dev/null 2>&1); then
+        if ${__SHUNIT_BUILTIN} [ "${shunit_condition_}" -eq 0 ]; then
+            shunit_return="${SHUNIT_FALSE}"
+        fi
+    else
+        if eval "${shunit_condition_}" >/dev/null 2>&1; then
+            shunit_return="${SHUNIT_FALSE}"
+        fi
+    fi
+
+    if ${__SHUNIT_BUILTIN} [ "${shunit_return}" -eq "${SHUNIT_TRUE}" ]; then
+        _shunit_assertPass
+    else
+        _shunit_assertFail "${shunit_message_}"
+    fi
+
+    unset shunit_message_ shunit_condition_
+    return "${shunit_return}"
+}
+_ASSERT_COMMAND_OUTPUT_FALSE_='eval assertCommandOutputFalse --lineno "${LINENO:-}"'
