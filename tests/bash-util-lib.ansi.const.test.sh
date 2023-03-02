@@ -11,9 +11,6 @@ SOURCE_DIR="$(readlink -f "${TESTS_DIR}/../src")"
 # shellcheck source=../src/bash-util-lib.ansi.const.sh
 . "${SOURCE_DIR}/bash-util-lib.ansi.const.sh"
 
-# shellcheck source=./shunit2.suite
-. "${TESTS_DIR}/shunit2.suite"
-
 
 #############
 # Constants #
@@ -251,6 +248,3 @@ test_constant_ansi_bright_cyan_bg() {
 test_constant_ansi_bright_white_bg() {
     assertEquals "${ANSI_BRIGHT_WHITE_BG}" "\x1B[107m"
 }
-
-# Load and run shUnit2
-. shunit2

@@ -1,0 +1,585 @@
+#!/usr/bin/env bash
+# file: shunit2sl
+
+# shellcheck disable=SC2001 # See if you can use ${variable//search/replace} instead.
+# shellcheck disable=SC2312 # Consider invoking this command separately to avoid masking its return value (or use '|| true' to ignore).
+# shellcheck source=/dev/null
+
+
+SHUNIT_SL_VERSION="0.1.0"
+SHUNIT_SL_VERSION_DATE="2023-03-03 15:33:54"
+
+true;  SHUNIT_SL_TRUE=$?
+false; SHUNIT_SL_FALSE=$?
+SHUNIT_SL_NL="
+"
+SHUNIT_SL_WORKING_DIR="$(pwd)"
+SHUNIT_SL_CONFIG_FILENAME=".shunit2rc"
+SHUNIT_SL_NOOP=${SHUNIT_SL_FALSE}
+SHUNIT_SL_EXECUTABLE="shunit2"
+
+SHUNIT_SL_TEST_ORDER="defined"
+SHUNIT_SL_TEST_NAME_PREFIX="test"
+SHUNIT_SL_FUNCTION_REGEX="[a-zA-Z_][a-zA-Z0-9_\:-]*"
+SHUNIT_SL_FILES_PATTERN=""
+SHUNIT_SL_BLACKLIST=""
+SHUNIT_SL_ISOLATE_TEST_FILES=${SHUNIT_SL_FALSE}
+
+SHUNIT_SL_MESSAGE_QUIET=-1
+SHUNIT_SL_MESSAGE_NORMAL=0
+SHUNIT_SL_MESSAGE_VERBOSE=1
+SHUNIT_SL_MESSAGE_DEBUG=2
+SHUNIT_SL_MESSAGE_LEVEL=${SHUNIT_SL_MESSAGE_NORMAL}
+
+SHUNIT_SL_RESET="\x1b[0m"
+SHUNIT_SL_BOLD="\x1b[1m"
+SHUNIT_SL_UNDERLINE="\x1b[4m"
+SHUNIT_SL_RED="\x1b[31m"
+SHUNIT_SL_GREEN="\x1b[32m"
+SHUNIT_SL_YELLOW="\x1b[33m"
+SHUNIT_SL_BLUE="\x1b[34m"
+SHUNIT_SL_MAGENTA="\x1b[35m"
+SHUNIT_SL_CYAN="\x1b[36m"
+
+SHUNIT_SL_TERM_WIDTH=$(tput cols)
+
+__shunit_sl_config_step="arguments"
+__shunit_sl_test_filters=""
+__shunit_sl_files=""
+__shunit_sl_file=""
+__shunit_sl_functions=""
+
+
+_shunit_sl_preface() {
+    _shunit_sl_string_="$1"
+    _shunit_sl_preface_="${2:-\t}"
+
+    sed "s~^~${_shunit_sl_preface_}~" <<< "${_shunit_sl_string_}"
+}
+
+_shunit_sl_wrap() {
+    _shunit_sl_indent_="$1"
+    _shunit_sl_string_="$2"
+
+    if [[ -z "${_shunit_sl_indent_}" ]]; then
+        _shunit_sl_indent_=0
+    fi
+
+    _shunit_sl_width_=$((SHUNIT_SL_TERM_WIDTH - _shunit_sl_indent_))
+
+    _shunit_sl_string_="$(fold --bytes --spaces --width="${_shunit_sl_width_}" <<< "${_shunit_sl_string_}")"
+
+    if [[ "${_shunit_sl_indent_}" -gt 0 ]]; then
+        _shunit_sl_indent_="$(printf "%-${_shunit_sl_indent_}s" '')"
+        _shunit_sl_string_="$(sed -e ':a' -e 'N' -e '$!ba' -e "s/\n/\n${_shunit_sl_indent_}/g" <<< "${_shunit_sl_string_}")"
+    fi
+
+    printf '%b' "${_shunit_sl_string_}"
+
+    unset _shunit_sl_indent_ _shunit_sl_string_ _shunit_sl_width_
+}
+
+_shunit_sl_message() {
+    _shunit_sl_message_level_=$1
+    _shunit_sl_message_string_="$2"
+    _shunit_sl_message_output_="${3:-/dev/stdout}"
+
+    if [[ ${SHUNIT_SL_MESSAGE_LEVEL} -ge ${_shunit_sl_message_level_} ]]; then
+        printf '%b\n' "${_shunit_sl_message_string_}" > "${_shunit_sl_message_output_}"
+    fi
+
+    unset _shunit_sl_message_level_ _shunit_sl_message_string_ _shunit_sl_message_output_
+}
+
+_shunit_sl_message_normal() {
+    _shunit_sl_message_string1_="$1"
+    _shunit_sl_message_string2_="$2"
+
+    _shunit_sl_message_string1_="${SHUNIT_SL_BOLD}${SHUNIT_SL_GREEN}${_shunit_sl_message_string1_}${SHUNIT_SL_RESET}"
+
+    if [[ -n "${_shunit_sl_message_string2_}" ]]; then
+        _shunit_sl_message_string2_=" ${SHUNIT_SL_RED}${_shunit_sl_message_string2_}${SHUNIT_SL_RESET}"
+    fi
+
+    _shunit_sl_message "${SHUNIT_SL_MESSAGE_NORMAL}" "${_shunit_sl_message_string1_}${_shunit_sl_message_string2_}"
+
+    unset _shunit_sl_message_string1_ _shunit_sl_message_string2_
+}
+
+_shunit_sl_message_verbose() {
+    _shunit_sl_message_string1_="$1"
+    _shunit_sl_message_string2_="$2"
+
+    _shunit_sl_message_string1_="${SHUNIT_SL_BOLD}${SHUNIT_SL_YELLOW}${_shunit_sl_message_string1_}${SHUNIT_SL_RESET}"
+
+    if [[ -n "${_shunit_sl_message_string2_}" ]]; then
+        _shunit_sl_message_string2_=" ${SHUNIT_SL_MAGENTA}${_shunit_sl_message_string2_}${SHUNIT_SL_RESET}"
+    fi
+
+    _shunit_sl_message "${SHUNIT_SL_MESSAGE_VERBOSE}" "${_shunit_sl_message_string1_}${_shunit_sl_message_string2_}"
+
+    unset _shunit_sl_message_string1_ _shunit_sl_message_string2_
+}
+
+_shunit_sl_message_debug() {
+    _shunit_sl_message_string1_="$1"
+    _shunit_sl_message_string2_="$2"
+
+    _shunit_sl_message_string1_="${SHUNIT_SL_BOLD}${SHUNIT_SL_RED}${_shunit_sl_message_string1_}${SHUNIT_SL_RESET}"
+
+    if [[ -n "${_shunit_sl_message_string2_}" ]]; then
+        _shunit_sl_message_string2_=" ${SHUNIT_SL_BLUE}${_shunit_sl_message_string2_}${SHUNIT_SL_RESET}"
+    fi
+
+    _shunit_sl_message "${SHUNIT_SL_MESSAGE_DEBUG}" "${_shunit_sl_message_string1_}${_shunit_sl_message_string2_}"
+
+    unset _shunit_sl_message_string1_ _shunit_sl_message_string2_
+}
+
+_shunit_sl_exit_error() {
+    _shunit_sl_exit_="$1"
+    _shunit_sl_error1_="$2"
+    _shunit_sl_error2_="$3"
+
+    _shunit_sl_exit_="${SHUNIT_SL_RED}Error [${SHUNIT_SL_BOLD}${_shunit_sl_exit_}]${SHUNIT_SL_RESET}: "
+    _shunit_sl_error1_="${SHUNIT_SL_BOLD}${SHUNIT_SL_RED}${_shunit_sl_error1_}${SHUNIT_SL_RESET}"
+
+    if [[ -n "${_shunit_sl_error2_}" ]]; then
+        _shunit_sl_error2_=" ${SHUNIT_SL_CYAN}${_shunit_sl_error2_}${SHUNIT_SL_RESET}"
+    fi
+
+    _shunit_sl_message "${SHUNIT_SL_MESSAGE_NORMAL}" \
+        "${_shunit_sl_exit_}${_shunit_sl_error1_}${_shunit_sl_error2_}" \
+        /dev/stderr
+
+    exit "${_shunit_sl_exit_}"
+}
+
+_shunit_sl_logo() {
+    printf '%b          __    __  __      _ __ ___ %b     _____       _ __     %b      __                    __         %b\n' "${SHUNIT_SL_BOLD}${SHUNIT_SL_RED}" "${SHUNIT_SL_RESET}${SHUNIT_SL_GREEN}" "${SHUNIT_SL_BOLD}${SHUNIT_SL_YELLOW}" "${SHUNIT_SL_RESET}"
+    printf '%b    _____/ /_  / / / /___  (_) /|__ \%b    / ___/__  __(_) /____ %b     / /   ____  ____ _____/ /__  _____%b\n' "${SHUNIT_SL_BOLD}${SHUNIT_SL_RED}" "${SHUNIT_SL_RESET}${SHUNIT_SL_GREEN}" "${SHUNIT_SL_BOLD}${SHUNIT_SL_YELLOW}" "${SHUNIT_SL_RESET}"
+    printf '%b   / ___/ __ \/ / / / __ \/ / __/_/ /%b    \__ \/ / / / / __/ _ \%b    / /   / __ \/ __ `/ __  / _ \/ ___/%b\n' "${SHUNIT_SL_BOLD}${SHUNIT_SL_RED}" "${SHUNIT_SL_RESET}${SHUNIT_SL_GREEN}" "${SHUNIT_SL_BOLD}${SHUNIT_SL_YELLOW}" "${SHUNIT_SL_RESET}"
+    printf '%b  (__  ) / / / /_/ / / / / / /_/ __/ %b   ___/ / /_/ / / /_/  __/%b   / /___/ /_/ / /_/ / /_/ /  __/ /    %b\n' "${SHUNIT_SL_BOLD}${SHUNIT_SL_RED}" "${SHUNIT_SL_RESET}${SHUNIT_SL_GREEN}" "${SHUNIT_SL_BOLD}${SHUNIT_SL_YELLOW}" "${SHUNIT_SL_RESET}"
+    printf '%b /____/_/ /_/\____/_/ /_/_/\__/____/ %b  /____/\__,_/_/\__/\___/ %b  /_____/\____/\__,_/\__,_/\___/_/     %b\n' "${SHUNIT_SL_BOLD}${SHUNIT_SL_RED}" "${SHUNIT_SL_RESET}${SHUNIT_SL_GREEN}" "${SHUNIT_SL_BOLD}${SHUNIT_SL_YELLOW}" "${SHUNIT_SL_RESET}"
+    printf '%b                                     %b /______________________/ %b                                       %b\n' "${SHUNIT_SL_BOLD}${SHUNIT_SL_RED}" "${SHUNIT_SL_RESET}${SHUNIT_SL_GREEN}" "${SHUNIT_SL_BOLD}${SHUNIT_SL_YELLOW}" "${SHUNIT_SL_RESET}"
+}
+
+_shunit_sl_signature() {
+    printf '%bshUnit2 %bSuite%b Loader%b' "${SHUNIT_SL_BOLD}${SHUNIT_SL_RED}" "${SHUNIT_SL_RESET}${SHUNIT_SL_UNDERLINE}${SHUNIT_SL_GREEN}" "${SHUNIT_SL_RESET}${SHUNIT_SL_BOLD}${SHUNIT_SL_YELLOW}" "${SHUNIT_SL_RESET}"
+}
+
+_shunit_sl_version() {
+    printf '%b version %b%s%b %s\n' "$(_shunit_sl_signature)" "${SHUNIT_SL_BOLD}" "${SHUNIT_SL_VERSION}" "${SHUNIT_SL_RESET}" "${SHUNIT_SL_VERSION_DATE}"
+}
+
+_shunit_sl_help() {
+    _shunit_sl_logo
+    _shunit_sl_version
+    printf '\n\n'
+    printf '%b%s%b\n'   "${SHUNIT_SL_YELLOW}" "Usage:" "${SHUNIT_SL_RESET}"
+    printf '    %s\n\n' "$(basename "${BASH_SOURCE[0]}") [OPTIONS] [TEST_NAMES ...]"
+    printf '%s\n\n'     'Load unit-tests (specifying tests) into shUnit2 test suite.'
+    printf '%b%s%b\n'   "${SHUNIT_SL_YELLOW}" "OPTIONS:" "${SHUNIT_SL_RESET}"
+    while read -r _shunit_sl_line_; do
+        IFS="~" read -r -a _shunit_sl_printf_ <<< "${_shunit_sl_line_}"
+        printf '  %b%-10s %b %s\n' "${SHUNIT_SL_GREEN}" "${_shunit_sl_printf_[1]}" "${SHUNIT_SL_RESET}" "$(_shunit_sl_wrap 14 "${_shunit_sl_printf_[3]}")"
+    done <<EOF
+        ~-h~         ~Output this help message and exit
+        ~-V~         ~Output version information and exit
+        ~-w DIR~     ~Working directory; default: current directory
+        ~-c FILE~    ~Configuration filename to load (from working directory); default: .shunit2rc
+        ~-n~         ~No-op, display configurations after processing arguments and configuration file
+        ~-e EXEC~    ~shUnit2 executable (path); default: shunit2
+        ~-o ORDER~   ~Test order (defined, sort, random); default: defined
+        ~-p PREFIX~  ~Test name prefix, functions to add to test suite; default: test
+        ~-r REGEXP~  ~Function regular expressions, to select the function name from files; default: [a-zA-Z_][a-zA-Z0-9_\:-]*
+        ~-f PATTERN~ ~File pattern (path and file blob pattern from working directory), to look for test files (multiple allowed)
+        ~-b REGEXP~  ~Black-list regular expressions, to remove from the test files matched from file pattern (multiple allowed)
+        ~-i~         ~Isolate test files; default: false
+        ~-q~         ~Quiet, do not output shUnit2 Suite Loader messages
+        ~-v|vv~      ~Increase the verbosity of messages (1 for more verbose output and 2 for debug)
+EOF
+
+    printf '\n%b%s%b\n' "${SHUNIT_SL_YELLOW}" "TEST_NAMES:" "${SHUNIT_SL_RESET}"
+    printf '    %s\n\n' "$(_shunit_sl_wrap 4 "One or more strings to filter the tests detected.  Strings can be complete or portions of test names and can be quoted regular expressions.")"
+    printf '%b%s%b\n\n' "${SHUNIT_SL_YELLOW}${SHUNIT_SL_UNDERLINE}" "Configuration:" "${SHUNIT_SL_RESET}"
+    printf '%s\n\n'     "$(_shunit_sl_wrap 0 "A configuration file can be deployed with key-value pairs of directives.  By default, a file named '.shunit2rc' is looked for in the working directory.  Directives can be specified with or without hyphens and are case insensitive.")"
+    printf '%b%s%b\n'   "${SHUNIT_SL_YELLOW}" "Directives:" "${SHUNIT_SL_RESET}"
+
+    while read -r _shunit_sl_line_; do
+        IFS="~" read -r -a _shunit_sl_printf_ <<< "${_shunit_sl_line_}"
+        printf '  %b%-18s %b %s\n' "${SHUNIT_SL_GREEN}" "${_shunit_sl_printf_[1]}" "${SHUNIT_SL_RESET}" "$(_shunit_sl_wrap 22 "${_shunit_sl_printf_[3]}")"
+    done <<EOF
+        ~executable~         ~shUnit2 executable (path); default: shunit2
+        ~test-order~         ~Test order (d|defined, s|sort, r|random); default: defined
+        ~test-name-prefix~   ~Test name prefix, functions to add to test suite; default: test
+        ~function-regex~     ~Function regular expressions, to select the function name from files; default: [a-zA-Z_][a-zA-Z0-9_\:-]*
+        ~file-pattern~       ~File pattern (path and file blob pattern from working directory), to look for test files (multiple allowed)
+        ~black-list~         ~Black-list regular expressions, to remove from the test files matched from file pattern (multiple allowed)
+        ~isolate-test-files~ ~Isolate test files (0|t|true, 1|f|false); default: false
+        ~message-level~      ~Message level verbosity (0|q|quiet, 1|n|normal, 2|v|verbose, 3|v|debug); default: normal
+EOF
+}
+
+_shunit_sl_displayConfiguration() {
+    SHUNIT_SL_FILES_PATTERN="$(_shunit_sl_preface "${SHUNIT_SL_FILES_PATTERN}")"
+    SHUNIT_SL_BLACKLIST="$(_shunit_sl_preface "${SHUNIT_SL_BLACKLIST}")"
+
+    if [[ ${SHUNIT_SL_ISOLATE_TEST_FILES} -eq ${SHUNIT_SL_TRUE} ]]; then
+        SHUNIT_SL_ISOLATE_TEST_FILES="True"
+    else
+        SHUNIT_SL_ISOLATE_TEST_FILES="False"
+    fi
+
+    case "${SHUNIT_SL_MESSAGE_LEVEL}" in
+          "${SHUNIT_SL_MESSAGE_QUIET}") SHUNIT_SL_MESSAGE_LEVEL="Quiet";;
+         "${SHUNIT_SL_MESSAGE_NORMAL}") SHUNIT_SL_MESSAGE_LEVEL="Normal";;
+        "${SHUNIT_SL_MESSAGE_VERBOSE}") SHUNIT_SL_MESSAGE_LEVEL="Verbose";;
+          "${SHUNIT_SL_MESSAGE_DEBUG}") SHUNIT_SL_MESSAGE_LEVEL="Debug";;
+                                   *) ;;
+    esac
+
+    printf '%b%-20s %b%s%b\n'   "${SHUNIT_SL_GREEN}" 'Working Directory:'  "${SHUNIT_SL_BOLD}${SHUNIT_SL_YELLOW}" "${SHUNIT_SL_WORKING_DIR}"        "${SHUNIT_SL_RESET}"
+    printf '%b%-20s %b%s%b\n'   "${SHUNIT_SL_GREEN}" 'Config Filename:'    "${SHUNIT_SL_BOLD}${SHUNIT_SL_YELLOW}" "${SHUNIT_SL_CONFIG_FILENAME}"    "${SHUNIT_SL_RESET}"
+    printf '%b%-20s %b%s%b\n'   "${SHUNIT_SL_GREEN}" 'shUnit2 Executable:' "${SHUNIT_SL_BOLD}${SHUNIT_SL_YELLOW}" "${SHUNIT_SL_EXECUTABLE}"         "${SHUNIT_SL_RESET}"
+    printf '%b%-20s %b%s%b\n'   "${SHUNIT_SL_GREEN}" 'Test Order:'         "${SHUNIT_SL_BOLD}${SHUNIT_SL_YELLOW}" "${SHUNIT_SL_TEST_ORDER}"         "${SHUNIT_SL_RESET}"
+    printf '%b%-20s %b%s%b\n'   "${SHUNIT_SL_GREEN}" 'Test Name Prefix:'   "${SHUNIT_SL_BOLD}${SHUNIT_SL_YELLOW}" "${SHUNIT_SL_TEST_NAME_PREFIX}"   "${SHUNIT_SL_RESET}"
+    printf '%b%-20s %b%s%b\n'   "${SHUNIT_SL_GREEN}" 'Function RegEx:'     "${SHUNIT_SL_BOLD}${SHUNIT_SL_YELLOW}" "${SHUNIT_SL_FUNCTION_REGEX}"     "${SHUNIT_SL_RESET}"
+    printf '%b%-20s %b\n%s%b\n' "${SHUNIT_SL_GREEN}" 'File Pattern:'       "${SHUNIT_SL_BOLD}${SHUNIT_SL_YELLOW}" "${SHUNIT_SL_FILES_PATTERN}"      "${SHUNIT_SL_RESET}"
+    printf '%b%-20s %b\n%s%b\n' "${SHUNIT_SL_GREEN}" 'Black List:'         "${SHUNIT_SL_BOLD}${SHUNIT_SL_YELLOW}" "${SHUNIT_SL_BLACKLIST}"          "${SHUNIT_SL_RESET}"
+    printf '%b%-20s %b%s%b\n'   "${SHUNIT_SL_GREEN}" 'Isolate Test Files:' "${SHUNIT_SL_BOLD}${SHUNIT_SL_YELLOW}" "${SHUNIT_SL_ISOLATE_TEST_FILES}" "${SHUNIT_SL_RESET}"
+    printf '%b%-20s %b%s%b\n'   "${SHUNIT_SL_GREEN}" 'Message Level:'      "${SHUNIT_SL_BOLD}${SHUNIT_SL_YELLOW}" "${SHUNIT_SL_MESSAGE_LEVEL}"      "${SHUNIT_SL_RESET}"
+}
+
+_shunit_sl_process_arguments() {
+    _shunit_sl_opts_="vqib:f:r:p:nc:w:e:Vh"
+
+    _shunit_sl_message_verbose "Processing arguments"
+
+    while getopts "${_shunit_sl_opts_}" _shunit_sl_opt_; do
+        if [[ "${__shunit_sl_config_step}" = "arguments" ]]; then
+            _shunit_sl_message_debug "Argument:" "${_shunit_sl_opt_}${OPTARG:+ - ${OPTARG}}"
+            case "${_shunit_sl_opt_}" in
+                c) SHUNIT_SL_CONFIG_FILENAME="${OPTARG}" ;;
+                w) SHUNIT_SL_WORKING_DIR="$(realpath "${OPTARG}")" ;;
+                v) _shunit_sl_set_config messageLevel louder ;;
+                q) _shunit_sl_set_config messageLevel quiet ;;
+                V) _shunit_sl_version; exit 0 ;;
+                h) _shunit_sl_help; exit 0 ;;
+                *) ;;
+            esac
+        else
+            _shunit_sl_message_debug "Argument:" "${_shunit_sl_opt_}${OPTARG:+ - ${OPTARG}}"
+            case "${_shunit_sl_opt_}" in
+                i) _shunit_sl_set_config isolateTestFiles "${SHUNIT_SL_TRUE}" ;;
+                b) _shunit_sl_set_config blackList "${OPTARG}" ;;
+                f) _shunit_sl_set_config filePattern "${OPTARG}" ;;
+                r) _shunit_sl_set_config functionRegEx "${OPTARG}" ;;
+                p) _shunit_sl_set_config testNamePrefix "${OPTARG}" ;;
+                o) _shunit_sl_set_config testOrder "${OPTARG}" ;;
+                e) _shunit_sl_set_config executable "${OPTARG}" ;;
+                n) SHUNIT_SL_NOOP=${SHUNIT_SL_TRUE} ;;
+                c|w|v|q|V|h) ;;
+                *) _shunit_sl_help; exit 0 ;;
+            esac
+        fi
+        unset OPTARG
+    done
+
+    if [[ "${__shunit_sl_config_step}" = "rcfile" ]]; then
+        shift $((OPTIND - 1))
+        __shunit_sl_test_filters=( "$@" )
+    fi
+
+    OPTIND=0
+
+    unset _shunit_sl_opts_ _shunit_sl_opt_
+}
+
+_shunit_sl_process_config_file() {
+    __shunit_sl_config_step="rcfile"
+
+    if [[ -f "${SHUNIT_SL_WORKING_DIR}/${SHUNIT_SL_CONFIG_FILENAME}" ]]; then
+        _shunit_sl_message_verbose "Processing configuration file:" "${SHUNIT_SL_WORKING_DIR}/${SHUNIT_SL_CONFIG_FILENAME}"
+        while IFS="" read -r _shunit_sl_config_line_ || [[ -n "${_shunit_sl_config_line_}" ]]; do
+            _shunit_sl_config_line_="$(sed 's/^ *[#;].*//' <<< "${_shunit_sl_config_line_}")"
+
+            if [[ -n "${_shunit_sl_config_line_}" ]]; then
+                _shunit_sl_config_line_="$(sed 's/^ +//' <<< "${_shunit_sl_config_line_}")"
+
+                _shunit_sl_message_debug "Configuration:" "${_shunit_sl_config_line_}"
+                _shunit_sl_set_config "${_shunit_sl_config_line_%%=*}" "${_shunit_sl_config_line_##*=}"
+            fi
+        done < "${SHUNIT_SL_WORKING_DIR}/${SHUNIT_SL_CONFIG_FILENAME}"
+    fi
+
+    unset _shunit_sl_config_line_
+}
+
+_shunit_sl_set_config() {
+    _shunit_sl_config_="$1"
+    _shunit_sl_value_="$2"
+
+    case "$(tr '[:upper:]' '[:lower:]' <<< "${_shunit_sl_config_}")" in
+        executable)
+            SHUNIT_SL_EXECUTABLE="${_shunit_sl_value_}"
+            _shunit_sl_message_debug "Set executable to:" "${_shunit_sl_value_}"
+            ;;
+        testorder|test-order)
+            case "$(tr '[:upper:]' '[:lower:]' <<< "${_shunit_sl_value_}")" in
+                d|defined)
+                    SHUNIT_SL_TEST_ORDER="defined"
+                    _shunit_sl_message_debug "Set test order:" "defined"
+                    ;;
+                s|sort)
+                    SHUNIT_SL_TEST_ORDER="sort"
+                    _shunit_sl_message_debug "Set test order:" "sort"
+                    ;;
+                r|random)
+                    SHUNIT_SL_TEST_ORDER="random"
+                    _shunit_sl_message_debug "Set test order:" "random"
+                    ;;
+                *) _shunit_sl_exit_error 6 "Unknown configuration value for 'test-order':" "${_shunit_sl_value_}" ;;
+            esac
+            ;;
+        testnameprefix|test-name-prefix)
+            SHUNIT_SL_TEST_NAME_PREFIX="${_shunit_sl_value_}"
+            _shunit_sl_message_debug "Set test name prefix:" "${_shunit_sl_value_}"
+            ;;
+        functionregex|function-regex)
+            SHUNIT_SL_FUNCTION_REGEX="${_shunit_sl_value_}"
+            _shunit_sl_message_debug "Set function regular expression:" "${_shunit_sl_value_}"
+            ;;
+        filepattern|file-pattern)
+            SHUNIT_SL_FILES_PATTERN="${SHUNIT_SL_FILES_PATTERN:+${SHUNIT_SL_FILES_PATTERN}${SHUNIT_SL_NL}}${_shunit_sl_value_}"
+            _shunit_sl_message_debug "Added file pattern:" "${_shunit_sl_value_}"
+            ;;
+        blacklist|black-list)
+            SHUNIT_SL_BLACKLIST="${SHUNIT_SL_BLACKLIST:+${SHUNIT_SL_BLACKLIST}${SHUNIT_SL_NL}}${_shunit_sl_value_}"
+            _shunit_sl_message_debug "Added black-list regex:" "${_shunit_sl_value_}"
+            ;;
+        isolatetestfiles|isolate-test-files)
+            case "$(tr '[:upper:]' '[:lower:]' <<< "${_shunit_sl_value_}")" in
+                0|t|true)
+                    SHUNIT_SL_ISOLATE_TEST_FILES=${SHUNIT_SL_TRUE}
+                    _shunit_sl_message_debug "Set test file isolation:" "true"
+                    ;;
+                1|f|false)
+                    SHUNIT_SL_ISOLATE_TEST_FILES=${SHUNIT_SL_FALSE}
+                    _shunit_sl_message_debug "Set test file isolation:" "false"
+                    ;;
+                *) _shunit_sl_exit_error 6 "Unknown configuration value for 'isolate-test-files':" "${_shunit_sl_value_}" ;;
+            esac
+            ;;
+        messagelevel|message-level)
+            if [[ "${__shunit_sl_config_step}" != "rcfile" ]] || [[ ${SHUNIT_SL_MESSAGE_LEVEL} -eq ${SHUNIT_SL_MESSAGE_NORMAL} ]]; then
+                case "$(tr '[:upper:]' '[:lower:]' <<< "${_shunit_sl_value_}")" in
+                    0|q|quiet)
+                        SHUNIT_SL_MESSAGE_LEVEL=${SHUNIT_SL_MESSAGE_QUIET}
+                        _shunit_sl_message_debug "Set message level:" "quiet"
+                        ;;
+                    1|n|normal)
+                        SHUNIT_SL_MESSAGE_LEVEL=${SHUNIT_SL_MESSAGE_NORMAL}
+                        _shunit_sl_message_debug "Set message level:" "normal"
+                        ;;
+                    2|v|verbose)
+                        SHUNIT_SL_MESSAGE_LEVEL=${SHUNIT_SL_MESSAGE_VERBOSE}
+                        _shunit_sl_message_debug "Set message level:" "verbose"
+                        ;;
+                    3|d|debug)
+                        SHUNIT_SL_MESSAGE_LEVEL=${SHUNIT_SL_MESSAGE_DEBUG}
+                        _shunit_sl_message_debug "Set message level:" "debug"
+                        ;;
+                    louder)
+                        if [[ "${SHUNIT_SL_MESSAGE_LEVEL}" -eq "-1" ]]; then
+                            SHUNIT_SL_MESSAGE_LEVEL=${SHUNIT_SL_MESSAGE_NORMAL}
+                        fi
+
+                        SHUNIT_SL_MESSAGE_LEVEL=$((SHUNIT_SL_MESSAGE_LEVEL + 1))
+                        _shunit_sl_message_debug "Set message level louder:" "${SHUNIT_SL_MESSAGE_LEVEL}"
+                        ;;
+                    *) _shunit_sl_exit_error 6 "Unknown configuration value for 'message-level':" "${_shunit_sl_value_}" ;;
+                esac
+            fi
+            ;;
+        *)
+            _shunit_sl_exit_error 3 "Unknown configuration:" "${_shunit_sl_config_}"
+            ;;
+    esac
+
+    unset _shunit_sl_config_ _shunit_sl_value_
+}
+
+_shunit_sl_detectFiles() {
+    _shunit_sl_message_verbose "Detect test files"
+    if [[ -z "${SHUNIT_SL_FILES_PATTERN}" ]]; then
+        SHUNIT_SL_FILES_PATTERN="*.sh"
+    fi
+
+    while IFS="" read -r _shunit_sl_filePattern_ || [[ -n "${_shunit_sl_filePattern_}" ]]; do
+        _shunit_sl_message_debug "File pattern:" "${_shunit_sl_filePattern_}"
+        for __shunit_sl_file in ${_shunit_sl_filePattern_}; do
+            if [[ -f "${__shunit_sl_file}" ]]; then
+                __shunit_sl_file="$(realpath "${__shunit_sl_file}")"
+                _shunit_sl_message_debug "File detected:" "${__shunit_sl_file}"
+                __shunit_sl_files="${__shunit_sl_files:+${__shunit_sl_files}${SHUNIT_SL_NL}}${__shunit_sl_file}"
+            fi
+        done
+    done <<< "${SHUNIT_SL_FILES_PATTERN}"
+
+    unset _shunit_sl_filePattern_ __shunit_sl_file
+}
+
+_shunit_sl_filterFiles() {
+    _shunit_sl_message_verbose "Filter test files"
+    for _shunit_sl_blackList_ in ${SHUNIT_SL_BLACKLIST}; do
+        _shunit_sl_message_debug "Blacklist regular expression:" "${_shunit_sl_blackList_}"
+        for __shunit_sl_file in ${__shunit_sl_files}; do
+            if grep -qv "${_shunit_sl_blackList_}" <<< "$(basename "${__shunit_sl_file}")"; then
+                _shunit_sl_files_temp_="${_shunit_sl_files_temp_:+${_shunit_sl_files_temp_}${SHUNIT_SL_NL}}${__shunit_sl_file}"
+            else
+                _shunit_sl_message_debug "File filtered:" "${__shunit_sl_file}"
+            fi
+        done
+
+        __shunit_sl_files="${_shunit_sl_files_temp_}"
+
+        _shunit_sl_files_temp_=""
+    done
+
+    _shunit_sl_message_verbose "Files sorted and deduplicated"
+    __shunit_sl_files="$(sort <<< "${__shunit_sl_files}")"
+    __shunit_sl_files="$(uniq <<< "${__shunit_sl_files}")"
+
+    unset _shunit_sl_blackList_ _shunit_sl_files_ __shunit_sl_file _shunit_sl_files_new_
+}
+
+_shunit_sl_detectFunctions() {
+    _shunit_sl_message_verbose "Detect functions"
+    _shunit_sl_regex_="^\s*(${SHUNIT_SL_FUNCTION_REGEX}\s*\(\s*\)|function\s+${SHUNIT_SL_FUNCTION_REGEX})"
+
+    _shunit_sl_functions_="$(grep -E $"${_shunit_sl_regex_}" "${__shunit_sl_file}")"
+    _shunit_sl_functions_="$(sed -E "s/^[ \t]*(function)*[ \t]*(${SHUNIT_SL_FUNCTION_REGEX}).*$/\2/" <<< "${_shunit_sl_functions_}")"
+    _shunit_sl_message_debug "Functions detected:" "\n$(_shunit_sl_preface "${_shunit_sl_functions_}")"
+
+    _shunit_sl_message_verbose "Filter functions"
+    _shunit_sl_functions_="$(grep -- "^${SHUNIT_SL_TEST_NAME_PREFIX}.*$" <<< "${_shunit_sl_functions_}")"
+
+    __shunit_sl_functions="${__shunit_sl_functions:+${__shunit_sl_functions}${SHUNIT_SL_NL}}${_shunit_sl_functions_}"
+
+    unset _shunit_sl_regex_ _shunit_sl_functions_
+}
+
+_shunit_sl_selectTests() {
+    _shunit_sl_message_verbose "Select Tests"
+
+    if [[ -n "${__shunit_sl_test_filters[*]}" ]]; then
+        _shunit_sl_grep_exec_=""
+        for _shunit_sl_grep_pattern_ in ${__shunit_sl_test_filters}; do
+            _shunit_sl_grep_exec_="${_shunit_sl_grep_exec_} -e '${_shunit_sl_grep_pattern_}'"
+            _shunit_sl_message_debug "Test filter:" "${_shunit_sl_grep_pattern_}"
+        done
+
+        if [[ -n "${_shunit_sl_grep_exec_}" ]]; then
+            __shunit_sl_functions="$(exec "grep${_shunit_sl_grep_exec_} <<< '${__shunit_sl_functions}'")"
+            _shunit_sl_message_debug "Functions selected:" "\n$(_shunit_sl_preface "${__shunit_sl_functions}")"
+        fi
+    fi
+
+    unset _shunit_sl_grep_exec_
+}
+
+suite() {
+    _shunit_sl_selectTests
+
+    _shunit_sl_message_normal "${SHUNIT_SL_YELLOW}Register tests:" "$(wc -l <<< "${__shunit_sl_functions}")"
+
+    case "${SHUNIT_SL_TEST_ORDER}" in
+        sort)
+            __shunit_sl_functions="$(sort <<< "${__shunit_sl_functions}")"
+            _shunit_sl_message_normal "Registering tests:" "Sorted"
+            ;;
+        random)
+            __shunit_sl_functions="$(sort -R <<< "${__shunit_sl_functions}")"
+            _shunit_sl_message_normal "Registering tests:" "Random"
+            ;;
+        defined|*)
+            _shunit_sl_message_normal "Registering tests:" "As defined"
+            ;;
+    esac
+
+    _shunit_sl_message_verbose "${SHUNIT_SL_RED}Adding test function to suite:"
+    _shunit_sl_message_debug "${SHUNIT_SL_BLUE}$(_shunit_sl_preface "${__shunit_sl_functions}")"
+    for _shunit_sl_function_ in ${__shunit_sl_functions}; do
+        suite_addTest "${_shunit_sl_function_}"
+    done
+    _shunit_sl_message_normal "${SHUNIT_SL_UNDERLINE}Execute shUnit2 tests:" "$(basename "${__shunit_sl_file}")"
+
+    unset _shunit_sl_function_
+}
+
+
+###################
+##  MAIN SCRIPT  ##
+###################
+
+_shunit_sl_process_arguments "$@"
+
+if [[ "${SHUNIT_SL_WORKING_DIR}" = "$(pwd)" ]]; then
+    _shunit_sl_message_verbose "Already in working directory"
+else
+    _shunit_sl_message_verbose "Changing into working directory:" "${SHUNIT_SL_WORKING_DIR}"
+    if ! cd "${SHUNIT_SL_WORKING_DIR}" > /dev/null; then
+        _shunit_sl_exit_error 9 "Working directory missing:" "${SHUNIT_SL_WORKING_DIR}"
+    fi
+fi
+
+_shunit_sl_process_config_file
+
+_shunit_sl_process_arguments "$@"
+
+_shunit_sl_message_debug "Shifting $# arguments off the stack"
+shift $#
+
+_shunit_sl_message_normal "$(_shunit_sl_signature)"
+
+if [[ ${SHUNIT_SL_NOOP} -eq ${SHUNIT_SL_TRUE} ]]; then
+    _shunit_sl_displayConfiguration
+    exit 0
+fi
+
+_shunit_sl_detectFiles
+
+_shunit_sl_filterFiles
+
+_shunit_sl_output_="/dev/stdout"
+if [[ ${SHUNIT_SL_MESSAGE_LEVEL} -eq ${SHUNIT_SL_MESSAGE_QUIET} ]]; then
+    _shunit_sl_output_="/dev/null"
+fi
+
+if [[ ${SHUNIT_SL_ISOLATE_TEST_FILES} -eq ${SHUNIT_SL_TRUE} ]]; then
+    _shunit_sl_message_verbose "Run tests files in isolation"
+    for __shunit_sl_file in ${__shunit_sl_files}; do
+        _shunit_sl_message_debug "Process test file:" "${__shunit_sl_file}"
+        _shunit_sl_detectFunctions
+
+        (
+            source "${__shunit_sl_file}"
+            source "${SHUNIT_SL_EXECUTABLE}" > "${_shunit_sl_output_}"
+        )
+
+        __shunit_sl_functions=""
+    done
+else
+    _shunit_sl_message_verbose "Run all test files"
+    for __shunit_sl_file in ${__shunit_sl_files}; do
+        _shunit_sl_message_debug "Process test file:" "${__shunit_sl_file}"
+        _shunit_sl_detectFunctions
+
+        source "${__shunit_sl_file}"
+    done
+
+    source "${SHUNIT_SL_EXECUTABLE}" > "${_shunit_sl_output_}"
+
+    __shunit_sl_functions=""
+fi

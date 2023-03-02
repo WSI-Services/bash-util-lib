@@ -13,9 +13,6 @@ SOURCE_DIR="$(readlink -f "${TESTS_DIR}/../src")"
 # shellcheck source=../src/bash-util-lib.file.sh
 . "${SOURCE_DIR}/bash-util-lib.file.sh"
 
-# shellcheck source=./shunit2.suite
-. "${TESTS_DIR}/shunit2.suite"
-
 # shellcheck source=./shunit2.assert.command-test
 . "${TESTS_DIR}/shunit2.assert.command-test"
 
@@ -107,7 +104,3 @@ test_grab_text_blob() {
     assertCommandOutputContains 'grab_text_blob not returning the correct content' \
         "Test Data: ${EXPAND}"
 }
-
-
-# Load and run shUnit2
-. shunit2

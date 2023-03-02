@@ -18,6 +18,7 @@
       - [Shellcheck](#shellcheck)
       - [shUnit2](#shunit2)
       - [BashCov](#bashcov)
+      - [shUnit2 Suite Loader](#shunit2-suite-loader)
 
 ---
 
@@ -99,8 +100,8 @@ The script used for the entrypoint is located in the project `dev` directory.  T
 The entrypoint functions defined:
 
 - **`env_vars`** &mdash; Output entrypoint defined variables
-- **`unit-tests`** &mdash; Execute shUnit2 tests
-- **`coverage`** &mdash; Execute shUnit2 tests with bashcov
+- **`unit-tests`** &mdash; Execute shUnit2 tests (utilizing the [shUnit2 Suite Loader](#shunit2-suite-loader))
+- **`coverage`** &mdash; Execute shUnit2 tests with bashcov (utilizing the [shUnit2 Suite Loader](#shunit2-suite-loader))
 - **`shellchecks`** &mdash; Execute shellcheck against scripts in `src` and `tests` directories
 
 ---
@@ -184,3 +185,10 @@ The report contains several _tabs_, each listing a grouping of tracked files:
 - **All Files** &mdash; All tracked files
 - **Library Scripts** &mdash; All scripts in `src` directory
 - **Unit Tests** &mdash; Unit test scripts in the `tests` directory
+
+---
+
+
+#### shUnit2 Suite Loader
+
+A unit test suite loader for use with [shUnit2](#shunit2), allows for configuration of unit test files.  The configuration file (ie: [`.shunit2rc`](../.shunit2rc)) defines shell GLOB patterns to locate test files, black-lists to exclude from list of test files, test function prefix, execution isolation, and message output level.

@@ -12,9 +12,6 @@ SOURCE_DIR="$(readlink -f "${TESTS_DIR}/../src")"
 # shellcheck source=../src/bash-util-lib.script.sh
 . "${SOURCE_DIR}/bash-util-lib.script.sh"
 
-# shellcheck source=./shunit2.suite
-. "${TESTS_DIR}/shunit2.suite"
-
 # shellcheck source=./shunit2.assert.command-test
 . "${TESTS_DIR}/shunit2.assert.command-test"
 
@@ -246,7 +243,3 @@ test_process_parameters_shift() {
 
     OPTS_DETAILS=''
 }
-
-
-# Load and run shUnit2
-. shunit2

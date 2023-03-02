@@ -12,9 +12,6 @@ SOURCE_DIR="$(readlink -f "${TESTS_DIR}/../src")"
 # shellcheck source=../src/bash-util-lib.string.sh
 . "${SOURCE_DIR}/bash-util-lib.string.sh"
 
-# shellcheck source=./shunit2.suite
-. "${TESTS_DIR}/shunit2.suite"
-
 # shellcheck source=./shunit2.assert.command-test
 . "${TESTS_DIR}/shunit2.assert.command-test"
 
@@ -182,7 +179,3 @@ test_preface_lines() {
     assertCommandOutputContains 'preface_lines not returning correct formatting' \
         "${PREFACE}${LINE2}"
 }
-
-
-# Load and run shUnit2
-. shunit2

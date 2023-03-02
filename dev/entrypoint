@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# file: functions.sh
+# file: entrypoint
 
 # shellcheck disable=SC2312 # Consider invoking this command separately to avoid masking its return value (or use '|| true' to ignore).
 
@@ -22,23 +22,29 @@ function env_vars {
 }
 
 function unit-tests {
-    "${DIR_TESTS}/bash-util-lib.test.sh"
-}
-
-function coverage {
-    # Change to directory with `.simplecov` file 
+    # Change to directory with `.shunit2rc` file
     if ! cd "${DIR_PROJ}"; then
-        echo "\033[91mFatal error:\033[31m could not change directory\033[0m" > /dev/stderr
+        printf "\x1b[91mFatal error:\x1b[31m could not change directory\x1b[0m" > /dev/stderr
         exit 1
     fi
 
-    bashcov --skip-uncovered -- "${DIR_TESTS}/bash-util-lib.test.sh"
+    "${DIR_TESTS}/shunit2sl" "$@"
+}
+
+function coverage {
+    # Change to directory with `.simplecov` and `.shunit2rc` files
+    if ! cd "${DIR_PROJ}"; then
+        printf "\x1b[91mFatal error:\x1b[31m could not change directory\x1b[0m" > /dev/stderr
+        exit 1
+    fi
+
+    bashcov --skip-uncovered -- "${DIR_TESTS}/shunit2sl" "$@"
 }
 
 function shellchecks {
-    # Change to directory with `.shellcheckrc` file 
+    # Change to directory with `.shellcheckrc` file
     if ! cd "${DIR_PROJ}"; then
-        echo "\033[91mFatal error:\033[31m could not change directory\033[0m" > /dev/stderr
+        printf "\x1b[91mFatal error:\x1b[31m could not change directory\x1b[0m" > /dev/stderr
         exit 1
     fi
 
@@ -47,7 +53,7 @@ function shellchecks {
         "${DIR_SRC}"/bash-util-lib.*.sh \
         "${DIR_TESTS}"/bash-util-lib.test.sh \
         "${DIR_TESTS}"/bash-util-lib.*.test.sh \
-        "${DIR_TESTS}"/shunit2.assert.command-test
+        "${DIR_TESTS}"/shunit2.*
 }
 
 

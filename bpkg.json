@@ -15,8 +15,8 @@
     "docker-build": "docker-compose build",
     "shell":        "docker-compose run --rm -it shell",
     "execute":      "docker-compose run --rm -it execute $@",
-    "unit-tests":   "docker-compose run --rm -it execute unit-tests",
-    "coverage":     "docker-compose run --rm -it execute coverage",
+    "unit-tests":   "docker-compose run --rm -it execute unit-tests $@",
+    "coverage":     "docker-compose run --rm -it execute coverage $@",
     "shellchecks":  "docker-compose run --rm -it execute shellchecks"
   }
 }

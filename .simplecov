@@ -11,4 +11,5 @@ SimpleCov.add_group "Unit Tests", /^\/tests\/bash-util-lib.*\.test\.sh$/
 
 # https://github.com/simplecov-ruby/simplecov#defining-custom-filters
 
+SimpleCov.add_filter %r{^/tests/shunit2sl}
 SimpleCov.add_filter %r{^/tests/shunit2\.}

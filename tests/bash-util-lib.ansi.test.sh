@@ -11,9 +11,6 @@ SOURCE_DIR="$(readlink -f "${TESTS_DIR}/../src")"
 # shellcheck source=../src/bash-util-lib.ansi.sh
 . "${SOURCE_DIR}/bash-util-lib.ansi.sh"
 
-# shellcheck source=./shunit2.suite
-. "${TESTS_DIR}/shunit2.suite"
-
 # shellcheck source=./shunit2.assert.command-test
 . "${TESTS_DIR}/shunit2.assert.command-test"
 
@@ -1743,7 +1740,3 @@ test_nc_cursor_envVarTurnedOff() {
 
     setNC_USE true
 }
-
-
-# Load and run shUnit2
-. shunit2

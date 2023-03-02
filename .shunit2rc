@@ -1,0 +1,9 @@
+# shUnit2 Suite configuration
+; executable=shunit2
+; testOrder=defined
+; testNamePrefix=test
+; functionRegEx=[a-zA-Z_][a-zA-Z0-9_\:-]*
+filePattern=./tests/*.test.sh
+blackList=^shunit2.
+; isolateTestFiles=false
+; messageLevel=normal
