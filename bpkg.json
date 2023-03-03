@@ -12,11 +12,12 @@
     "./src/bash-util-lib.string.sh"
   ],
   "commands": {
-    "docker-build": "docker-compose build",
-    "shell":        "docker-compose run --rm -it shell",
-    "execute":      "docker-compose run --rm -it execute $@",
-    "unit-tests":   "docker-compose run --rm -it execute unit-tests $@",
-    "coverage":     "docker-compose run --rm -it execute coverage $@",
-    "shellchecks":  "docker-compose run --rm -it execute shellchecks"
+    "docker-build":         "docker-compose build",
+    "shell":                "docker-compose run --rm -it shell",
+    "execute":              "docker-compose run --rm -it execute $@",
+    "unit-tests":           "docker-compose run --rm -it execute unit-tests $@",
+    "coverage":             "docker-compose run --rm -it execute coverage $@",
+    "shellchecks":          "docker-compose run --rm -it execute shellchecks",
+    "coverage-permissions": "sudo chown -R --reference=./coverage ./coverage"
   }
 }

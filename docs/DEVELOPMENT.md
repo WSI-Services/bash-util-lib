@@ -147,6 +147,7 @@ The configured commands are for building and running within the Docker container
 - `unit-tests` &mdash; **[Shortcut]** Executes `unit-tests` within the Docker container ([`entrypoint`](#entrypoint) function)
 - `coverage` &mdash; **[Shortcut]** Executes `coverage` within the Docker container ([`entrypoint`](#entrypoint) function)
 - `shellchecks` &mdash; **[Shortcut]** Executes `shellchecks` within the Docker container ([`entrypoint`](#entrypoint) function)
+- `coverage-permissions` &mdash; Performs file permission corrections for coverage report; perform after the creation of [`coverage`](../coverage) contents
 
 ---
 
@@ -185,6 +186,8 @@ The report contains several _tabs_, each listing a grouping of tracked files:
 - **All Files** &mdash; All tracked files
 - **Library Scripts** &mdash; All scripts in `src` directory
 - **Unit Tests** &mdash; Unit test scripts in the `tests` directory
+
+After generating the coverage report (the first time) in the Docker container, run the `coverage-permissions` [BKPG command](#bpkg-commands), to correct permissions assigned to the report files at creation.  Subsequent updates to the coverage report don't require permission correction.
 
 ---
 
