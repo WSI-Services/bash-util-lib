@@ -5,7 +5,9 @@ services:
         build:
             context: ./dev/
         volumes:
-            - ./:/data
+            - type: bind
+              source: ./
+              target: /data
         stdin_open: true
         tty: true
         entrypoint: /bin/bash
@@ -14,7 +16,9 @@ services:
         build:
             context: ./dev/
         volumes:
-            - ./:/data
+            - type: bind
+              source: ./
+              target: /data
         stdin_open: true
         tty: true
         entrypoint: /data/dev/entrypoint

@@ -18,6 +18,7 @@
       - [Shellcheck](#shellcheck)
       - [shUnit2](#shunit2)
       - [BashCov](#bashcov)
+      - [shUnit2 Suite Loader](#shunit2-suite-loader)
 
 ---
 
@@ -99,9 +100,10 @@ The script used for the entrypoint is located in the project `dev` directory.  T
 The entrypoint functions defined:
 
 - **`env_vars`** &mdash; Output entrypoint defined variables
-- **`unit-tests`** &mdash; Execute shUnit2 tests
-- **`coverage`** &mdash; Execute shUnit2 tests with bashcov
-- **`shellchecks`** &mdash; Execute shellcheck against scripts in `src` and `tests` directories
+- **`unit-tests`** &mdash; Execute [shUnit2](#shunit2) tests (utilizing the [shUnit2 Suite Loader](#shunit2-suite-loader))
+- **`coverage`** &mdash; Execute [shUnit2](#shunit2) tests with [bashcov](#bashcov) (utilizing the [shUnit2 Suite Loader](#shunit2-suite-loader))
+- **`shellchecks`** &mdash; Execute [shellcheck](#shellcheck) against scripts in [`src`](../src) and [`tests`](../tests) directories
+- **`update-version`** &mdash; Perform an update of the `BASH_UTIL_LIB_VERSION` and `BASH_UTIL_LIB_DATE` variables in the library files in the [`src`](../src) directory; _not to be used within the container_
 
 ---
 
@@ -146,6 +148,8 @@ The configured commands are for building and running within the Docker container
 - `unit-tests` &mdash; **[Shortcut]** Executes `unit-tests` within the Docker container ([`entrypoint`](#entrypoint) function)
 - `coverage` &mdash; **[Shortcut]** Executes `coverage` within the Docker container ([`entrypoint`](#entrypoint) function)
 - `shellchecks` &mdash; **[Shortcut]** Executes `shellchecks` within the Docker container ([`entrypoint`](#entrypoint) function)
+- `update-version` &mdash; **[Shortcut]** Executes the `update-version` [`entrypoint`](#entrypoint) function
+- `coverage-permissions` &mdash; Performs file permission corrections for coverage report; perform after the creation of [`coverage`](../coverage) contents
 
 ---
 
@@ -184,3 +188,12 @@ The report contains several _tabs_, each listing a grouping of tracked files:
 - **All Files** &mdash; All tracked files
 - **Library Scripts** &mdash; All scripts in `src` directory
 - **Unit Tests** &mdash; Unit test scripts in the `tests` directory
+
+After generating the coverage report (the first time) in the Docker container, run the `coverage-permissions` [BKPG command](#bpkg-commands), to correct permissions assigned to the report files at creation.  Subsequent updates to the coverage report don't require permission correction.
+
+---
+
+
+#### shUnit2 Suite Loader
+
+A unit test suite loader for use with [shUnit2](#shunit2), allows for configuration of unit test files.  The configuration file (ie: [`.shunit2rc`](../.shunit2rc)) defines shell GLOB patterns to locate test files, black-lists to exclude from list of test files, test function prefix, execution isolation, and message output level.

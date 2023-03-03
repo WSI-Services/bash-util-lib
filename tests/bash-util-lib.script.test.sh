@@ -98,7 +98,7 @@ test_exit_err_additionalMessageUtilScriptCmd() {
 test_function_exists_nonExist() {
     commandTest "function_exists 'nonExist'"
 
-    assertCommandReturnFalse
+    assertCommandReturnFailure
 }
 
 test_function_exists_exists() {
@@ -106,7 +106,7 @@ test_function_exists_exists() {
 
     commandTest "function_exists '${FN_NAME}'"
 
-    assertCommandReturnTrue
+    assertCommandReturnSuccess
 }
 
 
@@ -128,7 +128,7 @@ helper_processOptsEmpty() {
 test_process_parameters_missingArgFn() {
     commandTest "process_parameters 'nonExist'"
 
-    assertCommandReturnFalse
+    assertCommandReturnFailure
 }
 
 test_process_parameters_missingOptFn() {
@@ -150,7 +150,7 @@ test_process_parameters_fnReturnValue() {
 test_process_parameters_empty() {
     commandTest "process_parameters 'helper_processArgsEmpty' 'helper_processOptsEmpty'"
 
-    assertCommandReturnTrue
+    assertCommandReturnSuccess
 }
 
 ARGS_DETAILS=""
@@ -243,7 +243,3 @@ test_process_parameters_shift() {
 
     OPTS_DETAILS=''
 }
-
-
-# Load and run shUnit2
-. shunit2

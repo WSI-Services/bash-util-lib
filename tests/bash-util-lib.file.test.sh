@@ -28,7 +28,7 @@ test_file_find_line() {
 
     commandTest "file_find_line '${FILE}' '^${FN_NAME}() {$'"
 
-    assertCommandReturnTrue
+    assertCommandReturnSuccess
 
     assertCommandOutputEquals 'file_find_line not returning the correct line number' \
         "${FN_LINE}"
@@ -46,7 +46,7 @@ test_file_get_lines() {
 
     commandTest "file_get_lines '${FILE}' '${START_LINE}' '${STOP_LINE}'"
 
-    assertCommandReturnTrue
+    assertCommandReturnSuccess
 
     assertCommandOutputContains 'file_get_lines not returning the start line content' \
         'local START_LINE="${LINENO}"'
@@ -72,7 +72,7 @@ test_file_expand_lines() {
 
     commandTest "file_expand_lines '${FILE}' '${START_PATTERN}' '${STOP_PATTERN}'"
 
-    assertCommandReturnTrue
+    assertCommandReturnSuccess
 
     assertCommandOutputNotContains 'file_expand_lines returning the start pattern content' \
         "local START_PATTERN=\"${START_PATTERN}\""
@@ -99,12 +99,8 @@ test_grab_text_blob() {
 
     commandTest "grab_text_blob '${FILE}' 'TEST_BLOB_NAME_1'"
 
-    assertCommandReturnTrue
+    assertCommandReturnSuccess
 
     assertCommandOutputContains 'grab_text_blob not returning the correct content' \
         "Test Data: ${EXPAND}"
 }
-
-
-# Load and run shUnit2
-. shunit2

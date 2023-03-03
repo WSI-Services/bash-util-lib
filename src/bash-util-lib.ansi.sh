@@ -6,6 +6,7 @@
 
 if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
     BASH_UTIL_LIB_VERSION="0.1.0-dev"
+    BASH_UTIL_LIB_DATE="2022-11-09 17:04:48"
     BASH_UTIL_LIB_MODULES="ANSI:${BASH_UTIL_LIB_MODULES}"
 
     source "$(dirname "${BASH_SOURCE[0]}")/bash-util-lib.ansi.const.sh"

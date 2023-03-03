@@ -248,6 +248,3 @@ test_constant_ansi_bright_cyan_bg() {
 test_constant_ansi_bright_white_bg() {
     assertEquals "${ANSI_BRIGHT_WHITE_BG}" "\x1B[107m"
 }
-
-# Load and run shUnit2
-. shunit2

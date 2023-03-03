@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# file: functions.sh
+# file: entrypoint
 
 # shellcheck disable=SC2312 # Consider invoking this command separately to avoid masking its return value (or use '|| true' to ignore).
 
@@ -22,23 +22,29 @@ function env_vars {
 }
 
 function unit-tests {
-    "${DIR_TESTS}/bash-util-lib.test.sh"
-}
-
-function coverage {
-    # Change to directory with `.simplecov` file 
+    # Change to directory with `.shunit2rc` file
     if ! cd "${DIR_PROJ}"; then
-        echo "\033[91mFatal error:\033[31m could not change directory\033[0m" > /dev/stderr
+        printf "\x1b[91mFatal error:\x1b[31m could not change directory\x1b[0m" > /dev/stderr
         exit 1
     fi
 
-    bashcov --skip-uncovered -- "${DIR_TESTS}/bash-util-lib.test.sh"
+    "${DIR_TESTS}/shunit2sl" "$@"
+}
+
+function coverage {
+    # Change to directory with `.simplecov` and `.shunit2rc` files
+    if ! cd "${DIR_PROJ}"; then
+        printf "\x1b[91mFatal error:\x1b[31m could not change directory\x1b[0m" > /dev/stderr
+        exit 1
+    fi
+
+    bashcov --skip-uncovered -- "${DIR_TESTS}/shunit2sl" "$@"
 }
 
 function shellchecks {
-    # Change to directory with `.shellcheckrc` file 
+    # Change to directory with `.shellcheckrc` file
     if ! cd "${DIR_PROJ}"; then
-        echo "\033[91mFatal error:\033[31m could not change directory\033[0m" > /dev/stderr
+        printf "\x1b[91mFatal error:\x1b[31m could not change directory\x1b[0m" > /dev/stderr
         exit 1
     fi
 
@@ -47,9 +53,41 @@ function shellchecks {
         "${DIR_SRC}"/bash-util-lib.*.sh \
         "${DIR_TESTS}"/bash-util-lib.test.sh \
         "${DIR_TESTS}"/bash-util-lib.*.test.sh \
-        "${DIR_TESTS}"/shunit2.assert.command-test
+        "${DIR_TESTS}"/shunit2.*
 }
 
+# @description Update library version and date variables
+# @param VERSION - [Optional] Version to use to replace current version (Format: #.#.#[-tag])
+function update-version {
+    local VERSION="$1"
+    local FILENAME VERSION_DATE
+
+    # shellcheck source=../src/bash-util-lib.ansi.const.sh
+    source "${DIR_SRC}/bash-util-lib.ansi.const.sh"
+
+    FILENAME="bash-util-lib.*.sh"
+
+    if [[ -z "${VERSION}" ]]; then
+        printf '%b' "${ANSI_BOLD}Format:  ${ANSI_RESET}${ANSI_YELLOW}[0-9]+.[0-9]+.[0-9]+[-(a-z0-9_)]*${ANSI_RESET}\n"
+        printf '%b' "${ANSI_BOLD}Example: ${ANSI_RESET}${ANSI_YELLOW}${ANSI_ITALIC}1.2.3-alpha${ANSI_RESET}\n"
+        printf '%b' "${ANSI_CYAN}Update version value ${ANSI_ITALIC}[EMPTY Cancels]${ANSI_ITALIC_RESET}:${ANSI_RESET} "
+        read -r VERSION
+    fi
+
+    if [[ -n "${VERSION}" ]]; then
+        if sed -i "s/BASH_UTIL_LIB_VERSION=\".*\"$/BASH_UTIL_LIB_VERSION=\"${VERSION}\"/" "${DIR_SRC}"/${FILENAME}; then
+            printf '%b' "${ANSI_GREEN}Successfully updated version to ${ANSI_BOLD}${ANSI_BRIGHT_GREEN}${VERSION}${ANSI_BOLD_RESET}${ANSI_GREEN}.${ANSI_RESET}\n"
+
+            VERSION_DATE="$(date '+%F %R:%S')"
+
+            if sed -i "s/BASH_UTIL_LIB_DATE=\".*\"$/BASH_UTIL_LIB_DATE=\"${VERSION_DATE}\"/" "${DIR_SRC}"/${FILENAME}; then
+                printf '%b' "${ANSI_GREEN}Version Date updated: ${ANSI_BOLD}${ANSI_BRIGHT_GREEN}${VERSION_DATE}${ANSI_RESET}\n"
+            fi
+        else
+            printf '%b' "${ANSI_RED}Failed to update version.${ANSI_RESET}\n"
+        fi
+    fi
+}
 
 
 if [[ "$#" -eq 0 ]]; then
