@@ -16,235 +16,234 @@ SOURCE_DIR="$(readlink -f "${TESTS_DIR}/../src")"
 # Constants #
 #############
 
-
-test_constant_ansi_esc() {
+function test::ansi::constant::ANSI_ESC() {
     assertEquals "${ANSI_ESC}" "\x1B"
 }
 
-test_constant_ansi_csi() {
+function test::ansi::constant::ANSI_CSI() {
     assertEquals "${ANSI_CSI}" "\x1B["
 }
 
-test_constant_ansi_dcs() {
+function test::ansi::constant::ANSI_DCS() {
     assertEquals "${ANSI_DCS}" "\x1BP"
 }
 
-test_constant_ansi_osc() {
+function test::ansi::constant::ANSI_OSC() {
     assertEquals "${ANSI_OSC}" "\x1B]"
 }
 
-test_constant_ansi_reset() {
+function test::ansi::constant::ANSI_RESET() {
     assertEquals "${ANSI_RESET}" "\x1B[0m"
 }
 
-test_constant_ansi_bold() {
+function test::ansi::constant::ANSI_BOLD() {
     assertEquals "${ANSI_BOLD}" "\x1B[1m"
 }
 
-test_constant_ansi_faint() {
+function test::ansi::constant::ANSI_FAINT() {
     assertEquals "${ANSI_FAINT}" "\x1B[2m"
 }
 
-test_constant_ansi_italic() {
+function test::ansi::constant::ANSI_ITALIC() {
     assertEquals "${ANSI_ITALIC}" "\x1B[3m"
 }
 
-test_constant_ansi_underline() {
+function test::ansi::constant::ANSI_UNDERLINE() {
     assertEquals "${ANSI_UNDERLINE}" "\x1B[4m"
 }
 
-test_constant_ansi_blink() {
+function test::ansi::constant::ANSI_BLINK() {
     assertEquals "${ANSI_BLINK}" "\x1B[5m"
 }
 
-test_constant_ansi_blink_fast() {
+function test::ansi::constant::ANSI_BLINK_FAST() {
     assertEquals "${ANSI_BLINK_FAST}" "\x1B[6m"
 }
 
-test_constant_ansi_swap() {
+function test::ansi::constant::ANSI_SWAP() {
     assertEquals "${ANSI_SWAP}" "\x1B[7m"
 }
 
-test_constant_ansi_hidden() {
+function test::ansi::constant::ANSI_HIDDEN() {
     assertEquals "${ANSI_HIDDEN}" "\x1B[8m"
 }
 
-test_constant_ansi_strike() {
+function test::ansi::constant::ANSI_STRIKE() {
     assertEquals "${ANSI_STRIKE}" "\x1B[9m"
 }
 
-test_constant_ansi_overline() {
+function test::ansi::constant::ANSI_OVERLINE() {
     assertEquals "${ANSI_OVERLINE}" "\x1B[53m"
 }
 
-test_constant_ansi_bold_reset() {
+function test::ansi::constant::ANSI_BOLD_RESET() {
     assertEquals "${ANSI_BOLD_RESET}" "\x1B[22m"
 }
 
-test_constant_ansi_faint_reset() {
+function test::ansi::constant::ANSI_FAINT_RESET() {
     assertEquals "${ANSI_FAINT_RESET}" "\x1B[22m"
 }
 
-test_constant_ansi_italic_reset() {
+function test::ansi::constant::ANSI_ITALIC_RESET() {
     assertEquals "${ANSI_ITALIC_RESET}" "\x1B[23m"
 }
 
-test_constant_ansi_underline_reset() {
+function test::ansi::constant::ANSI_UNDERLINE_RESET() {
     assertEquals "${ANSI_UNDERLINE_RESET}" "\x1B[24m"
 }
 
-test_constant_ansi_blink_reset() {
+function test::ansi::constant::ANSI_BLINK_RESET() {
     assertEquals "${ANSI_BLINK_RESET}" "\x1B[25m"
 }
 
-test_constant_ansi_swap_reset() {
+function test::ansi::constant::ANSI_SWAP_RESET() {
     assertEquals "${ANSI_SWAP_RESET}" "\x1B[27m"
 }
 
-test_constant_ansi_hidden_reset() {
+function test::ansi::constant::ANSI_HIDDEN_RESET() {
     assertEquals "${ANSI_HIDDEN_RESET}" "\x1B[28m"
 }
 
-test_constant_ansi_strike_reset() {
+function test::ansi::constant::ANSI_STRIKE_RESET() {
     assertEquals "${ANSI_STRIKE_RESET}" "\x1B[29m"
 }
 
-test_constant_ansi_overline_reset() {
+function test::ansi::constant::ANSI_OVERLINE_RESET() {
     assertEquals "${ANSI_OVERLINE_RESET}" "\x1B[55m"
 }
 
-test_constant_ansi_black() {
+function test::ansi::constant::ANSI_BLACK() {
     assertEquals "${ANSI_BLACK}" "\x1B[30m"
 }
 
-test_constant_ansi_red() {
+function test::ansi::constant::ANSI_RED() {
     assertEquals "${ANSI_RED}" "\x1B[31m"
 }
 
-test_constant_ansi_green() {
+function test::ansi::constant::ANSI_GREEN() {
     assertEquals "${ANSI_GREEN}" "\x1B[32m"
 }
 
-test_constant_ansi_yellow() {
+function test::ansi::constant::ANSI_YELLOW() {
     assertEquals "${ANSI_YELLOW}" "\x1B[33m"
 }
 
-test_constant_ansi_blue() {
+function test::ansi::constant::ANSI_BLUE() {
     assertEquals "${ANSI_BLUE}" "\x1B[34m"
 }
 
-test_constant_ansi_magenta() {
+function test::ansi::constant::ANSI_MAGENTA() {
     assertEquals "${ANSI_MAGENTA}" "\x1B[35m"
 }
 
-test_constant_ansi_cyan() {
+function test::ansi::constant::ANSI_CYAN() {
     assertEquals "${ANSI_CYAN}" "\x1B[36m"
 }
 
-test_constant_ansi_white() {
+function test::ansi::constant::ANSI_WHITE() {
     assertEquals "${ANSI_WHITE}" "\x1B[37m"
 }
 
-test_constant_ansi_default() {
+function test::ansi::constant::ANSI_DEFAULT() {
     assertEquals "${ANSI_DEFAULT}" "\x1B[39m"
 }
 
-test_constant_ansi_black_bg() {
+function test::ansi::constant::ANSI_BLACK_BG() {
     assertEquals "${ANSI_BLACK_BG}" "\x1B[40m"
 }
 
-test_constant_ansi_red_bg() {
+function test::ansi::constant::ANSI_RED_BG() {
     assertEquals "${ANSI_RED_BG}" "\x1B[41m"
 }
 
-test_constant_ansi_green_bg() {
+function test::ansi::constant::ANSI_GREEN_BG() {
     assertEquals "${ANSI_GREEN_BG}" "\x1B[42m"
 }
 
-test_constant_ansi_yellow_bg() {
+function test::ansi::constant::ANSI_YELLOW_BG() {
     assertEquals "${ANSI_YELLOW_BG}" "\x1B[43m"
 }
 
-test_constant_ansi_blue_bg() {
+function test::ansi::constant::ANSI_BLUE_BG() {
     assertEquals "${ANSI_BLUE_BG}" "\x1B[44m"
 }
 
-test_constant_ansi_magenta_bg() {
+function test::ansi::constant::ANSI_MAGENTA_BG() {
     assertEquals "${ANSI_MAGENTA_BG}" "\x1B[45m"
 }
 
-test_constant_ansi_cyan_bg() {
+function test::ansi::constant::ANSI_CYAN_BG() {
     assertEquals "${ANSI_CYAN_BG}" "\x1B[46m"
 }
 
-test_constant_ansi_white_bg() {
+function test::ansi::constant::ANSI_WHITE_BG() {
     assertEquals "${ANSI_WHITE_BG}" "\x1B[47m"
 }
 
-test_constant_ansi_default_bg() {
+function test::ansi::constant::ANSI_DEFAULT_BG() {
     assertEquals "${ANSI_DEFAULT_BG}" "\x1B[49m"
 }
 
-test_constant_ansi_bright_black() {
+function test::ansi::constant::ANSI_BRIGHT_BLACK() {
     assertEquals "${ANSI_BRIGHT_BLACK}" "\x1B[90m"
 }
 
-test_constant_ansi_bright_red() {
+function test::ansi::constant::ANSI_BRIGHT_RED() {
     assertEquals "${ANSI_BRIGHT_RED}" "\x1B[91m"
 }
 
-test_constant_ansi_bright_green() {
+function test::ansi::constant::ANSI_BRIGHT_GREEN() {
     assertEquals "${ANSI_BRIGHT_GREEN}" "\x1B[92m"
 }
 
-test_constant_ansi_bright_yellow() {
+function test::ansi::constant::ANSI_BRIGHT_YELLOW() {
     assertEquals "${ANSI_BRIGHT_YELLOW}" "\x1B[93m"
 }
 
-test_constant_ansi_bright_blue() {
+function test::ansi::constant::ANSI_BRIGHT_BLUE() {
     assertEquals "${ANSI_BRIGHT_BLUE}" "\x1B[94m"
 }
 
-test_constant_ansi_bright_magenta() {
+function test::ansi::constant::ANSI_BRIGHT_MAGENTA() {
     assertEquals "${ANSI_BRIGHT_MAGENTA}" "\x1B[95m"
 }
 
-test_constant_ansi_bright_cyan() {
+function test::ansi::constant::ANSI_BRIGHT_CYAN() {
     assertEquals "${ANSI_BRIGHT_CYAN}" "\x1B[96m"
 }
 
-test_constant_ansi_bright_white() {
+function test::ansi::constant::ANSI_BRIGHT_WHITE() {
     assertEquals "${ANSI_BRIGHT_WHITE}" "\x1B[97m"
 }
 
-test_constant_ansi_bright_black_bg() {
+function test::ansi::constant::ANSI_BRIGHT_BLACK_BG() {
     assertEquals "${ANSI_BRIGHT_BLACK_BG}" "\x1B[100m"
 }
 
-test_constant_ansi_bright_red_bg() {
+function test::ansi::constant::ANSI_BRIGHT_RED_BG() {
     assertEquals "${ANSI_BRIGHT_RED_BG}" "\x1B[101m"
 }
 
-test_constant_ansi_bright_green_bg() {
+function test::ansi::constant::ANSI_BRIGHT_GREEN_BG() {
     assertEquals "${ANSI_BRIGHT_GREEN_BG}" "\x1B[102m"
 }
 
-test_constant_ansi_bright_yellow_bg() {
+function test::ansi::constant::ANSI_BRIGHT_YELLOW_BG() {
     assertEquals "${ANSI_BRIGHT_YELLOW_BG}" "\x1B[103m"
 }
 
-test_constant_ansi_bright_blue_bg() {
+function test::ansi::constant::ANSI_BRIGHT_BLUE_BG() {
     assertEquals "${ANSI_BRIGHT_BLUE_BG}" "\x1B[104m"
 }
 
-test_constant_ansi_bright_magenta_bg() {
+function test::ansi::constant::ANSI_BRIGHT_MAGENTA_BG() {
     assertEquals "${ANSI_BRIGHT_MAGENTA_BG}" "\x1B[105m"
 }
 
-test_constant_ansi_bright_cyan_bg() {
+function test::ansi::constant::ANSI_BRIGHT_CYAN_BG() {
     assertEquals "${ANSI_BRIGHT_CYAN_BG}" "\x1B[106m"
 }
 
-test_constant_ansi_bright_white_bg() {
+function test::ansi::constant::ANSI_BRIGHT_WHITE_BG() {
     assertEquals "${ANSI_BRIGHT_WHITE_BG}" "\x1B[107m"
 }
