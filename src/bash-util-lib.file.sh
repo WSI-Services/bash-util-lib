@@ -8,6 +8,7 @@
 
 if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)FILE(:|$) ]]; then
     BASH_UTIL_LIB_VERSION="0.1.0-dev"
+    BASH_UTIL_LIB_DATE="2022-11-09 17:04:48"
     BASH_UTIL_LIB_MODULES="FILE:${BASH_UTIL_LIB_MODULES}"
 
     source "$(dirname "${BASH_SOURCE[0]}")/bash-util-lib.string.sh"
