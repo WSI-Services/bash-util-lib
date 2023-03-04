@@ -6,19 +6,19 @@
 This component module library is named [`bash-util-lib.file.sh`](../../src/bash-util-lib.file.sh).
 
 - [File](#file)
-  - [**`file_find_line`**](#file_find_line)
+  - [**`file::findLine`**](#filefindline)
     - [Arguments](#arguments)
     - [Exit Codes](#exit-codes)
     - [Standard Out](#standard-out)
-  - [**`file_get_lines`**](#file_get_lines)
+  - [**`file::getLines`**](#filegetlines)
     - [Arguments](#arguments-1)
     - [Exit Codes](#exit-codes-1)
     - [Standard Out](#standard-out-1)
-  - [**`file_expand_lines`**](#file_expand_lines)
+  - [**`file::expandLines`**](#fileexpandlines)
     - [Arguments](#arguments-2)
     - [Exit Codes](#exit-codes-2)
     - [Standard Out](#standard-out-2)
-  - [**`grab_text_blob`**](#grab_text_blob)
+  - [**`file::getTextBlob`**](#filegettextblob)
     - [Arguments](#arguments-3)
     - [Exit Codes](#exit-codes-3)
     - [Standard Out](#standard-out-3)
@@ -26,7 +26,7 @@ This component module library is named [`bash-util-lib.file.sh`](../../src/bash-
 ---
 
 
-## **`file_find_line`**
+## **`file::findLine`**
 
 Output last line number in provided file which matches provided pattern
 
@@ -51,7 +51,7 @@ Line number of last matching line pattern
 > Example:
 >
 > ```bash
-> file_find_line "/path/to/file.ext" "^#{2}\wSTART:\w${TAG}$"
+> file::findLine "/path/to/file.ext" "^#{2}\wSTART:\w${TAG}$"
 > ```
 >
 > Output:
@@ -63,7 +63,7 @@ Line number of last matching line pattern
 ---
 
 
-## **`file_get_lines`**
+## **`file::getLines`**
 
 Output lines of provided file from provided start line till provided stop line
 
@@ -89,7 +89,7 @@ Specified lines from file
 > Example:
 >
 > ```bash
-> file_get_lines "/path/to/file.ext" "24" "26"
+> file::getLines "/path/to/file.ext" "24" "26"
 > ```
 >
 > Output:
@@ -103,7 +103,7 @@ Specified lines from file
 ---
 
 
-## **`file_expand_lines`**
+## **`file::expandLines`**
 
 Output text from section in file specified by provided patterns
 
@@ -129,7 +129,7 @@ Specified lines from file expanded
 > Example:
 >
 > ```bash
-> file_expand_lines "/path/to/file.ext" "^#{2}\wSTART:\w${TAG}$" "^#{2}\wSTOP:\w${TAG}$"
+> file::expandLines "/path/to/file.ext" "^#{2}\wSTART:\w${TAG}$" "^#{2}\wSTOP:\w${TAG}$"
 > ```
 >
 > Output:
@@ -141,7 +141,7 @@ Specified lines from file expanded
 ---
 
 
-## **`grab_text_blob`**
+## **`file::getTextBlob`**
 
 Output text from text blob in file specified by provided blob name
 
@@ -166,7 +166,7 @@ Specified text blob from file expanded
 > Example:
 >
 > ```bash
-> grab_text_blob "BLOB_TEST" "/path/to/file.ext"
+> file::getTextBlob "BLOB_TEST" "/path/to/file.ext"
 > ```
 >
 > Output:

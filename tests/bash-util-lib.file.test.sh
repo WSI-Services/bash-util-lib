@@ -18,89 +18,89 @@ SOURCE_DIR="$(readlink -f "${TESTS_DIR}/../src")"
 
 
 ############################
-# Function: file_find_line #
+# Function: file::findLine #
 ############################
 
-test_file_find_line() {
+function test::file::findLine() {
     local FN_LINE="$((LINENO - 1))"
     local FN_NAME="${FUNCNAME[0]}"
     local FILE="${BASH_SOURCE[0]}"
 
-    commandTest "file_find_line '${FILE}' '^${FN_NAME}() {$'"
+    commandTest "file::findLine '${FILE}' '^function ${FN_NAME}() {$'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'file_find_line not returning the correct line number' \
+    assertCommandOutputEquals 'file::findLine not returning the correct line number' \
         "${FN_LINE}"
 }
 
 
 ############################
-# Function: file_get_lines #
+# Function: file::getLines #
 ############################
 
-test_file_get_lines() {
+function test::file::getLines() {
     local START_LINE="${LINENO}"
     local FILE="${BASH_SOURCE[0]}"
     local STOP_LINE="${LINENO}"
 
-    commandTest "file_get_lines '${FILE}' '${START_LINE}' '${STOP_LINE}'"
+    commandTest "file::getLines '${FILE}' '${START_LINE}' '${STOP_LINE}'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputContains 'file_get_lines not returning the start line content' \
+    assertCommandOutputContains 'file::getLines not returning the start line content' \
         'local START_LINE="${LINENO}"'
 
-    assertCommandOutputContains 'file_get_lines not returning the inner content' \
+    assertCommandOutputContains 'file::getLines not returning the inner content' \
         'local FILE="${BASH_SOURCE[0]}"'
 
-    assertCommandOutputContains 'file_get_lines not returning the stop line content' \
+    assertCommandOutputContains 'file::getLines not returning the stop line content' \
         'local STOP_LINE="${LINENO}"'
 }
 
 
 ###############################
-# Function: file_expand_lines #
+# Function: file::expandLines #
 ###############################
 
-test_file_expand_lines() {
+function test::file::expandLines() {
     local FILE="${BASH_SOURCE[0]}"
     local START_PATTERN="### Start Pattern Text ###"
     local TEST='$NAME'
     local STOP_PATTERN="### Stop Pattern Text ###"
     local NAME='Test Name'
 
-    commandTest "file_expand_lines '${FILE}' '${START_PATTERN}' '${STOP_PATTERN}'"
+    commandTest "file::expandLines '${FILE}' '${START_PATTERN}' '${STOP_PATTERN}'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputNotContains 'file_expand_lines returning the start pattern content' \
+    assertCommandOutputNotContains 'file::expandLines returning the start pattern content' \
         "local START_PATTERN=\"${START_PATTERN}\""
 
-    assertCommandOutputContains 'file_expand_lines not returning the middle content' \
+    assertCommandOutputContains 'file::expandLines not returning the middle content' \
         "local TEST='${NAME}'"
 
-    assertCommandOutputNotContains 'file_expand_lines returning the stop patter content' \
+    assertCommandOutputNotContains 'file::expandLines returning the stop patter content' \
         "local STOP_PATTERN=\"${STOP_PATTERN}\""
 }
 
 
-############################
-# Function: grab_text_blob #
-############################
+###############################
+# Function: file::getTextBlob #
+###############################
 
 read -r TEXT_BLOB <<TEST_BLOB_NAME_1
 Test $(printf 'Data'): ${EXPAND}
 TEST_BLOB_NAME_1
 
-test_grab_text_blob() {
+function test::file::getTextBlob() {
     local FILE="${BASH_SOURCE[0]}"
     local EXPAND='abc123'
 
-    commandTest "grab_text_blob '${FILE}' 'TEST_BLOB_NAME_1'"
+    commandTest "file::getTextBlob '${FILE}' 'TEST_BLOB_NAME_1'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputContains 'grab_text_blob not returning the correct content' \
+    assertCommandOutputContains 'file::getTextBlob not returning the correct content' \
         "Test Data: ${EXPAND}"
 }

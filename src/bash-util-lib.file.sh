@@ -23,7 +23,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)FILE(:|$) ]]; then
     # @exitcode  1  Line not found
     #
     # @stdout  Line number of last matching line pattern
-    file_find_line() {
+    function file::findLine() {
         local FILE_NAME="$1"
         local PATTERN="$2"
         local LINES
@@ -48,7 +48,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)FILE(:|$) ]]; then
     # @exitcode  1  Lines not found
     #
     # @stdout  Specified lines from file
-    file_get_lines() {
+    function file::getLines() {
         local FILE_NAME="$1"
         local START_LINE=$2
         local STOP_LINE=$3
@@ -70,8 +70,8 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)FILE(:|$) ]]; then
     # @exitcode  0  Lines found and expanded
     # @exitcode  1  Lines not found
     #
-    # @stdout  Specified lines from file expanded 
-    file_expand_lines() {
+    # @stdout  Specified lines from file expanded
+    function file::expandLines() {
         local FILE_NAME="$1"
         local START_PATTERN="$2"
         local STOP_PATTERN="$3"
@@ -79,14 +79,14 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)FILE(:|$) ]]; then
         local STOP_LINE
         local LINES
 
-        START_LINE=$(file_find_line "${FILE_NAME}" "${START_PATTERN}")
-        STOP_LINE=$(file_find_line "${FILE_NAME}" "${STOP_PATTERN}")
+        START_LINE=$(file::findLine "${FILE_NAME}" "${START_PATTERN}")
+        STOP_LINE=$(file::findLine "${FILE_NAME}" "${STOP_PATTERN}")
 
         START_LINE=$((START_LINE+1))
         STOP_LINE=$((STOP_LINE-1))
 
         if [[ "${START_LINE}" -gt 0 ]] && [[ "${STOP_LINE}" -ge "${START_LINE}" ]]; then
-            LINES="$(file_get_lines "${FILE_NAME}" "${START_LINE}" "${STOP_LINE}")"
+            LINES="$(file::getLines "${FILE_NAME}" "${START_LINE}" "${STOP_LINE}")"
             [[ -z "${LINES}" ]] && return 1
 
             LINES="$(string_expand "${LINES}")"
@@ -105,13 +105,13 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)FILE(:|$) ]]; then
     # @exitcode  0  Text blob found
     # @exitcode  1  Text blob not found
     #
-    # @stdout  Specified text blob from file expanded 
-    grab_text_blob() {
+    # @stdout  Specified text blob from file expanded
+    function file::getTextBlob() {
         local FILE_NAME="$1"
         local BLOB_NAME="$2"
         local LINES
 
-        LINES="$(file_expand_lines "${FILE_NAME}" "^read -r TEXT_BLOB <<${BLOB_NAME}$" "^${BLOB_NAME}$")"
+        LINES="$(file::expandLines "${FILE_NAME}" "^read -r TEXT_BLOB <<${BLOB_NAME}$" "^${BLOB_NAME}$")"
         [[ -z "${LINES}" ]] && return 1
 
         printf '%s' "${LINES}"
