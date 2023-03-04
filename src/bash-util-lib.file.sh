@@ -89,7 +89,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)FILE(:|$) ]]; then
             LINES="$(file::getLines "${FILE_NAME}" "${START_LINE}" "${STOP_LINE}")"
             [[ -z "${LINES}" ]] && return 1
 
-            LINES="$(string_expand "${LINES}")"
+            LINES="$(string::expand "${LINES}")"
             [[ -z "${LINES}" ]] && return 1
 
             printf '%s' "${LINES}"

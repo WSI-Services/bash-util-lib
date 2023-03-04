@@ -16,166 +16,166 @@ SOURCE_DIR="$(readlink -f "${TESTS_DIR}/../src")"
 . "${TESTS_DIR}/shunit2.assert.command-test"
 
 
-###########################
-# Function: string_expand #
-###########################
+############################
+# Function: string::expand #
+############################
 
-test_string_expand() {
+function test::string::expand() {
     local STRING='${TEMPLATE_TEXT} : $(printf "Hello %s, how are you" $NAME) : %%%'
     local TEMPLATE_TEXT='Text Template'
     local NAME="Ralph"
 
-    commandTest "string_expand '${STRING}'"
+    commandTest "string::expand '${STRING}'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputContains 'string_expand not returning the correct content' \
+    assertCommandOutputContains 'string::expand not returning the correct content' \
         "${TEMPLATE_TEXT}"
 
-    assertCommandOutputContains 'string_expand not returning the correct content' \
+    assertCommandOutputContains 'string::expand not returning the correct content' \
         "${NAME}"
 }
 
-test_string_expand_emptyString() {
-    commandTest "string_expand ''"
+function test::string::expand::withEmptyString() {
+    commandTest "string::expand ''"
 
     assertCommandReturnFailure
 
-    assertCommandOutputNull 'string_expand not returning the correct content'
+    assertCommandOutputNull 'string::expand not returning the correct content'
 }
 
 
-##########################
-# Function: string_lower #
-##########################
+###########################
+# Function: string::lower #
+###########################
 
-test_string_lower_withAllUppercaseLetters() {
+function test::string::lower::withAllUppercaseLetters() {
     local OUTPUT
 
-    OUTPUT="$(string_lower "UPPERCASE")"
+    OUTPUT="$(string::lower "UPPERCASE")"
 
-    assertEquals 'string_lower not returning correct output' \
+    assertEquals 'string::lower not returning correct output' \
         'uppercase' \
         "${OUTPUT}"
 }
 
-test_string_lower_withMixedCaseLetters() {
+function test::string::lower::withMixedCaseLetters() {
     local OUTPUT
 
-    OUTPUT="$(string_lower "MiXeD CaSe")"
+    OUTPUT="$(string::lower "MiXeD CaSe")"
 
-    assertEquals 'string_lower not returning correct output' \
+    assertEquals 'string::lower not returning correct output' \
         'mixed case' \
         "${OUTPUT}"
 }
 
-test_string_lower_withAllLowercaseLetters() {
+function test::string::lower::withAllLowercaseLetters() {
     local OUTPUT
 
-    OUTPUT="$(string_lower "lowercase")"
+    OUTPUT="$(string::lower "lowercase")"
 
-    assertEquals 'string_lower not returning correct output' \
+    assertEquals 'string::lower not returning correct output' \
         'lowercase' \
         "${OUTPUT}"
 }
 
 
-##########################
-# Function: string_upper #
-##########################
+###########################
+# Function: string::upper #
+###########################
 
-test_string_upper_withAllLowercaseLetters() {
+function test::string::upper::withAllLowercaseLetters() {
     local OUTPUT
 
-    OUTPUT="$(string_upper "lowercase")"
+    OUTPUT="$(string::upper "lowercase")"
 
-    assertEquals 'string_upper not returning correct output' \
+    assertEquals 'string::upper not returning correct output' \
         'LOWERCASE' \
         "${OUTPUT}"
 }
 
-test_string_upper_withMixedCaseLetters() {
+function test::string::upper::withMixedCaseLetters() {
     local OUTPUT
 
-    OUTPUT="$(string_upper "MiXeD CaSe")"
+    OUTPUT="$(string::upper "MiXeD CaSe")"
 
-    assertEquals 'string_upper not returning correct output' \
+    assertEquals 'string::upper not returning correct output' \
         'MIXED CASE' \
         "${OUTPUT}"
 }
 
-test_string_upper_withAllUppercaseLetters() {
+function test::string::upper::withAllUppercaseLetters() {
     local OUTPUT
 
-    OUTPUT="$(string_upper "UPPERCASE")"
+    OUTPUT="$(string::upper "UPPERCASE")"
 
-    assertEquals 'string_upper not returning correct output' \
+    assertEquals 'string::upper not returning correct output' \
         'UPPERCASE' \
         "${OUTPUT}"
 }
 
 
-###########################
-# Function: string_repeat #
-###########################
+############################
+# Function: string::repeat #
+############################
 
-test_string_repeat_withStringNotSpecified() {
+function test::string::repeat::withStringNotSpecified() {
     local OUTPUT
 
-    OUTPUT="$(string_repeat 2)"
+    OUTPUT="$(string::repeat 2)"
 
-    assertEquals 'string_repeat not returning correct output' \
+    assertEquals 'string::repeat not returning correct output' \
     '  ' \
     "${OUTPUT}"
 }
 
-test_string_repeat_withStringEmpty() {
+function test::string::repeat::withStringEmpty() {
     local OUTPUT
 
-    OUTPUT="$(string_repeat 2 '')"
+    OUTPUT="$(string::repeat 2 '')"
 
-    assertEquals 'string_repeat not returning correct output' \
+    assertEquals 'string::repeat not returning correct output' \
     '' \
     "${OUTPUT}"
 }
 
-test_string_repeat_withCountZero() {
+function test::string::repeat::withCountZero() {
     local OUTPUT
 
-    OUTPUT="$(string_repeat 0 'WOW')"
+    OUTPUT="$(string::repeat 0 'WOW')"
 
-    assertEquals 'string_repeat not returning correct output' \
+    assertEquals 'string::repeat not returning correct output' \
     '' \
     "${OUTPUT}"
 }
 
-test_string_repeat() {
+function test::string::repeat() {
     local OUTPUT
 
-    OUTPUT="$(string_repeat 2 'WOW ')"
+    OUTPUT="$(string::repeat 2 'WOW ')"
 
-    assertEquals 'string_repeat not returning correct output' \
+    assertEquals 'string::repeat not returning correct output' \
     'WOW WOW ' \
     "${OUTPUT}"
 }
 
 
-###########################
-# Function: preface_lines #
-###########################
+#############################
+# Function: string::preface #
+#############################
 
-test_preface_lines() {
+function test::string::preface() {
     local PREFACE='--> '
     local LINE1='Line 1'
     local LINE2='Line 2'
-    
-    commandTest "preface_lines '${PREFACE}' '$(echo "${LINE1}"; echo "${LINE2}")'"
+
+    commandTest "string::preface '${PREFACE}' '$(echo "${LINE1}"; echo "${LINE2}")'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputContains 'preface_lines not returning correct formatting' \
+    assertCommandOutputContains 'string::preface not returning correct formatting' \
         "${PREFACE}${LINE1}"
 
-    assertCommandOutputContains 'preface_lines not returning correct formatting' \
+    assertCommandOutputContains 'string::preface not returning correct formatting' \
         "${PREFACE}${LINE2}"
 }
