@@ -8,51 +8,51 @@ This component module library is named [`bash-util-lib.ansi.sh`](../../src/bash-
 - [ANSI](#ansi)
   - [Constants](#constants)
   - [Environment Variables](#environment-variables)
-  - [**`es`**](#es)
+  - [**`ansi::es`**](#ansies)
     - [Arguments](#arguments)
     - [Exit Codes](#exit-codes)
     - [Standard Out](#standard-out)
-  - [**`es_color`**](#es_color)
+  - [**`ansi::es::color`**](#ansiescolor)
     - [Arguments](#arguments-1)
     - [Exit Codes](#exit-codes-1)
     - [Standard Out](#standard-out-1)
-  - [**`es_color_rgb`**](#es_color_rgb)
+  - [**`ansi::es::colorRgb`**](#ansiescolorrgb)
     - [Arguments](#arguments-2)
     - [Exit Codes](#exit-codes-2)
     - [Standard Out](#standard-out-2)
-  - [**`es_color_hex`**](#es_color_hex)
+  - [**`ansi::es::colorHex`**](#ansiescolorhex)
     - [Arguments](#arguments-3)
     - [Exit Codes](#exit-codes-3)
     - [Standard Out](#standard-out-3)
-  - [**`es_attrib`**](#es_attrib)
+  - [**`ansi::es::attrib`**](#ansiesattrib)
     - [Arguments](#arguments-4)
     - [Exit Codes](#exit-codes-4)
     - [Standard Out](#standard-out-4)
-  - [**`es_erase`**](#es_erase)
+  - [**`ansi::es::erase`**](#ansieserase)
     - [Arguments](#arguments-5)
     - [Exit Codes](#exit-codes-5)
     - [Standard Out](#standard-out-5)
-  - [**`es_cursor`**](#es_cursor)
+  - [**`ansi::es::cursor`**](#ansiescursor)
     - [Arguments](#arguments-6)
     - [Exit Codes](#exit-codes-6)
     - [Standard Out](#standard-out-6)
-  - [**`nc`**](#nc)
+  - [**`ansi::nc`**](#ansinc)
     - [Arguments](#arguments-7)
     - [Exit Codes](#exit-codes-7)
     - [Standard Out](#standard-out-7)
-  - [**`nc_color`**](#nc_color)
+  - [**`ansi::nc::color`**](#ansinccolor)
     - [Arguments](#arguments-8)
     - [Exit Codes](#exit-codes-8)
     - [Standard Out](#standard-out-8)
-  - [**`nc_attrib`**](#nc_attrib)
+  - [**`ansi::nc::attrib`**](#ansincattrib)
     - [Arguments](#arguments-9)
     - [Exit Codes](#exit-codes-9)
     - [Standard Out](#standard-out-9)
-  - [**`nc_erase`**](#nc_erase)
+  - [**`ansi::nc::erase`**](#ansincerase)
     - [Arguments](#arguments-10)
     - [Exit Codes](#exit-codes-10)
     - [Standard Out](#standard-out-10)
-  - [**`nc_cursor`**](#nc_cursor)
+  - [**`ansi::nc::cursor`**](#ansinccursor)
     - [Arguments](#arguments-11)
     - [Exit Codes](#exit-codes-11)
     - [Standard Out](#standard-out-11)
@@ -80,7 +80,7 @@ ANSI has a few read-only environment variables defined in their own component mo
 ---
 
 
-## **`es`**
+## **`ansi::es`**
 
 Output escape sequence with provided control code if **`ES_USE`** environment variable is true
 
@@ -104,7 +104,7 @@ Specified escape sequence control code
 > Example:
 >
 > ```bash
-> printf "Message: $(es 1m)%s$(es 0m)\n" "Output Message"
+> printf "Message: $(ansi::es 1m)%s$(ansi::es 0m)\n" "Output Message"
 > ```
 >
 > Output:
@@ -116,7 +116,7 @@ Specified escape sequence control code
 ---
 
 
-## **`es_color`**
+## **`ansi::es::color`**
 
 Output escape sequence with provided color code for foreground, background, or underline
 
@@ -147,7 +147,7 @@ Specified escape sequence color code output
 > Example:
 >
 > ```bash
-> printf "Message: $(es_color 31)%s$(es 0m)\n" "Output Message"
+> printf "Message: $(ansi::es::color 31)%s$(ansi::es 0m)\n" "Output Message"
 > ```
 >
 > Output:
@@ -158,7 +158,7 @@ Specified escape sequence color code output
 
 ---
 
-## **`es_color_rgb`**
+## **`ansi::es::colorRgb`**
 
 Output escape sequence with provided red, green, blue color code for foreground, background, or underline
 
@@ -191,7 +191,7 @@ Specified escape sequence color code output
 > Example:
 >
 > ```bash
-> printf "Message: $(es_color_rgb 255 0 0)%s$(es 0m)\n" "Output Message"
+> printf "Message: $(ansi::es::colorRgb 255 0 0)%s$(ansi::es 0m)\n" "Output Message"
 > ```
 >
 > Output:
@@ -203,7 +203,7 @@ Specified escape sequence color code output
 ---
 
 
-## **`es_color_hex`**
+## **`ansi::es::colorHex`**
 
 Output escape sequence with provided HEX color code for foreground, background, or underline
 
@@ -234,7 +234,7 @@ Specified escape sequence color code output
 > Example:
 >
 > ```bash
-> printf "Message: $(es_color_hex ff0000)%s$(es 0m)\n" "Output Message"
+> printf "Message: $(ansi::es::colorHex ff0000)%s$(ansi::es 0m)\n" "Output Message"
 > ```
 >
 > Output:
@@ -246,7 +246,7 @@ Specified escape sequence color code output
 ---
 
 
-## **`es_attrib`**
+## **`ansi::es::attrib`**
 
 Output escape sequence with provided text attribute control code
 
@@ -296,7 +296,7 @@ Specified escape sequence text attribute control code output
 > Example:
 >
 > ```bash
-> printf "Message: $(es_attrib bold)%s$(es_attrib reset)\n" "Output Message"
+> printf "Message: $(ansi::es::attrib bold)%s$(ansi::es::attrib reset)\n" "Output Message"
 > ```
 >
 > Output:
@@ -308,7 +308,7 @@ Specified escape sequence text attribute control code output
 ---
 
 
-## **`es_erase`**
+## **`ansi::es::erase`**
 
 Output escape sequence with provided erase control code
 
@@ -341,7 +341,7 @@ Specified escape sequence erase control code output
 > Example:
 >
 > ```bash
-> printf "Message: %b\n" "Output$(es_erase sol) Message"
+> printf "Message: %b\n" "Output$(ansi::es::erase sol) Message"
 > ```
 >
 > Output:
@@ -353,7 +353,7 @@ Specified escape sequence erase control code output
 ---
 
 
-## **`es_cursor`**
+## **`ansi::es::cursor`**
 
 Output escape sequence with provided cursor control code
 
@@ -393,7 +393,7 @@ Specified escape sequence cursor control code output
 > Example:
 >
 > ```bash
-> printf "Message: %b\n" "Output$(es_cursor left 6) Message"
+> printf "Message: %b\n" "Output$(ansi::es::cursor left 6) Message"
 > ```
 >
 > Output:
@@ -405,7 +405,7 @@ Specified escape sequence cursor control code output
 ---
 
 
-## **`nc`**
+## **`ansi::nc`**
 
 Call ncurses `tput` command with provided arguments if command exists (**`CMD_TPUT`**) and **`NC_USE`** environment variable is true
 
@@ -429,7 +429,7 @@ Specified ncurses `tput` output
 > Example:
 >
 > ```bash
-> printf "Message: $(nc bold)%s$(nc sgr0)\n" "Output Message"
+> printf "Message: $(ansi::nc bold)%s$(ansi::nc sgr0)\n" "Output Message"
 > ```
 >
 > Output:
@@ -441,7 +441,7 @@ Specified ncurses `tput` output
 ---
 
 
-## **`nc_color`**
+## **`ansi::nc::color`**
 
 Output ncurses color code for foreground or background
 
@@ -471,7 +471,7 @@ Specified ncurses `tput` color code output
 > Example:
 >
 > ```bash
-> printf "Message: $(nc_color 031)%s$(nc sgr0)" "Output Message"
+> printf "Message: $(ansi::nc::color 031)%s$(ansi::nc sgr0)" "Output Message"
 > ```
 >
 > Output:
@@ -483,7 +483,7 @@ Specified ncurses `tput` color code output
 ---
 
 
-## **`nc_attrib`**
+## **`ansi::nc::attrib`**
 
 Output ncurses sequence with provided text attribute control code
 
@@ -521,7 +521,7 @@ Specified ncurses sequence text attribute control code output
 > Example:
 >
 > ```bash
-> printf "Message: $(nc_attrib bold)%s$(nc_attrib reset)\n" "Output Message"
+> printf "Message: $(ansi::nc::attrib bold)%s$(ansi::nc::attrib reset)\n" "Output Message"
 > ```
 >
 > Output:
@@ -533,7 +533,7 @@ Specified ncurses sequence text attribute control code output
 ---
 
 
-## **`nc_erase`**
+## **`ansi::nc::erase`**
 
 Output ncurses sequence with provided erase control code
 
@@ -568,7 +568,7 @@ Specified ncurses sequence erase control code output
 > Example:
 >
 > ```bash
-> printf "Message: %b\n" "Output$(nc_erase sol) Message"
+> printf "Message: %b\n" "Output$(ansi::nc::erase sol) Message"
 > ```
 >
 > Output:
@@ -580,7 +580,7 @@ Specified ncurses sequence erase control code output
 ---
 
 
-## **`nc_cursor`**
+## **`ansi::nc::cursor`**
 
 Output ncurses sequence with provided cursor control code
 
@@ -619,7 +619,7 @@ Specified ncurses sequence cursor control code output
 > Example:
 >
 > ```bash
-> printf "Message: %b\n" "Output$(nc_cursor left 6) Message"
+> printf "Message: %b\n" "Output$(ansi::nc::cursor left 6) Message"
 > ```
 >
 > Output:

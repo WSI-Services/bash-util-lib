@@ -6,27 +6,27 @@
 This component module library is named [`bash-util-lib.string.sh`](../../src/bash-util-lib.string.sh).
 
 - [String](#string)
-  - [**`string_expand`**](#string_expand)
+  - [**`string::expand`**](#stringexpand)
     - [Arguments](#arguments)
     - [Exit Codes](#exit-codes)
     - [Standard Out](#standard-out)
-  - [**`string_lower`**](#string_lower)
+  - [**`string::lower`**](#stringlower)
     - [Arguments](#arguments-1)
     - [Standard Out](#standard-out-1)
-  - [**`string_upper`**](#string_upper)
+  - [**`string::upper`**](#stringupper)
     - [Arguments](#arguments-2)
     - [Standard Out](#standard-out-2)
-  - [**`string_repeat`**](#string_repeat)
+  - [**`string::repeat`**](#stringrepeat)
     - [Arguments](#arguments-3)
     - [Standard Out](#standard-out-3)
-  - [**`preface_lines`**](#preface_lines)
+  - [**`string::preface`**](#stringpreface)
     - [Arguments](#arguments-4)
     - [Standard Out](#standard-out-4)
 
 ---
 
 
-## **`string_expand`**
+## **`string::expand`**
 
 Output provided input processed to expand variables
 
@@ -50,7 +50,7 @@ Specified string expanded
 > Example:
 >
 > ```bash
-> string_expand "Output: \${STRING}"
+> string::expand "Output: \${STRING}"
 > ```
 >
 > Output:
@@ -62,7 +62,7 @@ Specified string expanded
 ---
 
 
-## **`string_lower`**
+## **`string::lower`**
 
 String to lowercase
 
@@ -79,7 +79,7 @@ Provided string to lowercase
 > Example:
 >
 > ```bash
-> string_lower "LOWERCASE"
+> string::lower "LOWERCASE"
 > ```
 >
 > Output:
@@ -91,7 +91,7 @@ Provided string to lowercase
 ---
 
 
-## **`string_upper`**
+## **`string::upper`**
 
 String to uppercase
 
@@ -108,7 +108,7 @@ Provided string to uppercase
 > Example:
 >
 > ```bash
-> string_upper "uppercase"
+> string::upper "uppercase"
 > ```
 >
 > Output:
@@ -120,7 +120,7 @@ Provided string to uppercase
 ---
 
 
-## **`string_repeat`**
+## **`string::repeat`**
 
 Repeat provided string specified times
 
@@ -138,7 +138,7 @@ Provided string repeated specified times
 > Example:
 >
 > ```bash
-> string_repeat 3 " -=*=-"
+> string::repeat 3 " -=*=-"
 > ```
 >
 > Output:
@@ -150,7 +150,7 @@ Provided string repeated specified times
 ---
 
 
-## **`preface_lines`**
+## **`string::preface`**
 
 Preface each line with provided text
 
@@ -168,7 +168,7 @@ Provided lines of content with specified characters prepended
 > Example:
 >
 > ```bash
-> string_repeat " * " "Line 1
+> string::preface " * " "Line 1
 > Line 2
 > Line 3"
 > ```
