@@ -19,7 +19,7 @@ SOURCE_DIR="$(readlink -f "${TESTS_DIR}/../src")"
 # Helpers #
 ###########
 
-setES_USE() {
+function helper::set::ES_USE() {
     local SET_VALUE="$1"
 
     case "${SET_VALUE}" in
@@ -29,7 +29,7 @@ setES_USE() {
     esac
 }
 
-setNC_USE() {
+function helper::set:NC_USE() {
     local SET_VALUE="$1"
 
     case "${SET_VALUE}" in
@@ -40,1105 +40,1105 @@ setNC_USE() {
 }
 
 
-################
-# Function: es #
-################
+######################
+# Function: ansi::es #
+######################
 
-test_es_envVarTurnedOnByDefault() {
+function test::ansi::es::withEnvVarTurnedOnByDefault() {
     assertTrue 'ES_USE environment variable not set to true by default' "${ES_USE}"
 }
 
-test_es_controlCode() {
+function test::ansi::es::withControlCode() {
     RESULT="$(printf "\x1b[38;5;1m")"
 
-    commandTest "es '38;5;1m'"
+    commandTest "ansi::es '38;5;1m'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_envVarTurnedOff() {
-    setES_USE false
+function test::ansi::es::withEnvVarTurnedOff() {
+    helper::set::ES_USE false
 
-    commandTest "es '38;5;1m'"
+    commandTest "ansi::es '38;5;1m'"
 
     assertCommandReturnFailure
 
-    assertCommandOutputNull 'es function should not return output'
+    assertCommandOutputNull 'ansi::es function should not return output'
 
-    setES_USE true
+    helper::set::ES_USE true
 }
 
 
-######################
-# Function: es_color #
-######################
+#############################
+# Function: ansi::es::color #
+#############################
 
-test_es_color_roleNotSpecified() {
+function test::ansi::es::color::withRoleNotSpecified() {
     RESULT="$(printf "\x1b[38;5;1m")"
 
-    commandTest "es_color '1'"
+    commandTest "ansi::es::color '1'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_color function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::color function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_color_roleEmpty() {
+function test::ansi::es::color::withRoleEmpty() {
     RESULT="$(printf "\x1b[38;5;1m")"
 
-    commandTest "es_color '1' ''"
+    commandTest "ansi::es::color '1' ''"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_color function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::color function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_color_roleLowerCaseF() {
+function test::ansi::es::color::withRoleLowerCaseF() {
     RESULT="$(printf "\x1b[38;5;1m")"
 
-    commandTest "es_color '1' 'f'"
+    commandTest "ansi::es::color '1' 'f'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_color function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::color function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_color_roleUpperCaseF() {
+function test::ansi::es::color::withRoleUpperCaseF() {
     RESULT="$(printf "\x1b[38;5;1m")"
 
-    commandTest "es_color '1' 'F'"
+    commandTest "ansi::es::color '1' 'F'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_color function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::color function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_color_roleForeground() {
+function test::ansi::es::color::withRoleForeground() {
     RESULT="$(printf "\x1b[38;5;1m")"
 
-    commandTest "es_color '1' 'Foreground'"
+    commandTest "ansi::es::color '1' 'Foreground'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_color function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::color function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_color_roleLowerCaseB() {
+function test::ansi::es::color::withRoleLowerCaseB() {
     RESULT="$(printf "\x1b[48;5;1m")"
 
-    commandTest "es_color '1' 'b'"
+    commandTest "ansi::es::color '1' 'b'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_color function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::color function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_color_roleUpperCaseB() {
+function test::ansi::es::color::withRoleUpperCaseB() {
     RESULT="$(printf "\x1b[48;5;1m")"
 
-    commandTest "es_color '1' 'B'"
+    commandTest "ansi::es::color '1' 'B'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_color function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::color function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_color_roleBackground() {
+function test::ansi::es::color::withRoleBackground() {
     RESULT="$(printf "\x1b[48;5;1m")"
 
-    commandTest "es_color '1' 'Background'"
+    commandTest "ansi::es::color '1' 'Background'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_color function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::color function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_color_roleLowerCaseU() {
+function test::ansi::es::color::withRoleLowerCaseU() {
     RESULT="$(printf "\x1b[58;5;1m")"
 
-    commandTest "es_color '1' 'u'"
+    commandTest "ansi::es::color '1' 'u'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_color function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::color function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_color_roleUpperCaseU() {
+function test::ansi::es::color::withRoleUpperCaseU() {
     RESULT="$(printf "\x1b[58;5;1m")"
 
-    commandTest "es_color '1' 'U'"
+    commandTest "ansi::es::color '1' 'U'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_color function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::color function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_color_roleUnderline() {
+function test::ansi::es::color::withRoleUnderline() {
     RESULT="$(printf "\x1b[58;5;1m")"
 
-    commandTest "es_color '1' 'Underline'"
+    commandTest "ansi::es::color '1' 'Underline'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_color function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::color function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_color_envVarTurnedOff() {
-    setES_USE false
+function test::ansi::es::color::withEnvVarTurnedOff() {
+    helper::set::ES_USE false
 
-    commandTest "es_color '1'"
+    commandTest "ansi::es::color '1'"
 
     assertCommandReturnFailure
 
-    assertCommandOutputNull 'es_color function should not return output'
+    assertCommandOutputNull 'ansi::es::color function should not return output'
 
-    setES_USE true
+    helper::set::ES_USE true
 }
 
 
-##########################
-# Function: es_color_rgb #
-##########################
+################################
+# Function: ansi::es::colorRgb #
+################################
 
-test_es_color_rgb_roleNotSpecified() {
+function test::ansi::es::colorRgb::withRoleNotSpecified() {
     RESULT="$(printf "\x1b[38;2;255;127;127m")"
 
-    commandTest "es_color_rgb '255' '127' '127'"
+    commandTest "ansi::es::colorRgb '255' '127' '127'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::colorRgb function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_color_rgb_roleEmpty() {
+function test::ansi::es::colorRgb::withRoleEmpty() {
     RESULT="$(printf "\x1b[38;2;255;127;127m")"
 
-    commandTest "es_color_rgb '255' '127' '127' ''"
+    commandTest "ansi::es::colorRgb '255' '127' '127' ''"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::colorRgb function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_color_rgb_roleLowerCaseF() {
+function test::ansi::es::colorRgb::withRoleLowerCaseF() {
     RESULT="$(printf "\x1b[38;2;255;127;127m")"
 
-    commandTest "es_color_rgb '255' '127' '127' 'f'"
+    commandTest "ansi::es::colorRgb '255' '127' '127' 'f'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::colorRgb function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_color_rgb_roleUpperCaseF() {
+function test::ansi::es::colorRgb::withRoleUpperCaseF() {
     RESULT="$(printf "\x1b[38;2;255;127;127m")"
 
-    commandTest "es_color_rgb '255' '127' '127' 'F'"
+    commandTest "ansi::es::colorRgb '255' '127' '127' 'F'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::colorRgb function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_color_rgb_roleForeground() {
+function test::ansi::es::colorRgb::withRoleForeground() {
     RESULT="$(printf "\x1b[38;2;255;127;127m")"
 
-    commandTest "es_color_rgb '255' '127' '127' 'Foreground'"
+    commandTest "ansi::es::colorRgb '255' '127' '127' 'Foreground'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::colorRgb function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_color_rgb_roleLowerCaseB() {
+function test::ansi::es::colorRgb::withRoleLowerCaseB() {
     RESULT="$(printf "\x1b[48;2;255;127;127m")"
 
-    commandTest "es_color_rgb '255' '127' '127' 'b'"
+    commandTest "ansi::es::colorRgb '255' '127' '127' 'b'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::colorRgb function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_color_rgb_roleUpperCaseB() {
+function test::ansi::es::colorRgb::withRoleUpperCaseB() {
     RESULT="$(printf "\x1b[48;2;255;127;127m")"
 
-    commandTest "es_color_rgb '255' '127' '127' 'B'"
+    commandTest "ansi::es::colorRgb '255' '127' '127' 'B'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::colorRgb function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_color_rgb_roleBackground() {
+function test::ansi::es::colorRgb::withRoleBackground() {
     RESULT="$(printf "\x1b[48;2;255;127;127m")"
 
-    commandTest "es_color_rgb '255' '127' '127' 'Background'"
+    commandTest "ansi::es::colorRgb '255' '127' '127' 'Background'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::colorRgb function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_color_rgb_roleLowerCaseU() {
+function test::ansi::es::colorRgb::withRoleLowerCaseU() {
     RESULT="$(printf "\x1b[58;2;255;127;127m")"
 
-    commandTest "es_color_rgb '255' '127' '127' 'u'"
+    commandTest "ansi::es::colorRgb '255' '127' '127' 'u'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::colorRgb function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_color_rgb_roleUpperCaseU() {
+function test::ansi::es::colorRgb::withRoleUpperCaseU() {
     RESULT="$(printf "\x1b[58;2;255;127;127m")"
 
-    commandTest "es_color_rgb '255' '127' '127' 'U'"
+    commandTest "ansi::es::colorRgb '255' '127' '127' 'U'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::colorRgb function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_color_rgb_roleUnderline() {
+function test::ansi::es::colorRgb::withRoleUnderline() {
     RESULT="$(printf "\x1b[58;2;255;127;127m")"
 
-    commandTest "es_color_rgb '255' '127' '127' 'Underline'"
+    commandTest "ansi::es::colorRgb '255' '127' '127' 'Underline'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_color_rgb function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::colorRgb function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_color_rgb_envVarTurnedOff() {
-    setES_USE false
+function test::ansi::es::colorRgb::withEnvVarTurnedOff() {
+    helper::set::ES_USE false
 
-    commandTest "es_color_rgb '255' '127' '127'"
+    commandTest "ansi::es::colorRgb '255' '127' '127'"
 
     assertCommandReturnFailure
 
-    assertCommandOutputNull 'es_color_rgb function should not return output'
+    assertCommandOutputNull 'ansi::es::colorRgb function should not return output'
 
-    setES_USE true
+    helper::set::ES_USE true
 }
 
 
-##########################
-# Function: es_color_hex #
-##########################
+################################
+# Function: ansi::es::colorHex #
+################################
 
-test_es_color_hex_roleNotSpecified() {
+function test::ansi::es::colorHex::withRoleNotSpecified() {
     RESULT="$(printf "\x1b[38;2;255;127;127m")"
 
-    commandTest "es_color_hex 'ff7f7f'"
+    commandTest "ansi::es::colorHex 'ff7f7f'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::colorHex function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_color_hex_roleEmpty() {
+function test::ansi::es::colorHex::withRoleEmpty() {
     RESULT="$(printf "\x1b[38;2;255;127;127m")"
 
-    commandTest "es_color_hex 'ff7f7f' ''"
+    commandTest "ansi::es::colorHex 'ff7f7f' ''"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::colorHex function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_color_hex_roleLowerCaseF() {
+function test::ansi::es::colorHex::withRoleLowerCaseF() {
     RESULT="$(printf "\x1b[38;2;255;127;127m")"
 
-    commandTest "es_color_hex 'ff7f7f' 'f'"
+    commandTest "ansi::es::colorHex 'ff7f7f' 'f'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::colorHex function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_color_hex_roleUpperCaseF() {
+function test::ansi::es::colorHex::withRoleUpperCaseF() {
     RESULT="$(printf "\x1b[38;2;255;127;127m")"
 
-    commandTest "es_color_hex 'ff7f7f' 'F'"
+    commandTest "ansi::es::colorHex 'ff7f7f' 'F'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::colorHex function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_color_hex_roleForeground() {
+function test::ansi::es::colorHex::withRoleForeground() {
     RESULT="$(printf "\x1b[38;2;255;127;127m")"
 
-    commandTest "es_color_hex 'ff7f7f' 'Foreground'"
+    commandTest "ansi::es::colorHex 'ff7f7f' 'Foreground'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::colorHex function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_color_hex_roleLowerCaseB() {
+function test::ansi::es::colorHex::withRoleLowerCaseB() {
     RESULT="$(printf "\x1b[48;2;255;127;127m")"
 
-    commandTest "es_color_hex 'ff7f7f' 'b'"
+    commandTest "ansi::es::colorHex 'ff7f7f' 'b'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::colorHex function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_color_hex_roleUpperCaseB() {
+function test::ansi::es::colorHex::withRoleUpperCaseB() {
     RESULT="$(printf "\x1b[48;2;255;127;127m")"
 
-    commandTest "es_color_hex 'ff7f7f' 'B'"
+    commandTest "ansi::es::colorHex 'ff7f7f' 'B'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::colorHex function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_color_hex_roleBackground() {
+function test::ansi::es::colorHex::withRoleBackground() {
     RESULT="$(printf "\x1b[48;2;255;127;127m")"
 
-    commandTest "es_color_hex 'ff7f7f' 'Background'"
+    commandTest "ansi::es::colorHex 'ff7f7f' 'Background'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_color_hex function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::colorHex function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_color_hex_envVarTurnedOff() {
-    setES_USE false
+function test::ansi::es::colorHex::withEnvVarTurnedOff() {
+    helper::set::ES_USE false
 
-    commandTest "es_color_hex 'ff7f7f'"
+    commandTest "ansi::es::colorHex 'ff7f7f'"
 
     assertCommandReturnFailure
 
-    assertCommandOutputNull 'es_color_hex function should not return output'
+    assertCommandOutputNull 'ansi::es::colorHex function should not return output'
 
-    setES_USE true
+    helper::set::ES_USE true
 }
 
 
-#######################
-# Function: es_attrib #
-#######################
+##############################
+# Function: ansi::es::attrib #
+##############################
 
-test_es_attrib_controlCodeNotSpecified() {
+function test::ansi::es::attrib::withControlCodeNotSpecified() {
     RESULT="$(printf "\x1b[0m")"
 
-    commandTest "es_attrib"
+    commandTest "ansi::es::attrib"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_attrib_controlCodeUnknown() {
+function test::ansi::es::attrib::withControlCodeUnknown() {
     RESULT="$(printf "\x1b[0m")"
 
-    commandTest "es_attrib 'anything'"
+    commandTest "ansi::es::attrib 'anything'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_attrib_controlCodeReset() {
+function test::ansi::es::attrib::withControlCodeReset() {
     RESULT="$(printf "\x1b[0m")"
 
-    commandTest "es_attrib 'reset'"
+    commandTest "ansi::es::attrib 'reset'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_attrib_controlCodeBold() {
+function test::ansi::es::attrib::withControlCodeBold() {
     RESULT="$(printf "\x1b[1m")"
 
-    commandTest "es_attrib 'bold'"
+    commandTest "ansi::es::attrib 'bold'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_attrib_controlCodeFaint() {
+function test::ansi::es::attrib::withControlCodeFaint() {
     RESULT="$(printf "\x1b[2m")"
 
-    commandTest "es_attrib 'faint'"
+    commandTest "ansi::es::attrib 'faint'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_attrib_controlCodeItalic() {
+function test::ansi::es::attrib::withControlCodeItalic() {
     RESULT="$(printf "\x1b[3m")"
 
-    commandTest "es_attrib 'italic'"
+    commandTest "ansi::es::attrib 'italic'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_attrib_controlCodeUnderline() {
+function test::ansi::es::attrib::withControlCodeUnderline() {
     RESULT="$(printf "\x1b[4m")"
 
-    commandTest "es_attrib 'underline'"
+    commandTest "ansi::es::attrib 'underline'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_attrib_controlCodeBlink() {
+function test::ansi::es::attrib::withControlCodeBlink() {
     RESULT="$(printf "\x1b[5m")"
 
-    commandTest "es_attrib 'blink'"
+    commandTest "ansi::es::attrib 'blink'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_attrib_controlCodeFastBlink() {
+function test::ansi::es::attrib::withControlCodeFastBlink() {
     RESULT="$(printf "\x1b[6m")"
 
-    commandTest "es_attrib 'fast-blink'"
+    commandTest "ansi::es::attrib 'fast-blink'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_attrib_controlCodeSwap() {
+function test::ansi::es::attrib::withControlCodeSwap() {
     RESULT="$(printf "\x1b[7m")"
 
-    commandTest "es_attrib 'swap'"
+    commandTest "ansi::es::attrib 'swap'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_attrib_controlCodeHidden() {
+function test::ansi::es::attrib::withControlCodeHidden() {
     RESULT="$(printf "\x1b[8m")"
 
-    commandTest "es_attrib 'hidden'"
+    commandTest "ansi::es::attrib 'hidden'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_attrib_controlCodeStrike() {
+function test::ansi::es::attrib::withControlCodeStrike() {
     RESULT="$(printf "\x1b[9m")"
 
-    commandTest "es_attrib 'strike'"
+    commandTest "ansi::es::attrib 'strike'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_attrib_controlCodeOverline() {
+function test::ansi::es::attrib::withControlCodeOverline() {
     RESULT="$(printf "\x1b[53m")"
 
-    commandTest "es_attrib 'overline'"
+    commandTest "ansi::es::attrib 'overline'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_attrib_controlCodeBoldReset() {
+function test::ansi::es::attrib::withControlCodeBoldReset() {
     RESULT="$(printf "\x1b[22m")"
 
-    commandTest "es_attrib 'bold-reset'"
+    commandTest "ansi::es::attrib 'bold-reset'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_attrib_controlCodeFaintReset() {
+function test::ansi::es::attrib::withControlCodeFaintReset() {
     RESULT="$(printf "\x1b[22m")"
 
-    commandTest "es_attrib 'faint-reset'"
+    commandTest "ansi::es::attrib 'faint-reset'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_attrib_controlCodeItalicReset() {
+function test::ansi::es::attrib::withControlCodeItalicReset() {
     RESULT="$(printf "\x1b[23m")"
 
-    commandTest "es_attrib 'italic-reset'"
+    commandTest "ansi::es::attrib 'italic-reset'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_attrib_controlCodeUnderlineReset() {
+function test::ansi::es::attrib::withControlCodeUnderlineReset() {
     RESULT="$(printf "\x1b[24m")"
 
-    commandTest "es_attrib 'underline-reset'"
+    commandTest "ansi::es::attrib 'underline-reset'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_attrib_controlCodeBlinkReset() {
+function test::ansi::es::attrib::withControlCodeBlinkReset() {
     RESULT="$(printf "\x1b[25m")"
 
-    commandTest "es_attrib 'blink-reset'"
+    commandTest "ansi::es::attrib 'blink-reset'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_attrib_controlCodeSwapReset() {
+function test::ansi::es::attrib::withControlCodeSwapReset() {
     RESULT="$(printf "\x1b[27m")"
 
-    commandTest "es_attrib 'swap-reset'"
+    commandTest "ansi::es::attrib 'swap-reset'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_attrib_controlCodeHiddenReset() {
+function test::ansi::es::attrib::withControlCodeHiddenReset() {
     RESULT="$(printf "\x1b[28m")"
 
-    commandTest "es_attrib 'hidden-reset'"
+    commandTest "ansi::es::attrib 'hidden-reset'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_attrib_controlCodeStrikeReset() {
+function test::ansi::es::attrib::withControlCodeStrikeReset() {
     RESULT="$(printf "\x1b[29m")"
 
-    commandTest "es_attrib 'strike-reset'"
+    commandTest "ansi::es::attrib 'strike-reset'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_attrib_controlCodeOverlineReset() {
+function test::ansi::es::attrib::withControlCodeOverlineReset() {
     RESULT="$(printf "\x1b[55m")"
 
-    commandTest "es_attrib 'overline-reset'"
+    commandTest "ansi::es::attrib 'overline-reset'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_attrib_controlCodeForegroundOff() {
+function test::ansi::es::attrib::withControlCodeForegroundOff() {
     RESULT="$(printf "\x1b[39m")"
 
-    commandTest "es_attrib 'foreground-off'"
+    commandTest "ansi::es::attrib 'foreground-off'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_attrib_controlCodeBackgroundOff() {
+function test::ansi::es::attrib::withControlCodeBackgroundOff() {
     RESULT="$(printf "\x1b[49m")"
 
-    commandTest "es_attrib 'background-off'"
+    commandTest "ansi::es::attrib 'background-off'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_attrib_controlCodeUnderlineOff() {
+function test::ansi::es::attrib::withControlCodeUnderlineOff() {
     RESULT="$(printf "\x1b[59m")"
 
-    commandTest "es_attrib 'underline-off'"
+    commandTest "ansi::es::attrib 'underline-off'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_attrib_envVarTurnedOff() {
-    setES_USE false
+function test::ansi::es::attrib::withEnvVarTurnedOff() {
+    helper::set::ES_USE false
 
-    commandTest "es_attrib 'clear'"
+    commandTest "ansi::es::attrib 'clear'"
 
     assertCommandReturnFailure
 
-    assertCommandOutputNull 'es_attrib function should not return output'
+    assertCommandOutputNull 'ansi::es::attrib function should not return output'
 
-    setES_USE true
+    helper::set::ES_USE true
 }
 
 
-######################
-# Function: es_erase #
-######################
+#############################
+# Function: ansi::es::erase #
+#############################
 
-test_es_erase_controlCodeNotSpecified() {
+function test::ansi::es::erase::withControlCodeNotSpecified() {
     RESULT="$(printf "\x1b[2J")"
 
-    commandTest "es_erase"
+    commandTest "ansi::es::erase"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_erase function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::erase function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_erase_controlCodeUnknown() {
+function test::ansi::es::erase::withControlCodeUnknown() {
     RESULT="$(printf "\x1b[2J")"
 
-    commandTest "es_erase 'anything'"
+    commandTest "ansi::es::erase 'anything'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_erase function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::erase function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_erase_controlCodeClear() {
+function test::ansi::es::erase::withControlCodeClear() {
     RESULT="$(printf "\x1b[2J")"
 
-    commandTest "es_erase 'clear'"
+    commandTest "ansi::es::erase 'clear'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_erase function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::erase function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_erase_controlCodeTop() {
+function test::ansi::es::erase::withControlCodeTop() {
     RESULT="$(printf "\x1b[1J")"
 
-    commandTest "es_erase 'top'"
+    commandTest "ansi::es::erase 'top'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_erase function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::erase function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_erase_controlCodeBottom() {
+function test::ansi::es::erase::withControlCodeBottom() {
     RESULT="$(printf "\x1b[0J")"
 
-    commandTest "es_erase 'bottom'"
+    commandTest "ansi::es::erase 'bottom'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_erase function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::erase function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_erase_controlCodeCur() {
+function test::ansi::es::erase::withControlCodeCur() {
     RESULT="$(printf "\x1b[2K")"
 
-    commandTest "es_erase 'cur'"
+    commandTest "ansi::es::erase 'cur'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_erase function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::erase function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_erase_controlCodeSol() {
+function test::ansi::es::erase::withControlCodeSol() {
     RESULT="$(printf "\x1b[1K")"
 
-    commandTest "es_erase 'sol'"
+    commandTest "ansi::es::erase 'sol'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_erase function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::erase function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_erase_controlCodeEol() {
+function test::ansi::es::erase::withControlCodeEol() {
     RESULT="$(printf "\x1b[0K")"
 
-    commandTest "es_erase 'eol'"
+    commandTest "ansi::es::erase 'eol'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_erase function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::erase function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_erase_envVarTurnedOff() {
-    setES_USE false
+function test::ansi::es::erase::withCnvVarTurnedOff() {
+    helper::set::ES_USE false
 
-    commandTest "es_erase 'clear'"
+    commandTest "ansi::es::erase 'clear'"
 
     assertCommandReturnFailure
 
-    assertCommandOutputNull 'es_erase function should not return output'
+    assertCommandOutputNull 'ansi::es::erase function should not return output'
 
-    setES_USE true
+    helper::set::ES_USE true
 }
 
 
-#######################
-# Function: es_cursor #
-#######################
+##############################
+# Function: ansi::es::cursor #
+##############################
 
-test_es_cursor_controlCodeNotSpecified() {
+function test::ansi::es::cursor::withControlCodeNotSpecified() {
     RESULT="$(printf "\x1b[H")"
 
-    commandTest "es_cursor"
+    commandTest "ansi::es::cursor"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::cursor function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_cursor_controlCodeUnknown() {
+function test::ansi::es::cursor::withControlCodeUnknown() {
     RESULT="$(printf "\x1b[H")"
 
-    commandTest "es_cursor 'anything'"
+    commandTest "ansi::es::cursor 'anything'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::cursor function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_cursor_controlCodeHome() {
+function test::ansi::es::cursor::withControlCodeHome() {
     RESULT="$(printf "\x1b[H")"
 
-    commandTest "es_cursor 'home'"
+    commandTest "ansi::es::cursor 'home'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::cursor function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_cursor_controlCodeRestore() {
+function test::ansi::es::cursor::withControlCodeRestore() {
     RESULT="$(printf "\x1b[u")"
 
-    commandTest "es_cursor 'restore'"
+    commandTest "ansi::es::cursor 'restore'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::cursor function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_cursor_controlCodeSave() {
+function test::ansi::es::cursor::withControlCodeSave() {
     RESULT="$(printf "\x1b[s")"
 
-    commandTest "es_cursor 'save'"
+    commandTest "ansi::es::cursor 'save'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::cursor function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_cursor_controlCodeColumnValueNotSpecified() {
+function test::ansi::es::cursor::withControlCodeColumnValueNotSpecified() {
     RESULT="$(printf "\x1b[0G")"
 
-    commandTest "es_cursor 'column'"
+    commandTest "ansi::es::cursor 'column'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::cursor function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_cursor_controlCodeColumn() {
+function test::ansi::es::cursor::withControlCodeColumn() {
     RESULT="$(printf "\x1b[4G")"
 
-    commandTest "es_cursor 'column' 4"
+    commandTest "ansi::es::cursor 'column' 4"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::cursor function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_cursor_controlCodeBeginUpValueNotSpecified() {
+function test::ansi::es::cursor::withControlCodeBeginUpValueNotSpecified() {
     RESULT="$(printf "\x1b[0F")"
 
-    commandTest "es_cursor 'begin-up'"
+    commandTest "ansi::es::cursor 'begin-up'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::cursor function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_cursor_controlCodeBeginUp() {
+function test::ansi::es::cursor::withControlCodeBeginUp() {
     RESULT="$(printf "\x1b[4F")"
 
-    commandTest "es_cursor 'begin-up' 4"
+    commandTest "ansi::es::cursor 'begin-up' 4"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::cursor function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_cursor_controlCodeBeginDownValueNotSpecified() {
+function test::ansi::es::cursor::withControlCodeBeginDownValueNotSpecified() {
     RESULT="$(printf "\x1b[0E")"
 
-    commandTest "es_cursor 'begin-down'"
+    commandTest "ansi::es::cursor 'begin-down'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::cursor function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_cursor_controlCodeBeginDown() {
+function test::ansi::es::cursor::withControlCodeBeginDown() {
     RESULT="$(printf "\x1b[4E")"
 
-    commandTest "es_cursor 'begin-down' 4"
+    commandTest "ansi::es::cursor 'begin-down' 4"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::cursor function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_cursor_controlCodeLeftValueNotSpecified() {
+function test::ansi::es::cursor::withControlCodeLeftValueNotSpecified() {
     RESULT="$(printf "\x1b[0D")"
 
-    commandTest "es_cursor 'left'"
+    commandTest "ansi::es::cursor 'left'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::cursor function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_cursor_controlCodeLeft() {
+function test::ansi::es::cursor::withControlCodeLeft() {
     RESULT="$(printf "\x1b[4D")"
 
-    commandTest "es_cursor 'left' 4"
+    commandTest "ansi::es::cursor 'left' 4"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::cursor function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_cursor_controlCodeRightValueNotSpecified() {
+function test::ansi::es::cursor::withControlCodeRightValueNotSpecified() {
     RESULT="$(printf "\x1b[0C")"
 
-    commandTest "es_cursor 'right'"
+    commandTest "ansi::es::cursor 'right'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::cursor function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_cursor_controlCodeRight() {
+function test::ansi::es::cursor::withControlCodeRight() {
     RESULT="$(printf "\x1b[4C")"
 
-    commandTest "es_cursor 'right' 4"
+    commandTest "ansi::es::cursor 'right' 4"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::cursor function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_cursor_controlCodeDownValueNotSpecified() {
+function test::ansi::es::cursor::withControlCodeDownValueNotSpecified() {
     RESULT="$(printf "\x1b[0B")"
 
-    commandTest "es_cursor 'down'"
+    commandTest "ansi::es::cursor 'down'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::cursor function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_cursor_controlCodeDown() {
+function test::ansi::es::cursor::withControlCodeDown() {
     RESULT="$(printf "\x1b[4B")"
 
-    commandTest "es_cursor 'down' 4"
+    commandTest "ansi::es::cursor 'down' 4"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::cursor function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_cursor_controlCodeUpValueNotSpecified() {
+function test::ansi::es::cursor::withControlCodeUpValueNotSpecified() {
     RESULT="$(printf "\x1b[0A")"
 
-    commandTest "es_cursor 'up'"
+    commandTest "ansi::es::cursor 'up'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::cursor function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_cursor_controlCodeUp() {
+function test::ansi::es::cursor::withControlCodeUp() {
     RESULT="$(printf "\x1b[4A")"
 
-    commandTest "es_cursor 'up' 4"
+    commandTest "ansi::es::cursor 'up' 4"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::cursor function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_cursor_controlCodeAbsValueNotSpecified() {
+function test::ansi::es::cursor::withControlCodeAbsValueNotSpecified() {
     RESULT="$(printf "\x1b[0;0")"
 
-    commandTest "es_cursor 'abs'"
+    commandTest "ansi::es::cursor 'abs'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::cursor function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_cursor_controlCodeAbs() {
+function test::ansi::es::cursor::withControlCodeAbs() {
     RESULT="$(printf "\x1b[3;4")"
 
-    commandTest "es_cursor 'abs' 3 4"
+    commandTest "ansi::es::cursor 'abs' 3 4"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'es_cursor function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::es::cursor function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_es_cursor_envVarTurnedOff() {
-    setES_USE false
+function test::ansi::es::cursor::withEnvVarTurnedOff() {
+    helper::set::ES_USE false
 
-    commandTest "es_cursor 'home'"
+    commandTest "ansi::es::cursor 'home'"
 
     assertCommandReturnFailure
 
-    assertCommandOutputNull 'es_cursor function should not return output'
+    assertCommandOutputNull 'ansi::es::cursor function should not return output'
 
-    setES_USE true
+    helper::set::ES_USE true
 }
 
 
-################
-# Function: nc #
-################
+######################
+# Function: ansi::nc #
+######################
 
-test_nc_envVarTurnedOnByDefault() {
+function test::ansi::nc::withEnvVarTurnedOnByDefault() {
     assertTrue 'NC_USE environment variable not set to true by default' "${NC_USE}"
 }
 
-test_nc_controlCode() {
+function test::ansi::nc::withControlCode() {
     RESULT="$(tput setaf 1)"
 
-    commandTest "nc 'setaf' '1'"
+    commandTest "ansi::nc 'setaf' '1'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_envVarTurnedOff() {
-    setNC_USE false
+function test::ansi::nc::withEnvVarTurnedOff() {
+    helper::set:NC_USE false
 
-    commandTest "nc 'setaf' '1'"
+    commandTest "ansi::nc 'setaf' '1'"
 
     assertCommandReturnFailure
 
-    assertCommandOutputNull 'nc function should not return output'
+    assertCommandOutputNull 'ansi::nc function should not return output'
 
-    setNC_USE true
+    helper::set:NC_USE true
 }
 
-test_nc_cmdTputEmpty() {
+function test::ansi::nc::withCmdTputEmpty() {
     CMD_TPUT=""
 
     assertNull 'CMD_TPUT environment variable not empty' "${CMD_TPUT}"
 
-    commandTest "nc 'setaf' '1'"
+    commandTest "ansi::nc 'setaf' '1'"
 
     assertCommandReturnFailure
 
-    assertCommandOutputNull 'nc function should not return output'
+    assertCommandOutputNull 'ansi::nc function should not return output'
 
     CMD_TPUT="$(command -v tput)"
 
@@ -1146,597 +1146,597 @@ test_nc_cmdTputEmpty() {
 }
 
 
-######################
-# Function: nc_color #
-######################
+#############################
+# Function: ansi::nc::color #
+#############################
 
-test_nc_color_roleNotSpecified() {
+function test::ansi::nc::color::withRoleNotSpecified() {
     RESULT="$(tput setaf 1)"
 
-    commandTest "nc_color '1'"
+    commandTest "ansi::nc::color '1'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::color function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_color_roleEmpty() {
+function test::ansi::nc::color::withRoleEmpty() {
     RESULT="$(tput setaf 1)"
 
-    commandTest "nc_color '1' ''"
+    commandTest "ansi::nc::color '1' ''"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::color function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_color_roleLowerCaseF() {
+function test::ansi::nc::color::withRoleLowerCaseF() {
     RESULT="$(tput setaf 1)"
 
-    commandTest "nc_color '1' 'f'"
+    commandTest "ansi::nc::color '1' 'f'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::color function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_color_roleUpperCaseF() {
+function test::ansi::nc::color::withRoleUpperCaseF() {
     RESULT="$(tput setaf 1)"
 
-    commandTest "nc_color '1' 'F'"
+    commandTest "ansi::nc::color '1' 'F'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::color function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_color_roleForeground() {
+function test::ansi::nc::color::withRoleForeground() {
     RESULT="$(tput setaf 1)"
 
-    commandTest "nc_color '1' 'Foreground'"
+    commandTest "ansi::nc::color '1' 'Foreground'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::color function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_color_roleLowerCaseB() {
+function test::ansi::nc::color::withRoleLowerCaseB() {
     RESULT="$(tput setab 1)"
 
-    commandTest "nc_color '1' 'b'"
+    commandTest "ansi::nc::color '1' 'b'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::color function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_color_roleUpperCaseF() {
+function test::ansi::nc::color::withRoleUpperCaseB() {
     RESULT="$(tput setab 1)"
 
-    commandTest "nc_color '1' 'B'"
+    commandTest "ansi::nc::color '1' 'B'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::color function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_color_roleBackground() {
+function test::ansi::nc::color::withRoleBackground() {
     RESULT="$(tput setab 1)"
 
-    commandTest "nc_color '1' 'Background'"
+    commandTest "ansi::nc::color '1' 'Background'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_color function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::color function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_color_envVarTurnedOff() {
-    setNC_USE false
+function test::ansi::nc::color::withEnvVarTurnedOff() {
+    helper::set:NC_USE false
 
-    commandTest "nc_color '1'"
+    commandTest "ansi::nc::color '1'"
 
     assertCommandReturnFailure
 
-    assertCommandOutputNull 'nc_color function should not return output'
+    assertCommandOutputNull 'ansi::nc::color function should not return output'
 
-    setNC_USE true
+    helper::set:NC_USE true
 }
 
 
-#######################
-# Function: nc_attrib #
-#######################
+##############################
+# Function: ansi::nc::attrib #
+##############################
 
-test_nc_attrib_controlCodeNotSpecified() {
+function test::ansi::nc::attrib::withControlCodeNotSpecified() {
     RESULT="$(tput sgr0)"
 
-    commandTest "nc_attrib"
+    commandTest "ansi::nc::attrib"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_attrib_controlCodeUnknown() {
+function test::ansi::nc::attrib::withControlCodeUnknown() {
     RESULT="$(tput sgr0)"
 
-    commandTest "nc_attrib 'anything'"
+    commandTest "ansi::nc::attrib 'anything'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_attrib_controlCodeReset() {
+function test::ansi::nc::attrib::withControlCodeReset() {
     RESULT="$(tput sgr0)"
 
-    commandTest "nc_attrib 'reset'"
+    commandTest "ansi::nc::attrib 'reset'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_attrib_controlCodeBold() {
+function test::ansi::nc::attrib::withControlCodeBold() {
     RESULT="$(tput bold)"
 
-    commandTest "nc_attrib 'bold'"
+    commandTest "ansi::nc::attrib 'bold'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_attrib_controlCodeDim() {
+function test::ansi::nc::attrib::withControlCodeDim() {
     RESULT="$(tput dim)"
 
-    commandTest "nc_attrib 'dim'"
+    commandTest "ansi::nc::attrib 'dim'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_attrib_controlCodeItalic() {
+function test::ansi::nc::attrib::withControlCodeItalic() {
     RESULT="$(tput sitm)"
 
-    commandTest "nc_attrib 'italic'"
+    commandTest "ansi::nc::attrib 'italic'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_attrib_controlCodeUnderlineOff() {
+function test::ansi::nc::attrib::withControlCodeUnderlineOff() {
     RESULT="$(tput rmul)"
 
-    commandTest "nc_attrib 'underline-off'"
+    commandTest "ansi::nc::attrib 'underline-off'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_attrib_controlCodeUnderline() {
+function test::ansi::nc::attrib::withControlCodeUnderline() {
     RESULT="$(tput smul)"
 
-    commandTest "nc_attrib 'underline'"
+    commandTest "ansi::nc::attrib 'underline'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_attrib_controlCodeBlink() {
+function test::ansi::nc::attrib::withControlCodeBlink() {
     RESULT="$(tput blink)"
 
-    commandTest "nc_attrib 'blink'"
+    commandTest "ansi::nc::attrib 'blink'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_attrib_controlCodeReverse() {
+function test::ansi::nc::attrib::withControlCodeReverse() {
     RESULT="$(tput rev)"
 
-    commandTest "nc_attrib 'reverse'"
+    commandTest "ansi::nc::attrib 'reverse'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_attrib_controlCodeInvisible() {
+function test::ansi::nc::attrib::withControlCodeInvisible() {
     RESULT="$(tput invis)"
 
-    commandTest "nc_attrib 'invisible'"
+    commandTest "ansi::nc::attrib 'invisible'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_attrib_controlCodeStandoutOff() {
+function test::ansi::nc::attrib::withControlCodeStandoutOff() {
     RESULT="$(tput rmso)"
 
-    commandTest "nc_attrib 'standout-off'"
+    commandTest "ansi::nc::attrib 'standout-off'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_attrib_controlCodeStandout() {
+function test::ansi::nc::attrib::withControlCodeStandout() {
     RESULT="$(tput smso)"
 
-    commandTest "nc_attrib 'standout'"
+    commandTest "ansi::nc::attrib 'standout'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_attrib function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::attrib function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_attrib_envVarTurnedOff() {
-    setNC_USE false
+function test::ansi::nc::attrib::withEnvVarTurnedOff() {
+    helper::set:NC_USE false
 
-    commandTest "nc_attrib"
+    commandTest "ansi::nc::attrib"
 
     assertCommandReturnFailure
 
-    assertCommandOutputNull 'nc_attrib function should not return output'
+    assertCommandOutputNull 'ansi::nc::attrib function should not return output'
 
-    setNC_USE true
+    helper::set:NC_USE true
 }
 
 
-######################
-# Function: nc_erase #
-######################
+#############################
+# Function: ansi::nc::erase #
+#############################
 
-test_nc_erase_controlCodeNotSpecified() {
+function test::ansi::nc::erase::withControlCodeNotSpecified() {
     RESULT="$(tput clear)"
 
-    commandTest "nc_erase"
+    commandTest "ansi::nc::erase"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_erase function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::erase function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_erase_controlCodeUnknown() {
+function test::ansi::nc::erase::withControlCodeUnknown() {
     RESULT="$(tput clear)"
 
-    commandTest "nc_erase 'anything'"
+    commandTest "ansi::nc::erase 'anything'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_erase function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::erase function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_erase_controlCodeClear() {
+function test::ansi::nc::erase::withControlCodeClear() {
     RESULT="$(tput clear)"
 
-    commandTest "nc_erase 'clear'"
+    commandTest "ansi::nc::erase 'clear'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_erase function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::erase function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_erase_controlCodeInsertLinesNoValueSpecified() {
+function test::ansi::nc::erase::withControlCodeInsertLinesNoValueSpecified() {
     RESULT="$(tput il 0)"
 
-    commandTest "nc_erase 'il'"
+    commandTest "ansi::nc::erase 'il'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_erase function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::erase function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_erase_controlCodeInsertLines() {
+function test::ansi::nc::erase::withControlCodeInsertLines() {
     RESULT="$(tput il 4)"
 
-    commandTest "nc_erase 'il' 4"
+    commandTest "ansi::nc::erase 'il' 4"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_erase function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::erase function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_erase_controlCodeInsertCharactersNoValueSpecified() {
+function test::ansi::nc::erase::withControlCodeInsertCharactersNoValueSpecified() {
     RESULT="$(tput ich 0)"
 
-    commandTest "nc_erase 'ic'"
+    commandTest "ansi::nc::erase 'ic'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_erase function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::erase function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_erase_controlCodeInsertCharacters() {
+function test::ansi::nc::erase::withControlCodeInsertCharacters() {
     RESULT="$(tput ich 4)"
 
-    commandTest "nc_erase 'ic' 4"
+    commandTest "ansi::nc::erase 'ic' 4"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_erase function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::erase function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_erase_controlCodeCharactersNoValueSpecified() {
+function test::ansi::nc::erase::withControlCodeCharactersNoValueSpecified() {
     RESULT="$(tput ech 0)"
 
-    commandTest "nc_erase 'en'"
+    commandTest "ansi::nc::erase 'en'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_erase function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::erase function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_erase_controlCodeCharacters() {
+function test::ansi::nc::erase::withControlCodeCharacters() {
     RESULT="$(tput ech 4)"
 
-    commandTest "nc_erase 'en' 4"
+    commandTest "ansi::nc::erase 'en' 4"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_erase function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::erase function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_erase_controlCodeEndOfScreen() {
+function test::ansi::nc::erase::withControlCodeEndOfScreen() {
     RESULT="$(tput ed)"
 
-    commandTest "nc_erase 'eos'"
+    commandTest "ansi::nc::erase 'eos'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_erase function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::erase function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_erase_controlCodeEndOfLine() {
+function test::ansi::nc::erase::withControlCodeEndOfLine() {
     RESULT="$(tput el)"
 
-    commandTest "nc_erase 'eol'"
+    commandTest "ansi::nc::erase 'eol'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_erase function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::erase function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_erase_controlCodeStartOfLine() {
+function test::ansi::nc::erase::withControlCodeStartOfLine() {
     RESULT="$(tput el1)"
 
-    commandTest "nc_erase 'sol'"
+    commandTest "ansi::nc::erase 'sol'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_erase function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::erase function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_erase_envVarTurnedOff() {
-    setNC_USE false
+function test::ansi::nc::erase::withEnvVarTurnedOff() {
+    helper::set:NC_USE false
 
-    commandTest "nc_erase"
+    commandTest "ansi::nc::erase"
 
     assertCommandReturnFailure
 
-    assertCommandOutputNull 'nc_erase function should not return output'
+    assertCommandOutputNull 'ansi::nc::erase function should not return output'
 
-    setNC_USE true
+    helper::set:NC_USE true
 }
 
 
-#######################
-# Function: nc_cursor #
-#######################
+##############################
+# Function: ansi::nc::cursor #
+##############################
 
-test_nc_cursor_controlCodeNotSpecified() {
+function test::ansi::nc::cursor::withControlCodeNotSpecified() {
     RESULT="$(tput home)"
 
-    commandTest "nc_cursor"
+    commandTest "ansi::nc::cursor"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_cursor function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::cursor function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_cursor_controlCodeUnknown() {
+function test::ansi::nc::cursor::withControlCodeUnknown() {
     RESULT="$(tput home)"
 
-    commandTest "nc_cursor 'anything'"
+    commandTest "ansi::nc::cursor 'anything'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_cursor function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::cursor function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_cursor_controlCodeHome() {
+function test::ansi::nc::cursor::withControlCodeHome() {
     RESULT="$(tput home)"
 
-    commandTest "nc_cursor 'home'"
+    commandTest "ansi::nc::cursor 'home'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_cursor function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::cursor function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_cursor_controlCodeAbsolutePositionNoValueSpecified() {
+function test::ansi::nc::cursor::withControlCodeAbsolutePositionNoValueSpecified() {
     RESULT="$(tput cup '0;0')"
 
-    commandTest "nc_cursor 'abs'"
+    commandTest "ansi::nc::cursor 'abs'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_cursor function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::cursor function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_cursor_controlCodeAbsolutePosition() {
+function test::ansi::nc::cursor::withControlCodeAbsolutePosition() {
     RESULT="$(tput cup '3;4')"
 
-    commandTest "nc_cursor 'abs' 3 4"
+    commandTest "ansi::nc::cursor 'abs' 3 4"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_cursor function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::cursor function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_cursor_controlCodeRightNoValueSpecified() {
+function test::ansi::nc::cursor::withControlCodeRightNoValueSpecified() {
     RESULT="$(tput cuf 0)"
 
-    commandTest "nc_cursor 'right'"
+    commandTest "ansi::nc::cursor 'right'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_cursor function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::cursor function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_cursor_controlCodeRight() {
+function test::ansi::nc::cursor::withControlCodeRight() {
     RESULT="$(tput cuf 4)"
 
-    commandTest "nc_cursor 'right' 4"
+    commandTest "ansi::nc::cursor 'right' 4"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_cursor function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::cursor function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_cursor_controlCodeLeftNoValueSpecified() {
+function test::ansi::nc::cursor::withControlCodeLeftNoValueSpecified() {
     RESULT="$(tput cub 0)"
 
-    commandTest "nc_cursor 'left'"
+    commandTest "ansi::nc::cursor 'left'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_cursor function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::cursor function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_cursor_controlCodeLeft() {
+function test::ansi::nc::cursor::withControlCodeLeft() {
     RESULT="$(tput cub 4)"
 
-    commandTest "nc_cursor 'left' 4"
+    commandTest "ansi::nc::cursor 'left' 4"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_cursor function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::cursor function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_cursor_controlCodeDown() {
+function test::ansi::nc::cursor::withControlCodeDown() {
     RESULT="$(tput cud1)"
 
-    commandTest "nc_cursor 'down'"
+    commandTest "ansi::nc::cursor 'down'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_cursor function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::cursor function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_cursor_controlCodeUp() {
+function test::ansi::nc::cursor::withControlCodeUp() {
     RESULT="$(tput cuu1)"
 
-    commandTest "nc_cursor 'up'"
+    commandTest "ansi::nc::cursor 'up'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_cursor function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::cursor function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_cursor_controlCodeInvisibleOff() {
+function test::ansi::nc::cursor::withControlCodeInvisibleOff() {
     RESULT="$(tput cvvis)"
 
-    commandTest "nc_cursor 'invisible-off'"
+    commandTest "ansi::nc::cursor 'invisible-off'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_cursor function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::cursor function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_cursor_controlCodeInvisible() {
+function test::ansi::nc::cursor::withControlCodeInvisible() {
     RESULT="$(tput civis)"
 
-    commandTest "nc_cursor 'invisible'"
+    commandTest "ansi::nc::cursor 'invisible'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_cursor function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::cursor function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_cursor_controlCodeRestore() {
+function test::ansi::nc::cursor::withControlCodeRestore() {
     RESULT="$(tput rc)"
 
-    commandTest "nc_cursor 'restore'"
+    commandTest "ansi::nc::cursor 'restore'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_cursor function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::cursor function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_cursor_controlCodeSave() {
+function test::ansi::nc::cursor::withControlCodeSave() {
     RESULT="$(tput sc)"
 
-    commandTest "nc_cursor 'save'"
+    commandTest "ansi::nc::cursor 'save'"
 
     assertCommandReturnSuccess
 
-    assertCommandOutputEquals 'nc_cursor function not returning correct control sequence' \
+    assertCommandOutputEquals 'ansi::nc::cursor function not returning correct control sequence' \
         "${RESULT}"
 }
 
-test_nc_cursor_envVarTurnedOff() {
-    setNC_USE false
+function test::ansi::nc::cursor::withEnvVarTurnedOff() {
+    helper::set:NC_USE false
 
-    commandTest "nc_cursor"
+    commandTest "ansi::nc::cursor"
 
     assertCommandReturnFailure
 
-    assertCommandOutputNull 'nc_cursor function should not return output'
+    assertCommandOutputNull 'ansi::nc::cursor function should not return output'
 
-    setNC_USE true
+    helper::set:NC_USE true
 }

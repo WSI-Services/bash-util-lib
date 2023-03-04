@@ -25,7 +25,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
     # @exitcode  1  Command control code turned off or failed
     #
     # @stdout  Specified escape sequence control code
-    es() {
+    function ansi::es() {
         local CONTROL_CODE="$1"
 
         case "${ES_USE}" in
@@ -53,7 +53,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
     # @exitcode  1  Command control code turned off or failed
     #
     # @stdout  Specified escape sequence color code output
-    es_color() {
+    function ansi::es::color() {
         local COLOR="$1"
         local ROLE="$2"
 
@@ -65,7 +65,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
             f*|*) ROLE="38" ;;
         esac
 
-        es "${ROLE};5;${COLOR}m"
+        ansi::es "${ROLE};5;${COLOR}m"
         return $?
     }
 
@@ -83,7 +83,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
     # @exitcode  1  Command control code turned off or failed
     #
     # @stdout  Specified escape sequence color code output
-    es_color_rgb() {
+    function ansi::es::colorRgb() {
         local R="$1"
         local G="$2"
         local B="$3"
@@ -97,7 +97,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
             f*|*) ROLE="38" ;;
         esac
 
-        es "${ROLE};2;${R};${G};${B}m"
+        ansi::es "${ROLE};2;${R};${G};${B}m"
         return $?
     }
 
@@ -113,7 +113,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
     # @exitcode  1  Command control code turned off or failed
     #
     # @stdout  Specified escape sequence color code output
-    es_color_hex() {
+    function ansi::es::colorHex() {
         local HEX=${1#"#"}
         local ROLE="$2"
         local R G B
@@ -122,7 +122,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
         G="$(printf "%d\n" "$(printf '0x%0.2s' "${HEX#??}")")"
         B="$(printf "%d\n" "$(printf '0x%0.2s' "${HEX#????}")")"
 
-        es_color_rgb "${R}" "${G}" "${B}" "${ROLE}"
+        ansi::es::colorRgb "${R}" "${G}" "${B}" "${ROLE}"
         return $?
     }
 
@@ -157,7 +157,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
     # @exitcode  1  Command control code turned off or failed
     #
     # @stdout  Specified escape sequence text attribute control code output
-    es_attrib() {
+    function ansi::es::attrib() {
         local CONTROL_CODE="$1"
 
         CONTROL_CODE="$(echo "${CONTROL_CODE}" | tr '[:upper:]' '[:lower:]')"
@@ -188,7 +188,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
                       reset|*) CONTROL_CODE="0m" ;;
         esac
 
-        es "${CONTROL_CODE}"
+        ansi::es "${CONTROL_CODE}"
         return $?
     }
 
@@ -206,7 +206,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
     # @exitcode  1  Command control code turned off or failed
     #
     # @stdout  Specified escape sequence erase control code output
-    es_erase() {
+    function ansi::es::erase() {
         local CONTROL_CODE="$1"
 
         CONTROL_CODE="$(echo "${CONTROL_CODE}" | tr '[:upper:]' '[:lower:]')"
@@ -220,7 +220,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
              clear|*) CONTROL_CODE="2J" ;;
         esac
 
-        es "${CONTROL_CODE}"
+        ansi::es "${CONTROL_CODE}"
         return $?
     }
 
@@ -245,7 +245,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
     # @exitcode  1  Command control code turned off or failed
     #
     # @stdout  Specified escape sequence cursor control code output
-    es_cursor() {
+    function ansi::es::cursor() {
         local CONTROL_CODE="$1"
         local VAL1="${2:-0}"
         local VAL2="${3:-0}"
@@ -266,7 +266,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
                   home|*) CONTROL_CODE="H" ;;
         esac
 
-        es "${CONTROL_CODE}"
+        ansi::es "${CONTROL_CODE}"
         return $?
     }
 
@@ -278,7 +278,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
     # @exitcode  1  Command `tput` turned off, missing, or failed
     #
     # @stdout  Specified ncurses `tput` output
-    nc() {
+    function ansi::nc() {
         case "${NC_USE}" in
             0|true) NC_USE=true ;;
             *)      NC_USE=false ;;
@@ -304,7 +304,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
     # @exitcode  1  Command `tput` turned off, missing, or failed
     #
     # @stdout  Specified ncurses `tput` color code output
-    nc_color() {
+    function ansi::nc::color() {
         local COLOR="$1"
         local ROLE="$2"
         local CAP_NAME
@@ -316,7 +316,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
             f*|*) CAP_NAME="setaf" ;;
         esac
 
-        nc "${CAP_NAME}" "${COLOR}"
+        ansi::nc "${CAP_NAME}" "${COLOR}"
         return $?
     }
 
@@ -339,7 +339,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
     # @exitcode  1  Command `tput` turned off, missing, or failed
     #
     # @stdout  Specified ncurses sequence text attribute control code output
-    nc_attrib() {
+    function ansi::nc::attrib() {
         local CONTROL_CODE="$1"
 
         CONTROL_CODE="$(echo "${CONTROL_CODE}" | tr '[:upper:]' '[:lower:]')"
@@ -358,7 +358,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
                     reset|*) CONTROL_CODE="sgr0" ;;
         esac
 
-        nc "${CONTROL_CODE}"
+        ansi::nc "${CONTROL_CODE}"
         return $?
     }
 
@@ -378,7 +378,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
     # @exitcode  1  Command `tput` turned off, missing, or failed
     #
     # @stdout  Specified ncurses sequence erase control code output
-    nc_erase() {
+    function ansi::nc::erase() {
         local CONTROL_CODE="$1"
         local VAL="${2:-0}"
 
@@ -394,7 +394,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
              clear|*) CONTROL_CODE="clear" ;;
         esac
 
-        nc "${CONTROL_CODE}"
+        ansi::nc "${CONTROL_CODE}"
         return $?
     }
 
@@ -418,7 +418,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
     # @exitcode  1  Command `tput` turned off, missing, or failed
     #
     # @stdout  Specified ncurses sequence cursor control code output
-    nc_cursor() {
+    function ansi::nc::cursor() {
         local CONTROL_CODE="$1"
         local VAL1="${2:-0}"
         local VAL2="${3:-0}"
@@ -438,7 +438,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)ANSI(:|$) ]]; then
                      home|*) CONTROL_CODE="home" ;;
         esac
 
-        nc "${CONTROL_CODE}"
+        ansi::nc "${CONTROL_CODE}"
         return $?
     }
 fi
