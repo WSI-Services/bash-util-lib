@@ -7,15 +7,15 @@ This component module library is named [`bash-util-lib.script.sh`](../../src/bas
 
 - [Script](#script)
   - [Environment Variables](#environment-variables)
-  - [**`exit_err`**](#exit_err)
+  - [**`script::exitErr`**](#scriptexiterr)
     - [Arguments](#arguments)
     - [Exit Codes](#exit-codes)
     - [Standard Error](#standard-error)
     - [Standard Out](#standard-out)
-  - [**`function_exists`**](#function_exists)
+  - [**`script::functionExists`**](#scriptfunctionexists)
     - [Arguments](#arguments-1)
     - [Exit Codes](#exit-codes-1)
-  - [**`process_parameters`**](#process_parameters)
+  - [**`script::processParameters`**](#scriptprocessparameters)
     - [Arguments](#arguments-2)
     - [Exit Codes](#exit-codes-2)
 
@@ -36,7 +36,7 @@ This component module library is named [`bash-util-lib.script.sh`](../../src/bas
 ---
 
 
-## **`exit_err`**
+## **`script::exitErr`**
 
 Output provided error message, optionally additional message, and exit with provided code
 
@@ -65,7 +65,7 @@ If provided, additional message **`ADD_MSG`** using the **`EXIT_ERR_MSG_ADDITION
 > Example:
 >
 > ```bash
-> exit_err 12 "Missing value" "Extra data here"
+> script::exitErr 12 "Missing value" "Extra data here"
 > ```
 >
 > Output:
@@ -78,7 +78,7 @@ If provided, additional message **`ADD_MSG`** using the **`EXIT_ERR_MSG_ADDITION
 ---
 
 
-## **`function_exists`**
+## **`script::functionExists`**
 
 Returns status of function existing
 
@@ -98,7 +98,7 @@ Returns status of function existing
 > Example:
 >
 > ```bash
-> function_exists "missing_test"
+> script::functionExists "missing_test"
 > ```
 >
 > Exit Code: 1
@@ -106,7 +106,7 @@ Returns status of function existing
 ---
 
 
-## **`process_parameters`**
+## **`script::processParameters`**
 
 Process call parameters
 
@@ -173,7 +173,7 @@ Process call parameters
 > dispatchCommand() {
 >     COMMAND="$1"
 >     [[ $# -gt 0 ]] && shift
-> 
+>
 >     case "${COMMAND}" in
 >         commands) command_commands "${@}" ;;
 >         version)  command_version  "${@}" ;;
@@ -181,5 +181,5 @@ Process call parameters
 >     esac
 > }
 >
-> process_parameters "processArgs" "dispatchCommand" "${@}"
+> script::processParameters "processArgs" "dispatchCommand" "${@}"
 > ```

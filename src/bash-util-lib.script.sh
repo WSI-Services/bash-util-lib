@@ -35,7 +35,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)SCRIPT(:|$) ]]; then
     #
     # @stderr  Provided **`ERR_CODE`** and **`ERR_MSG`** using the **`EXIT_ERR_MSG_ERROR`** format; and optional **`UTIL_SCRIPT_CMD`** (if set) using the **`EXIT_ERR_MSG_COMMAND`** format
     # @stdout  If provided, additional message **`ADD_MSG`** using the **`EXIT_ERR_MSG_ADDITIONAL`** format
-    exit_err() {
+    function script::exitErr() {
         local ERR_CODE="$1"
         local ERR_MSG="$2"
         local ADD_MSG="$3"
@@ -59,7 +59,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)SCRIPT(:|$) ]]; then
     #
     # @exitcode  0  Function exists
     # @exitcode  1  Function does not exist
-    function_exists() {
+    function script::functionExists() {
         local FUNCTION_NAME="$1"
 
         type "${FUNCTION_NAME}" > /dev/null 2>&1
@@ -75,7 +75,7 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)SCRIPT(:|$) ]]; then
     # @exitcode  1  Provided arguments processing function does not exist
     # @exitcode  2  Provided options processing function does not exist
     # @exitcode  ?  Processing options function return code
-    process_parameters() {
+    function script::processParameters() {
         local PROCESS_ARG_FN="$1"
         local PROCESS_OPT_FN="$2"
         local SHIFT_COUNT=0
@@ -83,9 +83,9 @@ if ! [[ "${BASH_UTIL_LIB_MODULES}" =~ (^|:)SCRIPT(:|$) ]]; then
         [[ "$#" -gt 0 ]] && shift
         [[ "$#" -gt 0 ]] && shift
 
-        if ! function_exists "${PROCESS_ARG_FN}"; then
+        if ! script::functionExists "${PROCESS_ARG_FN}"; then
             return 1
-        elif ! function_exists "${PROCESS_OPT_FN}"; then
+        elif ! script::functionExists "${PROCESS_OPT_FN}"; then
             return 2
         fi
 

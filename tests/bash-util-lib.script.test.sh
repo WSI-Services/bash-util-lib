@@ -16,74 +16,74 @@ SOURCE_DIR="$(readlink -f "${TESTS_DIR}/../src")"
 . "${TESTS_DIR}/shunit2.assert.command-test"
 
 
-######################
-# Function: exit_err #
-######################
+#############################
+# Function: script::exitErr #
+#############################
 
-test_exit_err_basic() {
+function test::script::exitErr::withNoAdditionalMessageOrUtilityScriptCommand() {
     local ERR_CODE=123
     local ERR_MSG='Test error message'
 
-    TEST_OUTPUT="$(exit_err "${ERR_CODE}" "${ERR_MSG}" 2>&1 > /dev/null)"
+    TEST_OUTPUT="$(script::exitErr "${ERR_CODE}" "${ERR_MSG}" 2>&1 > /dev/null)"
 
-    assertEquals 'exit_err EXIT called, code not correct' \
+    assertEquals 'script::exitErr EXIT called, code not correct' \
         "${ERR_CODE}" \
         "$?"
 
-    assertEquals 'exit_err message not as expected' \
+    assertEquals 'script::exitErr message not as expected' \
         "$(printf "${EXIT_ERR_MSG_ERROR}" "${ERR_CODE}" "${ERR_MSG}")" \
         "${TEST_OUTPUT}"
 }
 
-test_exit_err_additionalMessage() {
+function test::script::exitErr::withAdditionalMessage() {
     local ERR_CODE=124
     local ERR_MSG='Test error message'
     local ADD_MSG='Test additional message'
 
-    TEST_OUTPUT="$(exit_err "${ERR_CODE}" "${ERR_MSG}" "${ADD_MSG}" 2>&1)"
+    TEST_OUTPUT="$(script::exitErr "${ERR_CODE}" "${ERR_MSG}" "${ADD_MSG}" 2>&1)"
 
-    assertEquals 'exit_err EXIT called, code not correct' \
+    assertEquals 'script::exitErr EXIT called, code not correct' \
         "${ERR_CODE}" \
         "$?"
 
-    assertEquals 'exit_err message not as expected' \
+    assertEquals 'script::exitErr message not as expected' \
         "$(printf "${EXIT_ERR_MSG_ERROR}" "${ERR_CODE}" "${ERR_MSG}"; printf "${EXIT_ERR_MSG_ADDITIONAL}" "${ADD_MSG}")" \
         "${TEST_OUTPUT}"
 }
 
-test_exit_err_utilScriptCmd() {
+function test::script::exitErr::withUtilityScriptCommand() {
     local ERR_CODE=125
     local ERR_MSG='Test error message'
 
     UTIL_SCRIPT_CMD='/path/to/cmd --flag option'
 
-    TEST_OUTPUT="$(exit_err "${ERR_CODE}" "${ERR_MSG}" 2>&1 > /dev/null)"
+    TEST_OUTPUT="$(script::exitErr "${ERR_CODE}" "${ERR_MSG}" 2>&1 > /dev/null)"
 
-    assertEquals 'exit_err EXIT called, code not correct' \
+    assertEquals 'script::exitErr EXIT called, code not correct' \
         "${ERR_CODE}" \
         "$?"
 
-    assertEquals 'exit_err message not as expected' \
+    assertEquals 'script::exitErr message not as expected' \
         "$(printf "${EXIT_ERR_MSG_ERROR}" "${ERR_CODE}" "${ERR_MSG}"; printf "${EXIT_ERR_MSG_COMMAND}" "${UTIL_SCRIPT_CMD}")" \
         "${TEST_OUTPUT}"
 
     UTIL_SCRIPT_CMD=''
 }
 
-test_exit_err_additionalMessageUtilScriptCmd() {
+function test::script::exitErr::withAdditionalMessageAndUtilityScriptCommand() {
     local ERR_CODE=126
     local ERR_MSG='Test error message'
     local ADD_MSG='Test additional message'
 
     UTIL_SCRIPT_CMD='/path/to/new_cmd --flag optionB'
 
-    TEST_OUTPUT="$(exit_err "${ERR_CODE}" "${ERR_MSG}" "${ADD_MSG}" 2>&1)"
+    TEST_OUTPUT="$(script::exitErr "${ERR_CODE}" "${ERR_MSG}" "${ADD_MSG}" 2>&1)"
 
-    assertEquals 'exit_err EXIT called, code not correct' \
+    assertEquals 'script::exitErr EXIT called, code not correct' \
         "${ERR_CODE}" \
         "$?"
 
-    assertEquals 'exit_err message not as expected' \
+    assertEquals 'script::exitErr message not as expected' \
         "$(printf "${EXIT_ERR_MSG_ERROR}" "${ERR_CODE}" "${ERR_MSG}"; printf "${EXIT_ERR_MSG_COMMAND}" "${UTIL_SCRIPT_CMD}"; printf "${EXIT_ERR_MSG_ADDITIONAL}" "${ADD_MSG}")" \
         "${TEST_OUTPUT}"
 
@@ -91,71 +91,71 @@ test_exit_err_additionalMessageUtilScriptCmd() {
 }
 
 
-#############################
-# Function: function_exists #
-#############################
+####################################
+# Function: script::functionExists #
+####################################
 
-test_function_exists_nonExist() {
-    commandTest "function_exists 'nonExist'"
+function test::script::functionExists::withNonExistentFunction() {
+    commandTest "script::functionExists 'nonExist'"
 
     assertCommandReturnFailure
 }
 
-test_function_exists_exists() {
+function test::script::functionExists::withExistentFunction() {
     local FN_NAME="${FUNCNAME[0]}"
 
-    commandTest "function_exists '${FN_NAME}'"
+    commandTest "script::functionExists '${FN_NAME}'"
 
     assertCommandReturnSuccess
 }
 
 
-################################
-# Function: process_parameters #
-################################
+#######################################
+# Function: script::processParameters #
+#######################################
 
 PROCESS_ARGS_RETURN=0
 PROCESS_OPTS_RETURN=0
 
-helper_processArgsEmpty() {
+function helper::processArgsEmpty() {
     return "${PROCESS_ARGS_RETURN}"
 }
 
-helper_processOptsEmpty() {
+function helper::processOptsEmpty() {
     return "${PROCESS_OPTS_RETURN}"
 }
 
-test_process_parameters_missingArgFn() {
-    commandTest "process_parameters 'nonExist'"
+function test::script::processParameters::withMissingArgumentsFunction() {
+    commandTest "script::processParameters 'nonExist'"
 
     assertCommandReturnFailure
 }
 
-test_process_parameters_missingOptFn() {
-    commandTest "process_parameters 'helper_processArgsEmpty' 'nonExist'"
+function test::script::processParameters::withMissingOptionsFunction() {
+    commandTest "script::processParameters 'helper::processArgsEmpty' 'nonExist'"
 
     assertCommandReturnEquals 2
 }
 
-test_process_parameters_fnReturnValue() {
+function test::script::processParameters::withFunctionReturnValue() {
     PROCESS_OPTS_RETURN=123
 
-    commandTest "process_parameters 'helper_processArgsEmpty' 'helper_processOptsEmpty'"
+    commandTest "script::processParameters 'helper::processArgsEmpty' 'helper::processOptsEmpty'"
 
     assertCommandReturnEquals "${PROCESS_OPTS_RETURN}"
 
     PROCESS_OPTS_RETURN=0
 }
 
-test_process_parameters_empty() {
-    commandTest "process_parameters 'helper_processArgsEmpty' 'helper_processOptsEmpty'"
+function test::script::processParameters::withEmptyParameters() {
+    commandTest "script::processParameters 'helper::processArgsEmpty' 'helper::processOptsEmpty'"
 
     assertCommandReturnSuccess
 }
 
 ARGS_DETAILS=""
 
-helper_processArgsTest() {
+function helper::processArgsTest() {
     ARG1="$1"
     POS_ARG=""
     SHIFT_COUNT=0
@@ -195,13 +195,13 @@ helper_processArgsTest() {
 
 OPTS_DETAILS=""
 
-helper_processOptsTest() {
+function helper::processOptsTest() {
     export OPTS_DETAILS="$*"
     return $#
 }
 
-test_process_parameters_extraShift() {
-    process_parameters 'helper_processArgsTest' 'helper_processOptsTest' -a=A1 --add=B2 -a
+function test::script::processParameters::withExtraShift() {
+    script::processParameters 'helper::processArgsTest' 'helper::processOptsTest' -a=A1 --add=B2 -a
 
     TEST_RETURN_CODE="$?"
 
@@ -222,8 +222,8 @@ test_process_parameters_extraShift() {
     OPTS_DETAILS=''
 }
 
-test_process_parameters_shift() {
-    process_parameters 'helper_processArgsTest' 'helper_processOptsTest' -a=A1 --add=B2 -d -a C3 --add D4 --del -- what
+function test::script::processParameters::withShift() {
+    script::processParameters 'helper::processArgsTest' 'helper::processOptsTest' -a=A1 --add=B2 -d -a C3 --add D4 --del -- what
 
     TEST_RETURN_CODE="$?"
 
